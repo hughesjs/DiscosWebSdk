@@ -18,4 +18,8 @@
         <RepositoryType>Git</RepositoryType>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="EnumExtensions.System.Text.Json" Version="1.0.1" />
+    </ItemGroup>
+
 </Project>

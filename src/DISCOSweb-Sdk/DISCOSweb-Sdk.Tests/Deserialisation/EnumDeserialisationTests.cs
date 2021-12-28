@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using DISCOSweb_Sdk.Attributes;
 using DISCOSweb_Sdk.Enums;
 using Shouldly;
 using Xunit;
@@ -22,7 +24,10 @@ public class EnumDeserialisationTests
 
 		Type constructed = typeof(TestEnumWrapper<>).MakeGenericType(expected.GetType());
 		
-		var res = JsonSerializer.Deserialize(json, constructed);
+	    JsonSerializerOptions options = new();
+		options.Converters.Add(new JsonStringEnumConverterWithAttributeSupport());
+		
+		var res = JsonSerializer.Deserialize(json, constructed, options);
 
 		constructed.GetProperty("TestEnum").GetValue(res).ShouldBe(expected);
 	}
@@ -34,15 +39,14 @@ public class EnumDeserialisationTests
 		public IEnumerator<object[]> GetEnumerator()
 		{
 			var allEnums = typeof(RecordType).Assembly.GetTypes().Where(t => t.IsEnum);
-			var testEnums = allEnums.Where(e => e.GetCustomAttributes().Any(a => a is JsonConverterAttribute converterAttribute && converterAttribute.ConverterType == typeof(JsonStringEnumConverter)));
-			var enumMemberInfo = testEnums.SelectMany(e => e.GetMembers(BindingFlags.Static | BindingFlags.Public));
-			IEnumerable<object[]> enumsWithNames = enumMemberInfo.Select(e =>
+			var testEnums = allEnums.Where(e => e.GetCustomAttributes().Any(a => a is EnumWithCustomSerialiser));
+			var enumMemberInfo = testEnums.SelectMany(e => e.GetFields(BindingFlags.Static | BindingFlags.Public));
+			IEnumerable<object[]> enumsWithNames = enumMemberInfo.Select(f =>
 																		 {
-																			 Enum.TryParse(e.Name, out RecordType res);
-																			 return new object[]
+																			return new[]
 																					{
-																						res,
-																						((JsonPropertyNameAttribute)e.GetCustomAttributes().First(a => a is JsonPropertyNameAttribute)).Name
+																						f.GetValue(null)!,
+																						((EnumMemberAttribute)f.GetCustomAttributes().First(a => a is EnumMemberAttribute)).Value!
 																					};
 																		 });
 			return enumsWithNames.GetEnumerator();

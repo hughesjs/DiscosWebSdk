@@ -1,58 +1,61 @@
+using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
+using DISCOSweb_Sdk.Attributes;
+
 
 namespace DISCOSweb_Sdk.Enums;
 
-[JsonConverter(typeof(JsonStringEnumConverter))] 
+[EnumWithCustomSerialiser]
 public enum RecordType
 {
-        [JsonPropertyName("country")]
+        [EnumMember(Value = "country")]
         Country = 1,
 
-        [JsonPropertyName("destinationOrbit")]
+        [EnumMember(Value = "destinationOrbit")]
         DestinationOrbit = 2,
 
-        [JsonPropertyName("engine")]
+        [EnumMember(Value = "engine")]
         Engine = 3,
 
-        [JsonPropertyName("fragmentation")]
+        [EnumMember(Value = "fragmentation")]
         Fragmentation = 4,
 
-        [JsonPropertyName("fragmentationEventType")]
+        [EnumMember(Value = "fragmentationEventType")]
         FragmentationEventType = 5,
 
-        [JsonPropertyName("initialOrbit")]
+        [EnumMember(Value = "initialOrbit")]
         InitialOrbit = 6,
 
-        [JsonPropertyName("launch")]
+        [EnumMember(Value = "launch")]
         Launch = 7,
 
-        [JsonPropertyName("launchSite")]
+        [EnumMember(Value = "launchSite")]
         LaunchSite = 8,
 
-        [JsonPropertyName("launchSystem")]
+        [EnumMember(Value = "launchSystem")]
         LaunchSystem = 9,
 
-        [JsonPropertyName("object")]
+        [EnumMember(Value = "object")]
         Object = 10,
 
-        [JsonPropertyName("objectClass")]
+        [EnumMember(Value = "objectClass")]
         ObjectClass = 11,
 
-        [JsonPropertyName("organisation")]
+        [EnumMember(Value = "organisation")]
         Organisation = 12,
 
-        [JsonPropertyName("propellant")]
+        [EnumMember(Value = "propellant")]
         Propellant = 13,
 
-        [JsonPropertyName("reentry")]
+        [EnumMember(Value = "reentry")]
         Reentry = 14,
 
-        [JsonPropertyName("stage")]
+        [EnumMember(Value = "stage")]
         Stage = 15,
 
-        [JsonPropertyName("vehicle")]
+        [EnumMember(Value = "vehicle")]
         Vehicle = 16,
 
-        [JsonPropertyName("vehicleFamily")]
+        [EnumMember(Value = "vehicleFamily")]
         VehicleFamily = 17
 }

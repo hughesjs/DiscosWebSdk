@@ -1,33 +1,36 @@
+using System.Runtime.Serialization;
+
 using System.Text.Json.Serialization;
+using DISCOSweb_Sdk.Attributes;
 
 namespace DISCOSweb_Sdk.Enums;
 
-[JsonConverter(typeof(JsonStringEnumConverter))]
+[EnumWithCustomSerialiser]
 public enum ObjectClass
 {
-	[JsonPropertyName("Rocket Body")]
+	[EnumMember(Value = "Rocket Body")]
 	RocketBody,
-	[JsonPropertyName("Rocket Debris")]
+	[EnumMember(Value = "Rocket Debris")]
 	RocketDebris,
-	[JsonPropertyName("Rocket Fragmentation Debris")]
+	[EnumMember(Value = "Rocket Fragmentation Debris")]
 	RocketFragmentationDebris,
-	[JsonPropertyName("Rocket Mission Related Object")]
+	[EnumMember(Value = "Rocket Mission Related Object")]
 	RocketMissionRelatedObject,
 	
-	[JsonPropertyName("Payload")]
+	[EnumMember(Value = "Payload")]
 	Payload,
-	[JsonPropertyName("Payload Debris")]
+	[EnumMember(Value = "Payload Debris")]
 	PayloadDebris,
-	[JsonPropertyName("Payload Fragmentation Debris")]
+	[EnumMember(Value = "Payload Fragmentation Debris")]
 	PayloadFragmentationDebris,
-	[JsonPropertyName("Payload Mission Related Object")]
+	[EnumMember(Value = "Payload Mission Related Object")]
 	PayloadMissionRelatedObject,
 	
-	[JsonPropertyName("Other Debris")]
+	[EnumMember(Value = "Other Debris")]
 	OtherDebris,
-	[JsonPropertyName("Other Mission Related Object")]
+	[EnumMember(Value = "Other Mission Related Object")]
 	OtherMissionRelatedObject,
 	
-	[JsonPropertyName("Unknown")]
+	[EnumMember(Value = "Unknown")]
 	Unknown
 }
