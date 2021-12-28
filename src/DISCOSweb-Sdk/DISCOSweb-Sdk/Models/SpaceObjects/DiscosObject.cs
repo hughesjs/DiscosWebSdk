@@ -7,7 +7,7 @@ namespace DISCOSweb_Sdk.Models.SpaceObjects;
 /// <summary>
 /// This is actually just an Object in DISCOS but for all that is unholy I'm not calling it that
 /// </summary>
-[DebuggerDisplay($"{nameof(CosparId)}: {nameof(Name)} -- {nameof(ObjectClass)}")]
+[DebuggerDisplay("{CosparId}: {Name} -- {ObjectClass}")]
 public class DiscosObject
 {
 	[JsonPropertyName("name")]
@@ -28,9 +28,19 @@ public class DiscosObject
 	[JsonPropertyName("mass")]
 	public float? Mass { get; init; }
 	
-	public Dimensions? Dimensions { get; init; }
+	[JsonPropertyName("length")]
+	public float? Length { get; init; }
+	[JsonPropertyName("height")]
+	public float? Height { get; init; }
+	[JsonPropertyName("depth")]
+	public float? Depth { get; init; }
 
-	public CrossSectionDetails? CrossSection { get; init; }
+	[JsonPropertyName("xSectMax")]
+	public double CrossSectionMaximum { get; init; }
+	[JsonPropertyName("xSectMin")]
+	public double CrossSectionMinimum { get; init; }
+	[JsonPropertyName("xSectAvg")]
+	public double CrossSectionAverage { get; init; }
 	
 	[JsonPropertyName("objectClass")]
 	public ObjectClass? ObjectClass { get; init; }
