@@ -1,4 +1,4 @@
-namespace DISCOSweb_Sdk.Models.Objects;
+namespace DISCOSweb_Sdk.Models.SpaceObjects;
 
 /// <summary>
 /// Details of the object's cross sectional area in m2

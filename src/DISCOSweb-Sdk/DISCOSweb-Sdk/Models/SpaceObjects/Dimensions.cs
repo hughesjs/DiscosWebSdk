@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace DISCOSweb_Sdk.Models.Objects;
+namespace DISCOSweb_Sdk.Models.SpaceObjects;
 
 public class Dimensions
 {

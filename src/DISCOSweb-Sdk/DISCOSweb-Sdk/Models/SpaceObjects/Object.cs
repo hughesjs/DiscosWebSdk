@@ -2,12 +2,14 @@ using System.Diagnostics;
 using System.Text.Json.Serialization;
 using DISCOSweb_Sdk.Enums;
 
-namespace DISCOSweb_Sdk.Models.Objects;
+namespace DISCOSweb_Sdk.Models.SpaceObjects;
 
+/// <summary>
+/// This is actually just an Object in DISCOS but for all that is unholy I'm not calling it that
+/// </summary>
 [DebuggerDisplay($"{nameof(CosparId)}: {nameof(Name)} -- {nameof(ObjectClass)}")]
-public record ObjectAttributes
+public class SpaceObject
 {
-
 	[JsonPropertyName("name")]
 	public string? Name { get; init; }
 	
@@ -32,5 +34,4 @@ public record ObjectAttributes
 	
 	[JsonPropertyName("objectClass")]
 	public ObjectClass? ObjectClass { get; init; }
-	
 }
