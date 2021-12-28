@@ -7,6 +7,7 @@ using AutoFixture;
 using AutoFixture.Kernel;
 using DISCOSweb_Sdk.Enums;
 using DISCOSweb_Sdk.Models;
+using DISCOSweb_Sdk.Models.ResponseModels;
 using FluentAssertions;
 using Xunit;
 
@@ -71,7 +72,7 @@ public class DiscosResponseDeserialisationTests
 	private class TestDataGenerator: IEnumerable<object[]>
 	{
 		public IEnumerator<object[]> GetEnumerator() => typeof(ResponseType).Assembly.GetTypes()
-																			.Where(t => !t.IsGenericType && t.Namespace == typeof(DiscosObject).Namespace)
+																			.Where(t => t != typeof(DiscosModelBase) && t.IsAssignableTo(typeof(DiscosModelBase)))
 																			.Cast<object>()
 																			.Select(t => new []{t})
 																			.GetEnumerator();

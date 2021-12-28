@@ -1,10 +1,11 @@
 using System.Text.Json.Serialization;
 using DISCOSweb_Sdk.Enums;
 using DISCOSweb_Sdk.JsonConverters;
+using DISCOSweb_Sdk.Models.ResponseModels;
 
 namespace DISCOSweb_Sdk.Models;
 
-public class DiscosResponse<T>
+public record DiscosResponse<T> where T: DiscosModelBase
 {
 	[JsonPropertyName("type")]
 	public ResponseType Type { get; init; }

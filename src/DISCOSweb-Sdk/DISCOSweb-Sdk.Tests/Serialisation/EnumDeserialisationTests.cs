@@ -11,7 +11,7 @@ using FluentAssertions;
 using JetBrains.Annotations;
 using Xunit;
 
-namespace DISCOSweb_Sdk.Tests.Deserialisation;
+namespace DISCOSweb_Sdk.Tests.Serialisation;
 
 public class EnumDeserialisationTests
 {

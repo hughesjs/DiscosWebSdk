@@ -2,17 +2,14 @@ using System.Diagnostics;
 using System.Text.Json.Serialization;
 using DISCOSweb_Sdk.Enums;
 
-namespace DISCOSweb_Sdk.Models;
+namespace DISCOSweb_Sdk.Models.ResponseModels;
 
 /// <summary>
 /// This is actually just an Object in DISCOS but for all that is unholy I'm not calling it that
 /// </summary>
 [DebuggerDisplay("{CosparId}: {Name} -- {ObjectClass}")]
-public class DiscosObject
+public record DiscosObject : DiscosModelBase
 {
-	[JsonPropertyName("name")]
-	public string? Name { get; init; }
-	
 	[JsonPropertyName("cosparId")]
 	public string? CosparId { get; init; }
 	

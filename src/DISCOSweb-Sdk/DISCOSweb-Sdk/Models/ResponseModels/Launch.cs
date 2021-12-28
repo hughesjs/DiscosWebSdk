@@ -1,8 +1,9 @@
 using System.Text.Json.Serialization;
 
-namespace DISCOSweb_Sdk.Models;
+namespace DISCOSweb_Sdk.Models.ResponseModels;
 
-public class Launch
+
+public record Launch: DiscosModelBase
 {
 	[JsonPropertyName("flightNo")]
 	public string? FlightNo { get; init; }
