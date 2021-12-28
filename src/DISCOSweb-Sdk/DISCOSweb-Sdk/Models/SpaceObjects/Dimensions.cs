@@ -5,9 +5,9 @@ namespace DISCOSweb_Sdk.Models.SpaceObjects;
 public class Dimensions
 {
 	[JsonPropertyName("length")]
-	private float Length { get; set; }
+	public double Length { get; set; }
 	[JsonPropertyName("height")]
-	private float Height { get; set; }
+	public double Height { get; set; }
 	[JsonPropertyName("depth")]
-	private float Depth { get; set; }
+	public double Depth { get; set; }
 }

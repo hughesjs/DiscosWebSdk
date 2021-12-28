@@ -7,8 +7,8 @@ using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using DISCOSweb_Sdk.Enums;
+using FluentAssertions;
 using JetBrains.Annotations;
-using Shouldly;
 using Xunit;
 
 namespace DISCOSweb_Sdk.Tests.Deserialisation;
@@ -19,14 +19,14 @@ public class EnumDeserialisationTests
 	[ClassData(typeof(TestDataGenerator))]
 	public void CanDeserialiseEnumsWithCustomJsonStrings(Enum expected, string jsonName)
 	{
-		jsonName.ShouldNotBeNullOrEmpty();
+		jsonName.Should().NotBeNullOrEmpty();
 		ReadOnlySpan<char> json = $"{{\"TestEnum\":\"{jsonName}\"}}";
 
 		Type constructed = typeof(TestEnumWrapper<>).MakeGenericType(expected.GetType());
 		
 		var res = JsonSerializer.Deserialize(json, constructed);
 
-		constructed.GetProperty("TestEnum").GetValue(res).ShouldBe(expected);
+		constructed.GetProperty("TestEnum").GetValue(res).Should().Be(expected);
 	}
 
 
