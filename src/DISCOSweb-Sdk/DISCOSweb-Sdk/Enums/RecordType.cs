@@ -1,6 +1,5 @@
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
-using DISCOSweb_Sdk.Attributes;
 
 
 namespace DISCOSweb_Sdk.Enums;
