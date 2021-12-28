@@ -18,4 +18,8 @@
         <RepositoryType>Git</RepositoryType>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\System.Text.Json.EnumExtensions\src\System.Text.Json.EnumExtensions\System.Text.Json.EnumExtensions.csproj" />
+    </ItemGroup>
+
 </Project>

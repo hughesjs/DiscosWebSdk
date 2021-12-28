@@ -1,0 +1,2743 @@
+openapi: '3.0.0'
+servers:
+  - url: https://discosweb.esoc.esa.int/api
+info:
+  version: '2.0.0'
+  title: DISCOSweb API
+  contact:
+    name: Space Debris Support
+    email: space.debris.support@esa.int
+  x-logo:
+    url: https://discosweb.esoc.esa.int/static/images/esa_logo.png
+    backgroundColor: '#FFFFFF'
+    altText: ESA Logo
+  description: |
+    This is the documentation of version 2.0.0 of the DISCOSweb API. The
+    documentation for version 1.0.0 is available [here](/apidocs/v1).
+
+    # Getting Started
+
+    The API endpoints described in this documentation may be accessed in your
+    browser while you are logged in. To access the API outside of the browser,
+    you must [create an access token][tokens]. Requests should be sent with
+    an `Authorization: Bearer <token>` header.
+
+    Here is an example script using Python 3. The [requests] package must be
+    installed. Replace `<token>` with the one you created.
+
+    ```python
+    from pprint import pprint
+    import requests
+
+    URL = 'https://discosweb.esoc.esa.int'
+    token = '<token>'
+
+    response = requests.get(
+        f'{URL}/api/objects',
+        headers={
+            'Authorization': f'Bearer {token}',
+            'DiscosWeb-Api-Version': '2',
+        },
+        params={
+            'filter': "eq(objectClass,Payload)&gt(reentry.epoch,epoch:'2020-01-01')",
+            'sort': '-reentry.epoch',
+        },
+    )
+
+    doc = response.json()
+    if response.ok:
+        pprint(doc['data'])
+    else:
+        pprint(doc['errors'])
+    ```
+
+    Here is a curl example:
+
+    ```bash
+    curl --header "Authorization: Bearer <token>"  --header "DiscosWeb-Api-Version: 2" "https://discosweb.esoc.esa.int/api/objects?filter=eq(objectClass,Payload)"
+
+    ```
+
+    [tokens]: https://discosweb.esoc.esa.int/tokens
+    [requests]: https://pypi.org/project/requests/
+
+    # Filtering
+
+    Fetching collections (e.g. `/api/objects`) from the API allows filtering using
+    the `filter` parameter.
+
+    *Note: the examples in this section are presented as plain text for readability.
+    They should be percent-encoded in the final URL. The library you use to make
+    API requests may do this for you.*
+
+    The query language is loosely based on the resource query language (RQL or RSQL),
+    but does not conform to any existing (loose) specification.
+
+    The simplest example is `name=Alice`. This is a shorthand syntax for filtering
+    a field called `name` for equality with `'Alice'`.
+
+    ## Literals
+
+    ### Constants
+
+    The following constants are available:
+
+    - `true`
+    - `false`
+    - `null`
+
+    ### Numbers
+
+    Integers have an optional sign and leading zeros are invalid.
+
+    - 0
+    - +123
+    - -4
+
+    Floating point numbers include a decimal point, and may optionally include an
+    exponent.
+
+    - 0.
+    - -1.
+    - 2e3
+    - 4.5e-6
+
+    ### Strings
+
+    Strings may be unquoted in limited circumstances. They must start with an ASCII
+    letter; every subsequent letter must be an ASCII letter, digit, or one of the
+    following characters:
+
+    - U+002D HYPHEN-MINUS, "-"
+    - U+002E FULL STOP, "."
+    - U+005F LOW LINE, "_"
+    - U+007E TILDE, "~"
+
+    Unquoted strings must not be empty. Care should be taken with unquoted strings,
+    in case the value would match e.g. `true`, `false`, or `null`.
+
+    Quoted strings must start and end with single quotes. They may be empty. Any
+    character is allowed within strings, except newlines which must be escaped with
+    `\n`.
+
+    Escape Sequences:
+
+    - `\\` – backslash
+    - `\'` – single quote
+    - `\b` – ASCII backspace (BS)
+    - `\f` – ASCII formfeed (FF)
+    - `\n` – ASCII linefeed (LF)
+    - `\r` – ASCII carriage return (CR)
+    - `\t` – ASCII horizontal tab (TAB)
+    - `\v` – ASCII vertical tab (VT)
+
+    Examples:
+
+    - `''`
+    - `'quotes \'have to\' be escaped'`
+    - `'line1\nline2'`
+
+    ### Type Casting
+
+    Some data types are only accessible by type casting. Casts take the form of
+    `typename:value`.
+
+    Available casts:
+
+    - `string`
+    - `number`
+    - `boolean` – the value may be `'true'` or `'false'`.
+    - `epoch:<number>` – number of seconds since the unix epoch (UTC).
+    - `epoch:<string>` – An ISO 8601 datetime
+
+    ### Arrays
+
+    Arrays consist of one or more values within brackets and separated by commas.
+
+    - `(Bob)`
+    - `(1,2,3,4)`
+
+    ### Identifiers
+
+    Identifiers are the fields and relationship fields of the object type being
+    filtered.
+
+    - `satno`
+    - `launch.epoch`
+
+    ## Shorthand Comparisons
+
+    Shorthand comparisons allow any function which takes a field name as its first
+    parameter to be called without using normal call syntax. `eq` is a special case
+    and may be omitted:
+
+    - `name=Bob`
+    - `name=eq=Bob`
+    - `width=gt=5`
+
+    ## Function Calls
+
+    ### eq(field, value)
+
+    Check if field is equal to `value`.
+
+    Examples:
+
+    - `eq(satno,25544)`
+    - `eq(launch.cosparLaunchNo,'2009-013')`
+    - `eq(width,null)`
+
+    ### ne(field, value)
+
+    Check if field is not equal to `value`.
+
+    Examples:
+
+    - `ne(vimpelId,null)`
+    - `ne(launch.cosparLaunchNo,'2009-013')`
+
+    ### lt(field, value)
+
+    Check if field is less than `value`.
+
+    Examples:
+
+    - `lt(width,1)`
+    - `lt(launch.epoch,epoch:'1957-10-04 19:29')`
+
+    ### le(field, value)
+
+    Check if field is less than or equal to `value`.
+
+    ### gt(field, value)
+
+    Check if field is greater than `value`.
+
+    ### ge(field, value)
+
+    Check if field is greater than or equal to `value`.
+
+    ### in(field, values)
+
+    Check if the field's value is in `values` (an array).
+
+    Examples:
+
+    - `in(satno,(39634,41456))`
+
+    ### out(field, values)
+
+    Check if the field's value is not in `values` (an array).
+
+    Examples:
+
+    - `out(category,('Payload','Rocket Body'))`
+
+    ### contains(field, value)
+
+    If the field is a string, checks if it contains `value` (case sensitive).
+
+    If the field is an array, checks if `value` is one of the items (exact match).
+
+    Examples:
+
+    - `contains(name,Sentinel)`
+    - `contains(site.constraints,'Jan/Feb')`
+
+    ### excludes(field, value)
+
+    If the field is a string, checks if it does not contain `value` (case sensitive).
+
+    If the field is an array, checks if `value` is not one of the items (exact match).
+
+    ### icontains(field, value)
+
+    Checks if the field contains `value` (case insensitive). Unlike `contains`,
+    the field must be a string.
+
+    ### iexcludes(field, value)
+
+    Checks if the field does not contain `value` (case insensitive). Unlike
+    `excludes`, the field must be a string.
+
+    ## Operators
+
+    Expressions may be combined with operators.
+
+    ### Logical or
+
+    `or` may be used as a function or operator.
+
+    The following examples are all equivalent:
+
+    - `or(eq(satno,39634),eq(satno,41456))`
+    - `eq(satno,39634)|eq(satno,41456)`
+    - `satno=39634|satno=41456`
+
+    ### Logical and
+
+    `and` may be used as a function or operator.
+
+    The following examples are all equivalent:
+
+    - `and(satno=ge=1000,satno=lt=2000)`
+    - `ge(satno,1000)&lt(satno,2000)`
+    - `satno=ge=1000&satno=lt=2000`
+
+    ### Grouping
+
+    Brackets should be used to group expressions when multiple operators are used.
+
+    - `(objectClass='Rocket Body'|objectClass=Payload)&lt(satno,2000)`
+
+    # API version selection
+
+    The API supports several versions simultaneously. Without specifying the version,
+    the latest is returned (with a bit of delay at release). By providing the HTTP
+    header `DiscosWeb-Api-Version: <version>` a specific API version is selected
+    and no changes happen automatically at release of new versions.
+
+tags:
+  - name: object
+    x-displayName: DISCOS Objects
+  - name: launch
+    x-displayName: Launch Information
+  - name: vehicle
+    x-displayName: Launch Vehicles
+  - name: orbit
+    x-displayName: Orbits
+  - name: fragmentation
+    x-displayName: Fragmentations
+  - name: reentry
+    x-displayName: Re-entries
+  - name: entity
+    x-displayName: Entities
+    description: Entities are states and organisations that relate to other data.
+
+security:
+  - OpenID Connect:
+      - discosweb.api
+  - Personal Access Token: []
+paths:
+  /objects:
+    get:
+      summary: Get a list of DISCOS objects
+      tags: [object]
+      parameters:
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: List of DISCOS objects response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/object'
+                  - $ref: '#/components/schemas/success'
+              example:
+                $ref: '#/components/examples/discosObjectsResponse/value'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /objects/{discosId}:
+    get:
+      summary: Get a single DISCOS object
+      tags: [object]
+      parameters:
+        - $ref: '#/components/parameters/discosId'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: DISCOS object response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/object'
+                  - $ref: '#/components/schemas/success'
+              example:
+                $ref: '#/components/examples/discosObjectResponse/value'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /launch-systems:
+    get:
+      summary: Get a list of orbital launch systems
+      tags: [vehicle]
+      parameters:
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: List of orbital launch systems response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/launchSystem'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /launch-systems/{id}:
+    get:
+      summary: Get a single orbital launch system
+      tags: [vehicle]
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: Launch system response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/launchSystem'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /launches:
+    get:
+      summary: Get a list of launches
+      tags: [launch]
+      parameters:
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: List of launches response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/launch'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /launches/{id}:
+    get:
+      summary: Get a single launch
+      tags: [launch]
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: Launch response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/launch'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /launch-sites:
+    get:
+      summary: Get a list of launch sites
+      tags: [launch]
+      parameters:
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: List of launch sites response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/launchSite'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /launch-sites/{id}:
+    get:
+      summary: Get a single launch site
+      tags: [launch]
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: Launch site response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/launchSite'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /object-classes:
+    get:
+      summary: Get a list of object classes
+      description: |
+        This resource is generated from the values of the `objectClass`
+        attribute of the `object` resource.
+
+        It can be used to present the list of possible object classes without
+        enumerating all objects.
+      tags: [object]
+      parameters:
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: List of object classes response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/objectClass'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /object-classes/{id}:
+    get:
+      summary: Get a single object class
+      description: |
+        This resource is generated from the values of the `objectClass`
+        attribute of the `object` resource.
+
+        It can be used to present the list of possible object classes without
+        enumerating all objects.
+      tags: [object]
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: Object class response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/objectClass'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /launch-vehicles:
+    get:
+      summary: Get a list of launch vehicles
+      tags: [vehicle]
+      parameters:
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: List of launch vehicles response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/vehicle'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /launch-vehicles/{id}:
+    get:
+      summary: Get a single launch vehicle
+      tags: [vehicle]
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: Launch vehicle response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/vehicle'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /launch-vehicles/families:
+    get:
+      summary: Get a list of launch vehicle families
+      tags: [vehicle]
+      parameters:
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: List of launch vehicle families response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/vehicleFamily'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /launch-vehicles/families/{id}:
+    get:
+      summary: Get a single launch vehicle family
+      tags: [vehicle]
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: Launch vehicle family response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/vehicleFamily'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /launch-vehicles/stages:
+    get:
+      summary: Get a list of launch vehicle stages
+      tags: [vehicle]
+      parameters:
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: List of launch vehicle stages response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/stage'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /launch-vehicles/stages/{id}:
+    get:
+      summary: Get a single launch vehicle stage
+      tags: [vehicle]
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: Launch vehicle stage response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/stage'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /launch-vehicles/engines:
+    get:
+      summary: Get a list of launch vehicle engines
+      tags: [vehicle]
+      parameters:
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: List of launch vehicle engines response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/engine'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /launch-vehicles/engines/{id}:
+    get:
+      summary: Get a single launch vehicle engine
+      tags: [vehicle]
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: Launch vehicle engine response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/engine'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /propellants:
+    get:
+      summary: Get a list of propellants
+      tags: [vehicle]
+      parameters:
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: List of propellants response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/propellant'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /propellants/{id}:
+    get:
+      summary: Get a single propellant
+      tags: [vehicle]
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: Propellant resource
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/propellant'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /reentries:
+    get:
+      summary: Get a list of re-entries
+      tags: [reentry]
+      parameters:
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: List of re-entries response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/reentry'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /reentries/{id}:
+    get:
+      summary: Get a single re-entry
+      tags: [reentry]
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: Re-entry response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/reentry'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /initial-orbits:
+    get:
+      summary: Get a list of initial orbits
+      tags: [orbit]
+      parameters:
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: List of initial orbits response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/initialOrbit'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /initial-orbits/{id}:
+    get:
+      summary: Get a single initial orbit
+      tags: [orbit]
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: Initial orbit response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/initialOrbit'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /destination-orbits:
+    get:
+      summary: Get a list of destination orbits
+      tags: [orbit]
+      parameters:
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: List of destination orbits response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/destinationOrbit'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /destination-orbits/{id}:
+    get:
+      summary: Get a single destination orbit
+      tags: [orbit]
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: Destination orbit response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/destinationOrbit'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /fragmentation-event-types:
+    get:
+      summary: Get a list of fragmentation event types
+      description: |
+        The name attribute of the `fragmentationEventType` resource is returned
+        inline as the `eventType` attribute of the `fragmentation` resource.
+      tags: [fragmentation]
+      parameters:
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: List of fragmentation event types response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/fragmentationEventType'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /fragmentation-event-types/{id}:
+    get:
+      summary: Get a single fragmentation event type
+      description: |
+        The name attribute of the `fragmentationEventType` resource is returned
+        inline as the `eventType` attribute of the `fragmentation` resource.
+      tags: [fragmentation]
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: Fragmentation event type response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/fragmentationEventType'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /fragmentations:
+    get:
+      summary: Get a list of fragmentations
+      tags: [fragmentation]
+      parameters:
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: List of fragmentations response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/fragmentation'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /fragmentations/{id}:
+    get:
+      summary: Get a single fragmentation
+      tags: [fragmentation]
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: Fragmentation response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/fragmentation'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /entities:
+    get:
+      summary: Get a list of entities
+      description: |
+        The entities endpoint is heterogeneous, returning objects of type
+        `country` and `organisation`.
+      tags: [entity]
+      parameters:
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: List of entities response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/entity'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+  /entities/{id}:
+    get:
+      summary: Get a single entity
+      description: |
+        The entities endpoint is heterogeneous, returning objects of type
+        `country` and `organisation`.
+      tags: [entity]
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        200:
+          description: Entity response
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+          content:
+            application/vnd.api+json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/entity'
+                  - $ref: '#/components/schemas/success'
+        429:
+          $ref: '#/components/responses/429TooManyRequests'
+        400:
+          $ref: '#/components/responses/400BadRequest'
+
+components:
+  securitySchemes:
+    OpenID Connect:
+      type: openIdConnect
+      openIdConnectUrl: https://auth.sdo.esoc.esa.int/.well-known/openid-configuration
+    Personal Access Token:
+      type: http
+      scheme: bearer
+
+  headers:
+    X-RateLimit-Limit:
+      schema:
+        type: integer
+      description: Total number of requests allowed in the active window.
+    X-RateLimit-Remaining:
+      schema:
+        type: integer
+      description: Number of requests remaining in the active window.
+    X-RateLimit-Reset:
+      schema:
+        type: integer
+      description:
+        Time when the window will be reset, as the number of seconds since the
+        unix epoch.
+
+  parameters:
+    discosId:
+      name: discosId
+      in: path
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+      example: 34599
+
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+
+    sort:
+      name: sort
+      in: query
+      schema:
+        type: string
+      description: |
+        Must be a comma-separated list of relationship paths. A relationship path
+        is a dot-separated list of relationship names. Descending sort order may
+        be indicated by prefixing the relationship path with a minus.
+
+        See [JSON:API – Sorting][sorting] for more information.
+
+        [sorting]: https://jsonapi.org/format/#fetching-sorting
+      example: -mass
+
+    filter:
+      name: filter
+      in: query
+      schema:
+        type: string
+      description: |
+        JSON:API is agnostic about the syntax used to filter. DISCOSweb's
+        implementation is documented in the [filtering section].
+
+        [filtering section]: #section/Filtering
+
+    pageSize:
+      name: page[size]
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+
+    pageNumber:
+      name: page[number]
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+
+    include:
+      name: include
+      description: |
+        The value of the include parameter must be a comma-separated list of
+        relationship paths. A relationship path is a dot-separated list of
+        relationship names.
+
+        See [JSON:API – Inclusion of Related Resources][include] for more information.
+
+        [include]: https://jsonapi.org/format/#fetching-includes
+      in: query
+      schema:
+        type: string
+
+    fields:
+      name: fields
+      description: |
+        The fields parameter enabled sparse fieldsets — the ability to only
+        request specific fields in the response on a per-type basis.
+
+        See [JSON:API – Sparse Fieldsets][sparse] for more information.
+
+        [sparse]: https://jsonapi.org/format/#fetching-sparse-fieldsets
+      in: query
+      style: deepObject
+      explode: true
+      schema:
+        type: object
+        properties:
+          country:
+            type: string
+          destinationOrbit:
+            type: string
+          engine:
+            type: string
+          fragmentation:
+            type: string
+          fragmentationEventType:
+            type: string
+          initialOrbit:
+            type: string
+          launch:
+            type: string
+          launchSite:
+            type: string
+          launchSystem:
+            type: string
+          object:
+            type: string
+          objectClass:
+            type: string
+          organisation:
+            type: string
+          propellant:
+            type: string
+          reentry:
+            type: string
+          stage:
+            type: string
+          vehicle:
+            type: string
+          vehicleFamily:
+            type: string
+      example:
+        object: cosparId,name
+        launch: epoch
+
+  schemas:
+    success:
+      required:
+        - data
+      properties:
+        included:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+            # we don't use allOf with #/components/schemas/resource here
+            # because it breaks the discriminator rendering in ReDoc
+            oneOf:
+              - $ref: '#/components/schemas/country'
+              - $ref: '#/components/schemas/destinationOrbit'
+              - $ref: '#/components/schemas/object'
+              - $ref: '#/components/schemas/engine'
+              - $ref: '#/components/schemas/fragmentation'
+              - $ref: '#/components/schemas/fragmentationEventType'
+              - $ref: '#/components/schemas/initialOrbit'
+              - $ref: '#/components/schemas/launch'
+              - $ref: '#/components/schemas/launchSite'
+              - $ref: '#/components/schemas/launchSystem'
+              - $ref: '#/components/schemas/vehicle'
+              - $ref: '#/components/schemas/stage'
+              - $ref: '#/components/schemas/objectClass'
+              - $ref: '#/components/schemas/organisation'
+              - $ref: '#/components/schemas/propellant'
+              - $ref: '#/components/schemas/reentry'
+              - $ref: '#/components/schemas/vehicleFamily'
+            discriminator:
+              propertyName: type
+        links:
+          allOf:
+            - $ref: '#/components/schemas/links'
+            - $ref: '#/components/schemas/paginationLinks'
+        meta:
+          allOf:
+            - $ref: '#/components/schemas/meta'
+            - $ref: '#/components/schemas/paginationMeta'
+
+    links:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/link'
+
+    paginationLinks:
+      type: object
+      properties:
+        first:
+          allOf:
+            - $ref: '#/components/schemas/link'
+            - description: The link to the first page of the paginated response.
+        last:
+          allOf:
+            - $ref: '#/components/schemas/link'
+            - description: The link to the last page of the paginated response.
+        next:
+          allOf:
+            - $ref: '#/components/schemas/link'
+            - nullable: true
+              description: The link to the next page of the paginated response
+                (if it exists).
+        prev:
+          allOf:
+            - $ref: '#/components/schemas/link'
+            - nullable: true
+              description: The link to the previous page of the paginated
+                response (if it exists).
+
+    link:
+      oneOf:
+        - description: A string containing the link's URL
+          type: string
+          format: uri-reference
+        - type: object
+          required: [href]
+          properties:
+            href:
+              description: A string containing the link's URL
+              type: string
+              format: uri-reference
+            meta:
+              $ref: '#/components/schemas/meta'
+
+    meta:
+      description: >
+        Non-standard meta-information that can not be represented as an
+        attribute or relationship.
+      type: object
+      additionalProperties: true
+
+    paginationMeta:
+      type: object
+      properties:
+        pagination:
+          description:
+            If the response is paginated, this object will be included
+            in the response.
+          type: object
+          required: [totalPages, currentPage, pageSize]
+          properties:
+            totalPages:
+              type: integer
+            currentPage:
+              type: integer
+            pageSize:
+              type: integer
+
+    relationship:
+      type: object
+      properties:
+        links:
+          properties:
+            self:
+              type: string
+              description: A link for the relationship itself.
+            related:
+              type: string
+          additionalProperties: true
+        data:
+          description: Resource linkage.
+          oneOf:
+            - $ref: '#/components/schemas/relationshipToOne'
+            - $ref: '#/components/schemas/relationshipToMany'
+        meta:
+          $ref: '#/components/schemas/meta'
+
+    emptyRelationship:
+      description: Describes an empty to-one relationship.
+      nullable: true
+
+    linkage:
+      description: The "type" and "id" to non-empty members.
+      type: object
+      required: [id, type]
+      properties:
+        id:
+          type: string
+        type:
+          $ref: '#/components/schemas/type'
+        meta:
+          $ref: '#/components/schemas/meta'
+
+    relationshipToOne:
+      description: References to other resource objects in a to-one relationship.
+      anyOf:
+        - $ref: '#/components/schemas/emptyRelationship'
+        - $ref: '#/components/schemas/linkage'
+
+    relationshipToMany:
+      description: An array of references to objects in a to-many relationship.
+      type: array
+      items:
+        $ref: '#/components/schemas/linkage'
+
+    type:
+      type: string
+      enum:
+        - country
+        - destinationOrbit
+        - engine
+        - fragmentation
+        - fragmentationEventType
+        - initialOrbit
+        - launch
+        - launchSite
+        - launchSystem
+        - object
+        - objectClass
+        - organisation
+        - propellant
+        - reentry
+        - stage
+        - vehicle
+        - vehicleFamily
+
+    error:
+      type: object
+      properties:
+        id:
+          type: string
+          description: A unique identifier for this particular occurrence of the
+            problem.
+        links:
+          $ref: '#/components/schemas/links'
+        status:
+          type: string
+          description: The HTTP status code for this error.
+        code:
+          type: string
+          description: The error code for this type of error.
+        title:
+          type: string
+          description: A short explanation of the error.
+        detail:
+          type: string
+          description: More information about the error.
+        source:
+          type: object
+          properties:
+            pointer:
+              type: string
+              description:
+                A JSON pointer to the associated entity in the request
+                document.
+            parameter:
+              type: string
+              description: Which query parameter caused the error.
+        meta:
+          $ref: '#/components/schemas/meta'
+
+    numRange:
+      type: object
+      properties:
+        lower:
+          type: number
+          nullable: true
+          description: The lower bound of this range, or null if there isn't one.
+          example: -5
+        upper:
+          type: number
+          nullable: true
+          description: The upper bound of this range, or null if there isn't one.
+          example: 10
+        lowerInc:
+          type: boolean
+          description: Whether the lower bound is inclusive.
+          example: true
+        upperInc:
+          type: boolean
+          description: Whether the upper bound is inclusive.
+          example: false
+        empty:
+          type: boolean
+          description: true when the range is empty.
+          example: false
+        display:
+          type: string
+          description: A
+          example: '[-5,10)'
+
+    dateRange:
+      type: object
+      properties:
+        lower:
+          type: string
+          format: date
+          nullable: true
+          description: The lower bound of this range, or null if there isn't one.
+          example: 1975-05-30
+        upper:
+          type: string
+          format: date
+          nullable: true
+          description: The upper bound of this range, or null if there isn't one.
+          example: 2019-01-01
+        lowerInc:
+          type: boolean
+          description: Whether the lower bound is inclusive.
+          example: true
+        upperInc:
+          type: boolean
+          description: Whether the upper bound is inclusive.
+          example: false
+        empty:
+          type: boolean
+          description: true when the range is empty.
+          example: false
+        display:
+          type: string
+          description: A
+          example: '[1975-05-30,2019-01-01)'
+
+    object:
+      required: [id, type]
+      properties:
+        id:
+          type: string
+          description: |
+            The DISCOS ID is an integer, but is transmitted as a string
+            according to the JSON:API spec.
+        type:
+          type: string
+          enum: [object]
+        attributes:
+          properties:
+            cosparId:
+              type: string
+              description: International Designator
+            satno:
+              type: integer
+              description: Satellite Catalogue Number assigned by USSPACECOM
+              nullable: true
+            vimpelId:
+              type: integer
+              description: JSC Vimpel sequence number
+              nullable: true
+            name:
+              type: string
+              nullable: true
+            objectClass:
+              type: string
+            mass:
+              type: number
+              description: Mass (kg)
+              nullable: true
+            shape:
+              type: string
+              description: Coarse description of object shape.
+              nullable: true
+            width:
+              type: number
+              description: Width (m)
+              nullable: true
+            height:
+              type: number
+              description: Height (m)
+              nullable: true
+            depth:
+              type: number
+              description: Depth (m)
+              nullable: true
+            diameter:
+              type: number
+              description: Diameter (m)
+              nullable: true
+            span:
+              type: number
+              description: Largest dimension including appendices (m)
+              nullable: true
+            xSectMax:
+              type: number
+              description: Computed maximum cross section (m<sup>2</sup>)
+              nullable: true
+            xSectMin:
+              type: number
+              description: Computed minimum cross section (m<sup>2</sup>)
+              nullable: true
+            xSectAvg:
+              type: number
+              description: Computed average cross section (m<sup>2</sup>)
+              nullable: true
+        relationships:
+          properties:
+            launch:
+              $ref: '#/components/schemas/relationship'
+            reentry:
+              $ref: '#/components/schemas/relationship'
+            initialOrbits:
+              $ref: '#/components/schemas/relationship'
+            destinationOrbits:
+              $ref: '#/components/schemas/relationship'
+            states:
+              $ref: '#/components/schemas/relationship'
+            operators:
+              $ref: '#/components/schemas/relationship'
+        links:
+          $ref: '#/components/schemas/links'
+
+    objectClass:
+      required: [id, type]
+      properties:
+        id:
+          type: string
+          description: Object class ID
+          example: '8c489317-9b02-5e18-9a9a-8bc50d05a1b6'
+        type:
+          type: string
+          enum: [objectClass]
+        attributes:
+          properties:
+            name:
+              type: string
+              example: Payload
+        links:
+          $ref: '#/components/schemas/links'
+
+    propellant:
+      required: [id, type]
+      properties:
+        id:
+          type: string
+          description: Propellant ID
+          example: '123'
+        type:
+          type: string
+          enum: [propellant]
+        attributes:
+          properties:
+            oxidiser:
+              type: string
+              nullable: true
+              example: LOX
+            fuel:
+              type: string
+              nullable: true
+              example: Kerosene
+            solidPropellant:
+              type: string
+              nullable: true
+              example: null
+        relationships:
+          properties:
+            stages:
+              $ref: '#/components/schemas/relationship'
+        links:
+          $ref: '#/components/schemas/links'
+
+    launch:
+      required: [id, type]
+      properties:
+        id:
+          type: string
+          description: Launch ID
+          example: '123'
+        type:
+          type: string
+          enum: [launch]
+        attributes:
+          properties:
+            epoch:
+              type: string
+              format: date-time
+              description: Launch epoch
+              nullable: true
+            flightNo:
+              type: string
+              description: Flight number
+              nullable: true
+              example: VV15
+            cosparLaunchNo:
+              type: string
+              description: >
+                The year and launch parts of the international designator. E.g.
+                2019-001
+              example: 2019-001
+              nullable: true
+            failure:
+              type: boolean
+              description: Whether the launch failed.
+        relationships:
+          properties:
+            objects:
+              $ref: '#/components/schemas/relationship'
+            vehicle:
+              $ref: '#/components/schemas/relationship'
+            site:
+              $ref: '#/components/schemas/relationship'
+            entities:
+              $ref: '#/components/schemas/relationship'
+        links:
+          $ref: '#/components/schemas/links'
+
+    launchSite:
+      required: [id, type]
+      properties:
+        id:
+          type: string
+          description: Launch Site ID
+          example: '123'
+        type:
+          type: string
+          enum: [launchSite]
+        attributes:
+          properties:
+            name:
+              type: string
+              example: Guiana Space Center (Kourou)
+            pads:
+              type: array
+              items:
+                type: string
+                description: Name of individual launch pad
+              nullable: true
+              example: [ELA1, ELA2, ELA3]
+            azimuths:
+              type: array
+              items:
+                $ref: '#/components/schemas/numRange'
+              nullable: true
+            constrains:
+              type: array
+              items:
+                type: string
+              nullable: true
+            latitude:
+              type: string
+              format: decimal
+              nullable: true
+              example: '5.2000'
+            longitude:
+              type: string
+              format: decimal
+              nullable: true
+              example: '-52.8000'
+            altitude:
+              type: number
+              nullable: true
+              example: 0
+        relationships:
+          properties:
+            launches:
+              $ref: '#/components/schemas/relationship'
+            operators:
+              $ref: '#/components/schemas/relationship'
+        links:
+          $ref: '#/components/schemas/links'
+
+    launchSystem:
+      required: [id, type]
+      properties:
+        id:
+          type: string
+          description: Launch system ID
+          example: '123'
+        type:
+          type: string
+          enum: [launchSystem]
+        attributes:
+          properties:
+            name:
+              type: string
+              example: Ariane
+        relationships:
+          properties:
+            families:
+              $ref: '#/components/schemas/relationship'
+            entities:
+              $ref: '#/components/schemas/relationship'
+        links:
+          $ref: '#/components/schemas/links'
+
+    vehicleFamily:
+      required: [id, type]
+      properties:
+        id:
+          type: string
+          description: Launch vehicle family ID
+          example: '123'
+        type:
+          type: string
+          enum: [vehicleFamily]
+        attributes:
+          properties:
+            name:
+              type: string
+              example: Ariane 5
+        relationships:
+          properties:
+            vehicles:
+              $ref: '#/components/schemas/relationship'
+            system:
+              $ref: '#/components/schemas/relationship'
+        links:
+          $ref: '#/components/schemas/links'
+
+    vehicle:
+      required: [id, type]
+      properties:
+        id:
+          type: string
+          description: Launch Vehicle ID
+          example: '123'
+        type:
+          type: string
+          enum: [vehicle]
+        attributes:
+          properties:
+            name:
+              type: string
+              example: Ariane 5ECA
+            mass:
+              type: number
+              description: Total mass (kg)
+              nullable: true
+            thrustLevel:
+              type: number
+              description: Thrust level (N)
+              nullable: true
+            width:
+              type: number
+              description: Width (m)
+              nullable: true
+            height:
+              type: number
+              description: Height (m)
+              nullable: true
+            depth:
+              type: number
+              description: Depth (m)
+              nullable: true
+            diameter:
+              type: number
+              description: Diameter (m)
+              nullable: true
+            span:
+              type: number
+              description: Largest dimension including appendices (m)
+              nullable: true
+            numStages:
+              type: integer
+              description: Number of stages
+              nullable: true
+            leoCapacity:
+              type: number
+              description: Payload capacity to low earth orbit (kg)
+              nullable: true
+            ssoCapacity:
+              type: number
+              description: Payload capacity to sun-synchronous orbit (kg)
+              nullable: true
+            gtoCapacity:
+              type: number
+              description: Payload capacity to geosynchronous transfer orbit (kg)
+              nullable: true
+            geoCapacity:
+              type: number
+              description: Payload capacity to geosynchronous orbit (kg)
+              nullable: true
+            escCapacity:
+              type: number
+              description: Payload capacity to escape orbit (kg)
+              nullable: true
+            failedLaunches:
+              type: integer
+              description: Number of failed launches
+            successfulLaunches:
+              type: integer
+              description: Number of successful launches
+        relationships:
+          properties:
+            family:
+              $ref: '#/components/schemas/relationship'
+            launches:
+              $ref: '#/components/schemas/relationship'
+            stages:
+              $ref: '#/components/schemas/relationship'
+            engines:
+              $ref: '#/components/schemas/relationship'
+        links:
+          $ref: '#/components/schemas/links'
+
+    stage:
+      required: [id, type]
+      properties:
+        id:
+          type: string
+          description: Launch vehicle stage ID
+          example: '123'
+        type:
+          type: string
+          enum: [stage]
+        attributes:
+          properties:
+            name:
+              type: string
+              example: ESC-A
+            oxidiserMass:
+              type: number
+              description: Oxidiser mass (kg)
+              nullable: true
+            fuelMass:
+              type: number
+              description: Fuel mass (kg)
+              nullable: true
+            solidPropellantMass:
+              type: number
+              description: Solid propellant mass (kg)
+              nullable: true
+            width:
+              type: number
+              description: Width (m)
+              nullable: true
+            height:
+              type: number
+              description: Height (m)
+              nullable: true
+            depth:
+              type: number
+              description: Depth (m)
+              nullable: true
+            diameter:
+              type: number
+              description: Diameter (m)
+              nullable: true
+            span:
+              type: number
+              description: Largest dimension including appendices (m)
+              nullable: true
+            dryMass:
+              type: number
+              description: Dry mass (kg)
+              nullable: true
+            wetMass:
+              type: number
+              description: Wet mass (kg)
+              nullable: true
+            burnTime:
+              type: number
+              description: Burn time (s)
+              nullable: true
+        relationships:
+          properties:
+            vehicles:
+              $ref: '#/components/schemas/relationship'
+            propellant:
+              $ref: '#/components/schemas/relationship'
+        links:
+          $ref: '#/components/schemas/links'
+
+    engine:
+      required: [id, type]
+      properties:
+        id:
+          type: string
+          description: Launch vehicle engine ID
+          example: '123'
+        type:
+          type: string
+          enum: [engine]
+        attributes:
+          properties:
+            name:
+              type: string
+              example: RD-180
+            thrustLevel:
+              type: number
+              description: Thrust level (N)
+              nullable: true
+            maxIsp:
+              type: number
+              description: Maximum specific impulse (s)
+              nullable: true
+            width:
+              type: number
+              description: Width (m)
+              nullable: true
+            height:
+              type: number
+              description: Height (m)
+              nullable: true
+            depth:
+              type: number
+              description: Depth (m)
+              nullable: true
+            diameter:
+              type: number
+              description: Diameter (m)
+              nullable: true
+            span:
+              type: number
+              description: Largest dimension including appendices (m)
+              nullable: true
+            mass:
+              type: number
+              description: Mass (kg)
+              nullable: true
+        relationships:
+          properties:
+            vehicles:
+              $ref: '#/components/schemas/relationship'
+            propellant:
+              $ref: '#/components/schemas/relationship'
+        links:
+          $ref: '#/components/schemas/links'
+
+    reentry:
+      required: [id, type]
+      properties:
+        id:
+          type: string
+          description: Re-entry ID
+          example: '123'
+        type:
+          type: string
+          enum: [reentry]
+        attributes:
+          properties:
+            epoch:
+              type: string
+              format: date-time
+        relationships:
+          properties:
+            objects:
+              $ref: '#/components/schemas/relationship'
+        links:
+          $ref: '#/components/schemas/links'
+
+    fragmentation:
+      required: [id, type]
+      properties:
+        id:
+          type: string
+          description: Fragmentation ID
+          example: '123'
+        type:
+          type: string
+          enum: [fragmentation]
+        attributes:
+          properties:
+            epoch:
+              type: string
+              format: date
+            comment:
+              type: string
+              nullable: true
+            latitude:
+              type: string
+              format: decimal
+              nullable: true
+              example: '72.510000'
+            longitude:
+              type: string
+              format: decimal
+              nullable: true
+              example: '97.880000'
+            altitude:
+              type: number
+              example: 789
+              nullable: true
+            eventType:
+              type: string
+              example: Small Impactor
+        relationships:
+          properties:
+            objects:
+              $ref: '#/components/schemas/relationship'
+        links:
+          $ref: '#/components/schemas/links'
+
+    fragmentationEventType:
+      required: [id, type]
+      properties:
+        id:
+          type: string
+          description: Fragmentation event type ID
+          example: '123'
+        type:
+          type: string
+          enum: [fragmentationEventType]
+        attributes:
+          properties:
+            name:
+              type: string
+              example: Small Impactor
+        links:
+          $ref: '#/components/schemas/links'
+
+    initialOrbit:
+      required: [id, type]
+      properties:
+        id:
+          type: string
+          description: Initial orbit ID
+          example: '123'
+        type:
+          type: string
+          enum: [initialOrbit]
+        attributes:
+          properties:
+            epoch:
+              type: string
+              format: date
+              nullable: true
+            sma:
+              type: number
+              description: Semi-major axis (m)
+              nullable: true
+            ecc:
+              type: number
+              description: Eccentricity
+              nullable: true
+            inc:
+              type: number
+              description: Inclination (deg)
+              nullable: true
+            raan:
+              type: number
+              description: Right ascension of the ascending node (deg)
+              nullable: true
+            aPer:
+              type: number
+              description: Argument of periapsis (deg)
+              nullable: true
+            mAno:
+              type: number
+              description: Mean anomaly (deg)
+              nullable: true
+            frame:
+              type: string
+              description: Reference frame
+              example: J2000
+        relationships:
+          properties:
+            object:
+              $ref: '#/components/schemas/relationship'
+        links:
+          $ref: '#/components/schemas/links'
+
+    destinationOrbit:
+      required: [id, type]
+      properties:
+        id:
+          type: string
+          description: Destination orbit ID
+          example: '123'
+        type:
+          type: string
+          enum: [destinationOrbit]
+        attributes:
+          properties:
+            epoch:
+              type: string
+              format: date
+              nullable: true
+            sma:
+              type: number
+              description: Semi-major axis (m)
+              nullable: true
+            ecc:
+              type: number
+              description: Eccentricity
+              nullable: true
+            inc:
+              type: number
+              description: Inclination (deg)
+              nullable: true
+            raan:
+              type: number
+              description: Right ascension of the ascending node (deg)
+              nullable: true
+            aPer:
+              type: number
+              description: Argument of periapsis (deg)
+              nullable: true
+            mAno:
+              type: number
+              description: Mean anomaly (deg)
+              nullable: true
+            frame:
+              type: string
+              description: Reference frame
+              example: J2000
+        relationships:
+          properties:
+            object:
+              $ref: '#/components/schemas/relationship'
+        links:
+          $ref: '#/components/schemas/links'
+
+    entity:
+      oneOf:
+        - $ref: '#/components/schemas/country'
+        - $ref: '#/components/schemas/organisation'
+
+    country:
+      required: [id, type]
+      properties:
+        id:
+          type: string
+          description: Entity ID
+          example: '123'
+        type:
+          type: string
+          enum: [country]
+        attributes:
+          properties:
+            name:
+              type: string
+              example: Germany
+        relationships:
+          properties:
+            launches:
+              $ref: '#/components/schemas/relationship'
+            launchSystems:
+              $ref: '#/components/schemas/relationship'
+            launchSites:
+              $ref: '#/components/schemas/relationship'
+            objects:
+              $ref: '#/components/schemas/relationship'
+        links:
+          $ref: '#/components/schemas/links'
+
+    organisation:
+      required: [id, type]
+      properties:
+        id:
+          type: string
+          description: Entity ID
+          example: '123'
+        type:
+          type: string
+          enum: [organisation]
+        attributes:
+          properties:
+            name:
+              type: string
+              example: European Space Agency
+            dateRange:
+              $ref: '#/components/schemas/dateRange'
+              nullable: true
+        relationships:
+          properties:
+            hostCountry:
+              $ref: '#/components/schemas/relationship'
+            launches:
+              $ref: '#/components/schemas/relationship'
+            launchSystems:
+              $ref: '#/components/schemas/relationship'
+            launchSites:
+              $ref: '#/components/schemas/relationship'
+            objects:
+              $ref: '#/components/schemas/relationship'
+        links:
+          $ref: '#/components/schemas/links'
+
+  responses:
+    429TooManyRequests:
+      description: The API rate limit was exceeded.
+      headers:
+        X-RateLimit-Limit:
+          $ref: '#/components/headers/X-RateLimit-Limit'
+        X-RateLimit-Remaining:
+          $ref: '#/components/headers/X-RateLimit-Remaining'
+        X-RateLimit-Reset:
+          $ref: '#/components/headers/X-RateLimit-Reset'
+        Retry-After:
+          schema:
+            type: integer
+          description: Wait this number of seconds before retrying.
+      content:
+        application/vnd.api+json:
+          schema:
+            required: [errors]
+            properties:
+              errors:
+                type: array
+                items:
+                  $ref: '#/components/schemas/error'
+          example:
+            errors:
+              - title: Rate limit exceeded
+                status: '429'
+                code: 'api:rate-limit'
+                detail: 'Observe Retry-After response header'
+
+    400BadRequest:
+      description: Client error
+      content:
+        application/vnd.api+json:
+          schema:
+            required: [errors]
+            properties:
+              errors:
+                type: array
+                items:
+                  $ref: '#/components/schemas/error'
+
+  examples:
+    discosObjectsResponse:
+      value:
+        data:
+          - id: '123'
+            type: object
+            attributes:
+              cosparId: 2019-001A
+              satno: 12345
+              vimpelId: 54321
+              name: Satellite A
+              objectClass: payload
+              mass: 1000
+              shape: Box + 1 Pan
+              width: 2.1
+              height: 4.2
+              depth: 2.1
+              diameter: null
+              span: 12
+              xSectMax: 20.3
+              xSectMin: 5.4
+              xSectAvg: 10.1
+            relationships:
+              states:
+                links:
+                  self: /api/objects/123/relationships/states,
+                  related: /api/objects/123/states
+              initialOrbits:
+                links:
+                  self: /api/objects/123/relationships/initial-orbits,
+                  related: /api/objects/123/initial-orbits
+              operators:
+                links:
+                  self: /api/objects/123/relationships/operators,
+                  related: /api/objects/123/operators
+              launch:
+                links:
+                  self: /api/objects/123/relationships/launch,
+                  related: /api/objects/123/launch
+              destinationOrbits:
+                links:
+                  self: /api/objects/123/relationships/destination-orbits,
+                  related: /api/objects/123/destination-orbits
+              reentry:
+                links:
+                  self: /api/objects/123/relationships/reentry,
+                  related: /api/objects/123/reentry
+            links:
+              self: /api/objects/123
+        links:
+          self: /api/objects
+          first: /api/objects?page[number]=1
+          last: /api/objects?page[number]=1000
+          next: /api/objects?page[number]=2
+          prev: null
+        meta:
+          pagination:
+            totalPages: 1000
+            currentPage: 1
+            pageSize: 30
+
+    discosObjectResponse:
+      value:
+        data:
+          id: '123'
+          type: object
+          attributes:
+            cosparId: 2019-001A
+            satno: 12345
+            vimpelId: 54321
+            name: Satellite A
+            objectClass: payload
+            mass: 1000
+            shape: Box + 1 Pan
+            width: 2.1
+            height: 4.2
+            depth: 2.1
+            diameter: null
+            span: 12
+            xSectMax: 20.3
+            xSectMin: 5.4
+            xSectAvg: 10.1
+          relationships:
+            states:
+              links:
+                self: /api/objects/123/relationships/states,
+                related: /api/objects/123/states
+            initialOrbits:
+              links:
+                self: /api/objects/123/relationships/initial-orbits,
+                related: /api/objects/123/initial-orbits
+            operators:
+              links:
+                self: /api/objects/123/relationships/operators,
+                related: /api/objects/123/operators
+            launch:
+              links:
+                self: /api/objects/123/relationships/launch,
+                related: /api/objects/123/launch
+            destinationOrbits:
+              links:
+                self: /api/objects/123/relationships/destination-orbits,
+                related: /api/objects/123/destination-orbits
+            reentry:
+              links:
+                self: /api/objects/123/relationships/reentry,
+                related: /api/objects/123/reentry
+          links:
+            self: /api/objects/123
+        links:
+          self: /api/objects/123
