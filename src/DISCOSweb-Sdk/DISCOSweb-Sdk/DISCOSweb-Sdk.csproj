@@ -19,7 +19,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="EnumExtensions.System.Text.Json" Version="1.0.1" />
+      <ProjectReference Include="..\..\System.Text.Json.EnumExtensions\src\System.Text.Json.EnumExtensions\System.Text.Json.EnumExtensions.csproj" />
     </ItemGroup>
 
 </Project>

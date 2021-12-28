@@ -5,7 +5,7 @@ using DISCOSweb_Sdk.Attributes;
 
 namespace DISCOSweb_Sdk.Enums;
 
-[EnumWithCustomSerialiser]
+[JsonConverter(typeof(JsonStringEnumConverterWithAttributeSupport))]
 public enum RecordType
 {
         [EnumMember(Value = "country")]

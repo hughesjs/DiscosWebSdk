@@ -8,6 +8,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using DISCOSweb_Sdk.Attributes;
 using DISCOSweb_Sdk.Enums;
+using JetBrains.Annotations;
 using Shouldly;
 using Xunit;
 
@@ -24,10 +25,7 @@ public class EnumDeserialisationTests
 
 		Type constructed = typeof(TestEnumWrapper<>).MakeGenericType(expected.GetType());
 		
-	    JsonSerializerOptions options = new();
-		options.Converters.Add(new JsonStringEnumConverterWithAttributeSupport());
-		
-		var res = JsonSerializer.Deserialize(json, constructed, options);
+		var res = JsonSerializer.Deserialize(json, constructed);
 
 		constructed.GetProperty("TestEnum").GetValue(res).ShouldBe(expected);
 	}
@@ -38,9 +36,10 @@ public class EnumDeserialisationTests
 
 		public IEnumerator<object[]> GetEnumerator()
 		{
-			var allEnums = typeof(RecordType).Assembly.GetTypes().Where(t => t.IsEnum);
-			var testEnums = allEnums.Where(e => e.GetCustomAttributes().Any(a => a is EnumWithCustomSerialiser));
-			var enumMemberInfo = testEnums.SelectMany(e => e.GetFields(BindingFlags.Static | BindingFlags.Public));
+			IEnumerable<Type> allEnums = typeof(RecordType).Assembly.GetTypes().Where(t => t.IsEnum);
+			IEnumerable<Type> testEnums = allEnums.Where(e => e.GetCustomAttributes().Any(a => a is JsonConverterAttribute converter 
+																							&& converter.ConverterType == typeof(JsonStringEnumConverterWithAttributeSupport)));
+			IEnumerable<FieldInfo> enumMemberInfo = testEnums.SelectMany(e => e.GetFields(BindingFlags.Static | BindingFlags.Public));
 			IEnumerable<object[]> enumsWithNames = enumMemberInfo.Select(f =>
 																		 {
 																			return new[]
@@ -58,6 +57,7 @@ public class EnumDeserialisationTests
 
 	private class TestEnumWrapper<T> where T: struct
 	{
+		[UsedImplicitly]
 		public T TestEnum { get; set; }
 	}
 }

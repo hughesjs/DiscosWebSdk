@@ -1,0 +1,3 @@
+[submodule "src/System.Text.Json.EnumExtensions"]
+	path = src/System.Text.Json.EnumExtensions
+	url = git@github.com:hughesjs/System.Text.Json.EnumExtensions.git

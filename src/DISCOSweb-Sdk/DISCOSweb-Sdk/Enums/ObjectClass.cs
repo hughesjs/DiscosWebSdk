@@ -1,11 +1,9 @@
 using System.Runtime.Serialization;
-
 using System.Text.Json.Serialization;
-using DISCOSweb_Sdk.Attributes;
 
 namespace DISCOSweb_Sdk.Enums;
 
-[EnumWithCustomSerialiser]
+[JsonConverter(typeof(JsonStringEnumConverterWithAttributeSupport))]
 public enum ObjectClass
 {
 	[EnumMember(Value = "Rocket Body")]
