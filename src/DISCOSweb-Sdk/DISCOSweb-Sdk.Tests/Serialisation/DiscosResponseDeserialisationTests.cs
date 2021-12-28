@@ -8,6 +8,7 @@ using AutoFixture.Kernel;
 using DISCOSweb_Sdk.Enums;
 using DISCOSweb_Sdk.Models;
 using DISCOSweb_Sdk.Models.ResponseModels;
+using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
 using FluentAssertions;
 using Xunit;
 
@@ -32,9 +33,21 @@ public class DiscosResponseDeserialisationTests
 		
 		string test = JsonSerializer.Serialize(testObject);
 		object? res = JsonSerializer.Deserialize(test, constructedResponseType);
-		
+
+		res.GetType().GetProperties().All(p => p.GetValue(res) is not null);
 		res.Should().NotBeNull();
 		res.Should().BeEquivalentTo(testObject);
+	}
+	
+	private class TestDataGenerator: IEnumerable<object[]>
+	{
+		public IEnumerator<object[]> GetEnumerator() => typeof(ResponseType).Assembly.GetTypes()
+																			.Where(t => t != typeof(DiscosModelBase) && t.IsAssignableTo(typeof(DiscosModelBase)))
+																			.Cast<object>()
+																			.Select(t => new []{t})
+																			.GetEnumerator();
+
+		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 	}
 
 
@@ -69,16 +82,7 @@ public class DiscosResponseDeserialisationTests
 		res.Should().BeEquivalentTo(testExpected);
 	}
 	
-	private class TestDataGenerator: IEnumerable<object[]>
-	{
-		public IEnumerator<object[]> GetEnumerator() => typeof(ResponseType).Assembly.GetTypes()
-																			.Where(t => t != typeof(DiscosModelBase) && t.IsAssignableTo(typeof(DiscosModelBase)))
-																			.Cast<object>()
-																			.Select(t => new []{t})
-																			.GetEnumerator();
 
-		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-	}
 }
 
 

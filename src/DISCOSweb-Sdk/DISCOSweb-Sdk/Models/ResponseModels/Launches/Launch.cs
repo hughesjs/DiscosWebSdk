@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace DISCOSweb_Sdk.Models.ResponseModels;
+namespace DISCOSweb_Sdk.Models.ResponseModels.Launches;
 
 
 public record Launch: DiscosModelBase

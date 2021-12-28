@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 using DISCOSweb_Sdk.Models.SubObjects;
 
-namespace DISCOSweb_Sdk.Models.ResponseModels;
+namespace DISCOSweb_Sdk.Models.ResponseModels.Launches;
 
 public record LaunchSite: DiscosModelBase
 {
