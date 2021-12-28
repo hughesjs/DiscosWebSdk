@@ -24,7 +24,7 @@ public class EnumDeserialisationTests
 
 		Type constructed = typeof(TestEnumWrapper<>).MakeGenericType(expected.GetType());
 		
-		var res = JsonSerializer.Deserialize(json, constructed);
+		object? res = JsonSerializer.Deserialize(json, constructed);
 
 		constructed.GetProperty("TestEnum").GetValue(res).Should().Be(expected);
 	}

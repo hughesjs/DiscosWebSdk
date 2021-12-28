@@ -2,7 +2,7 @@ using System.Diagnostics;
 using System.Text.Json.Serialization;
 using DISCOSweb_Sdk.Enums;
 
-namespace DISCOSweb_Sdk.Models.SpaceObjects;
+namespace DISCOSweb_Sdk.Models;
 
 /// <summary>
 /// This is actually just an Object in DISCOS but for all that is unholy I'm not calling it that
