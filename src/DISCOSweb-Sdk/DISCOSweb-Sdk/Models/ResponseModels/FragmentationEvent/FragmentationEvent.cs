@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Text.Json.Serialization;
+using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
 
 namespace DISCOSweb_Sdk.Models.ResponseModels.FragmentationEvent;
 
@@ -18,5 +19,8 @@ public record FragmentationEvent: DiscosModelBase
 	public string? Comment { get; init; } 
 	[JsonPropertyName("eventType")]
 	public string? EventType { get; init; }
+	
+	[JsonPropertyName("objects")]
+	public IReadOnlyCollection<DiscosObject> Objects { get; init; } = ArraySegment<DiscosObject>.Empty;
 
 }

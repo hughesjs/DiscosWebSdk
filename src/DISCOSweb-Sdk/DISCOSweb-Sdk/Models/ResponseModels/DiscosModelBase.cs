@@ -9,5 +9,6 @@ public abstract record DiscosModelBase
 	[JsonPropertyName("name")]
 	public virtual string? Name { get; init; }
 
-	public int Id { get; init; }
+	[JsonPropertyName("id")]
+	public string Id { get; init; } = string.Empty;
 }
