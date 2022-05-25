@@ -1,6 +1,9 @@
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 using DISCOSweb_Sdk.Enums;
+using DISCOSweb_Sdk.Models.ResponseModels.Entities;
+using DISCOSweb_Sdk.Models.ResponseModels.Orbits;
+using DISCOSweb_Sdk.Models.ResponseModels.Reentries;
 
 namespace DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
 
@@ -41,4 +44,20 @@ public record DiscosObject : DiscosModelBase
 	
 	[JsonPropertyName("objectClass")]
 	public ObjectClass? ObjectClass { get; init; }
+	
+	[JsonPropertyName("reentry")]
+	public Reentry Reentry { get; init; }
+
+	[JsonPropertyName("states")]
+	public IReadOnlyCollection<Country> States { get; init; }
+	
+	[JsonPropertyName("destinationOrbits")]
+	public IReadOnlyCollection<OrbitDetails> DestinationOrbits { get; init; }
+	
+	[JsonPropertyName("initalOrbits")]
+	public IReadOnlyCollection<OrbitDetails> InitialOrbits { get; init; }
+	
+	[JsonPropertyName("operators")]
+	public IReadOnlyCollection<Organisation> Operators { get; init; }
+	
 }
