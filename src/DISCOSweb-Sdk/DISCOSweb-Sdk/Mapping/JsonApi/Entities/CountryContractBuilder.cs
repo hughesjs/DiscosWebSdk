@@ -10,22 +10,24 @@ internal static class CountryContractBuilder
 {
 	internal static DelegatingContractBuilder<Country> WithCountry(this IBuilder builder)
 	{
-		const string idFieldName = nameof(Country.Id);
-		const string launchLinkTemplate = $"/api/entities/{idFieldName}/launches";
-		const string objectLinkTemplate = $"/api/entities/{idFieldName}/objects";
-		const string launchSystemLinkTemplate = $"/api/entities/{idFieldName}/launch-systems";
-		const string launchSiteLinkTemplate = $"/api/entities/{idFieldName}/launch-sites";
+	 const string countryIdFieldName = nameof(Country.Id);
+	 const string launchLinkTemplate = $"/api/entities/{countryIdFieldName}/launches";
+	 const string objectLinkTemplate = $"/api/entities/{countryIdFieldName}/objects";
+	 const string launchSystemLinkTemplate = $"/api/entities/{countryIdFieldName}/launch-systems";
+	 const string launchSitesLinkTemplate = $"/api/entities/{countryIdFieldName}/launch-sites";
+
+		
 		object IdSelector(Country r) => r.Id;
 
 		return builder.With<Country>("country")
 					  .Id(nameof(Country.Id))
 					  .HasMany<Launch>(AttributeUtilities.GetJsonPropertyName<Country>(nameof(Country.Launches)))
-					  .Template(launchLinkTemplate, idFieldName, IdSelector)
+					  .Template(launchLinkTemplate, countryIdFieldName, IdSelector)
 					  .HasMany<DiscosObject>(AttributeUtilities.GetJsonPropertyName<Country>(nameof(Country.Objects)))
-					  .Template(objectLinkTemplate, idFieldName, IdSelector)
+					  .Template(objectLinkTemplate, countryIdFieldName, IdSelector)
 					  .HasMany<LaunchSystem>(AttributeUtilities.GetJsonPropertyName<Country>(nameof(Country.LaunchSystems)))
-					  .Template(launchSystemLinkTemplate, idFieldName, IdSelector)
+					  .Template(launchSystemLinkTemplate, countryIdFieldName, IdSelector)
 					  .HasMany<LaunchSite>(AttributeUtilities.GetJsonPropertyName<Country>(nameof(Country.LaunchSites)))
-					  .Template(launchSiteLinkTemplate, idFieldName, IdSelector);
+					  .Template(launchSitesLinkTemplate, countryIdFieldName, IdSelector);
 	}
 }

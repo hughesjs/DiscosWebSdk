@@ -10,25 +10,27 @@ internal static class OrganisationContractBuilder
 {
 	internal static DelegatingContractBuilder<Organisation> WithOrganisation(this IBuilder builder)
 	{
-		const string idFieldName = nameof(Country.Id);
-		const string launchLinkTemplate = $"/api/entities/{idFieldName}/launches";
-		const string objectLinkTemplate = $"/api/entities/{idFieldName}/objects";
-		const string launchSystemLinkTemplate = $"/api/entities/{idFieldName}/launch-systems";
-		const string launchSiteLinkTemplate = $"/api/entities/{idFieldName}/launch-sites";
-		const string hostCountryLinkTemplate = $"/api/entities/{idFieldName}/host-country";
+		const string organisationIdFieldName = nameof(Country.Id);
+		const string launchLinkTemplate = $"/api/entities/{organisationIdFieldName}/launches";
+		const string objectLinkTemplate = $"/api/entities/{organisationIdFieldName}/objects";
+		const string launchSystemLinkTemplate = $"/api/entities/{organisationIdFieldName}/launch-systems";
+		const string launchSitesLinkTemplate = $"/api/entities/{organisationIdFieldName}/launch-sites";
+		const string hostCountryLinkTemplate = $"/api/entities/{organisationIdFieldName}/host-country";
+
+
 		object IdSelector(Organisation r) => r.Id;
 
 		return builder.With<Organisation>("organisation")
 					  .Id(nameof(Organisation.Id))
 					  .HasMany<Launch>(AttributeUtilities.GetJsonPropertyName<Organisation>(nameof(Organisation.Launches)))
-					  .Template(launchLinkTemplate, idFieldName, IdSelector)
+					  .Template(launchLinkTemplate, organisationIdFieldName, IdSelector)
 					  .HasMany<DiscosObject>(AttributeUtilities.GetJsonPropertyName<Organisation>(nameof(Organisation.Objects)))
-					  .Template(objectLinkTemplate, idFieldName, IdSelector)
+					  .Template(objectLinkTemplate, organisationIdFieldName, IdSelector)
 					  .HasMany<LaunchSystem>(AttributeUtilities.GetJsonPropertyName<Organisation>(nameof(Organisation.LaunchSystems)))
-					  .Template(launchSystemLinkTemplate, idFieldName, IdSelector)
+					  .Template(launchSystemLinkTemplate, organisationIdFieldName, IdSelector)
 					  .HasMany<LaunchSite>(AttributeUtilities.GetJsonPropertyName<Organisation>(nameof(Organisation.LaunchSites)))
-					  .Template(launchSiteLinkTemplate, idFieldName, IdSelector)
+					  .Template(launchSitesLinkTemplate, organisationIdFieldName, IdSelector)
 					  .BelongsTo<Country>(AttributeUtilities.GetJsonPropertyName<Organisation>(nameof(Organisation.HostCountry)))
-					  .Template(hostCountryLinkTemplate, idFieldName, IdSelector);
+					  .Template(hostCountryLinkTemplate, organisationIdFieldName, IdSelector);
 	}
 }

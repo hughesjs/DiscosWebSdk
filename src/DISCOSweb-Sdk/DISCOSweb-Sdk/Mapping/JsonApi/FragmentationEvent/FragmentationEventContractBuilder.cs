@@ -10,8 +10,7 @@ internal static class FragmentationEventContractBuilder
 	{
 		return builder.With<Models.ResponseModels.FragmentationEvent.FragmentationEvent>("fragmentation")
 					  .Id(nameof(Models.ResponseModels.FragmentationEvent.FragmentationEvent.Id))
-					  .HasMany<DiscosObject>(AttributeUtilities.GetJsonPropertyName<Models.ResponseModels.FragmentationEvent.FragmentationEvent>(nameof(Models.ResponseModels.FragmentationEvent
-												.FragmentationEvent.Objects)));
+					  .HasMany<DiscosObject>(AttributeUtilities.GetJsonPropertyName<Models.ResponseModels.FragmentationEvent.FragmentationEvent>(nameof(Models.ResponseModels.FragmentationEvent.FragmentationEvent.Objects)));
 
 	}
 }
