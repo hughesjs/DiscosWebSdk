@@ -3,6 +3,7 @@ using DISCOSweb_Sdk.Mapping.JsonApi.Entities;
 using DISCOSweb_Sdk.Mapping.JsonApi.FragmentationEvent;
 using DISCOSweb_Sdk.Mapping.JsonApi.Generic;
 using DISCOSweb_Sdk.Mapping.JsonApi.Launches;
+using DISCOSweb_Sdk.Mapping.JsonApi.LaunchVehicles;
 using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
 using DISCOSweb_Sdk.Models.ResponseModels.Entities;
 using DISCOSweb_Sdk.Models.ResponseModels.Orbits;
@@ -23,6 +24,13 @@ internal static class DiscosObjectResolver
 			  .WithLaunch()
 			  .WithLaunchSite()
 			  .WithLaunchSystem()
+			  .WithLaunchVehicle()
+			  .WithLaunchVehicleEngine()
+			  .WithLaunchVehicleFamily()
+			  .WithLaunchVehicleStage()
+			  .WithOrbitDetails()
+			  .WithPropellant()
+			  .WithReentry()
 			  .WithBasicObject<DiscosObjectClass>()
 			  .Build();
 	}
