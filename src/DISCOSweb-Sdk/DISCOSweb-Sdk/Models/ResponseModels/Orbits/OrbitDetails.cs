@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using DISCOSweb_Sdk.Enums;
+using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
 
 namespace DISCOSweb_Sdk.Models.ResponseModels.Orbits;
 
@@ -21,4 +22,6 @@ public record OrbitDetails: DiscosModelBase
 	public OrbitalFrame? Frame { get; init; }
 	[JsonPropertyName("epoch")]
 	public DateTime? Epoch { get; init; }
+	[JsonPropertyName("object")]
+	public DiscosObject? Object { get; init; }
 }
