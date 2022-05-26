@@ -14,4 +14,6 @@ public record LaunchVehicleEngine: DiscosModelBase
 	public float? ThrustLevel { get; init; }
 	[JsonPropertyName("height")]
 	public float? Height { get; init; }
+	[JsonPropertyName("vehicles")]
+	public IReadOnlyCollection<LaunchVehicle> Vehicles { get; init; } = ArraySegment<LaunchVehicle>.Empty;
 }
