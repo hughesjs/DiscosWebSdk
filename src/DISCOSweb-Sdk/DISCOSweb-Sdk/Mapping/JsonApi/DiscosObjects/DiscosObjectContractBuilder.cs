@@ -17,7 +17,7 @@ internal static class DiscosObjectContractBuilder
 		const string operatorsLinkTemplate = $"/api/objects/{objectIdFieldName}/relationships/initial-orbits";
 
 		object IdSelector(DiscosObject r) => r.Id;
-		
+
 		return builder.With<DiscosObject>("object")
 					  .Id(nameof(DiscosObject.Id))
 					  .HasMany<Country>(AttributeUtilities.GetJsonPropertyName<DiscosObject>(nameof(DiscosObject.States)))
