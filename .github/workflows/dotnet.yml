@@ -8,16 +8,12 @@ on:
 
 jobs:
   build:
-    env:
-      DISCOS_API_KEY: ${{secrets.DISCOS_API_KEY}}
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
       with: 
         submodules: recursive
-    - name: Debug
-      run: echo $DISCOS_API_KEY && echo ${{secrets.DISCOS_API_KEY}}        
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
@@ -27,4 +23,4 @@ jobs:
     - name: Build
       run: dotnet build --no-restore src/DISCOSweb-Sdk/DISCOSweb-Sdk.sln
     - name: Test
-      run: dotnet test --no-build --verbosity normal src/DISCOSweb-Sdk/DISCOSweb-Sdk.sln
+      run: DISCOS_API_KEY=${{secrets.DISCOS_API_KEY}} dotnet test --no-build --verbosity normal src/DISCOSweb-Sdk/DISCOSweb-Sdk.sln
