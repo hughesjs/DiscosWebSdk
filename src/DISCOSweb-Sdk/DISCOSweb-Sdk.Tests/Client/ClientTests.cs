@@ -35,7 +35,7 @@ public class ClientTests
 									   };
 		
 		HttpClient client = new();
-		client.DefaultRequestHeaders.Authorization = new ("bearer", Environment.GetEnvironmentVariable("discos-api-key"));
+		client.DefaultRequestHeaders.Authorization = new ("bearer", Environment.GetEnvironmentVariable("discos_api_key"));
 		HttpResponseMessage res = await client.GetAsync("https://discosweb.esoc.esa.int/api/objects/1");
 		res.EnsureSuccessStatusCode();
 		DiscosObject discosResult = await res.Content.ReadAsJsonApiAsync<DiscosObject>(DiscosObjectResolver.CreateResolver());
