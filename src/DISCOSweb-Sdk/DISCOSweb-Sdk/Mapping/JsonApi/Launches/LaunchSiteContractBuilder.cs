@@ -19,7 +19,5 @@ internal static class LaunchSiteContractBuilder
 					  .Template(launchSiteOperatorsLinkTemplate, launchSiteIdFieldName, IdSelector)
 					  .HasMany<Launch>(AttributeUtilities.GetJsonPropertyName<LaunchSite>(nameof(LaunchSite.Launches)))
 					  .Template(launchesLinkTemplate, launchSiteIdFieldName, IdSelector);
-		// .Field(nameof(LaunchSite.Latitude)).Deserialization().Rename(nameof(LaunchSite.LatitudeAsString))
-		// .Field(nameof(LaunchSite.Longitude)).Deserialization().Rename(nameof(LaunchSite.LongitudeAsString));
 	}
 }

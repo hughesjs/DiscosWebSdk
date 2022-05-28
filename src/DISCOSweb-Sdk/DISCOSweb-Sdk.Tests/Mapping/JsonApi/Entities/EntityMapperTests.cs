@@ -37,8 +37,8 @@ public class EntityMapperTests: JsonApiMapperTestBase
 			Country country = await FetchSingle<Country>(_uk.Id, queryString);
 			country.LaunchSites.Count.ShouldBe(1);
 			// Testing these because of awful workaround
-			country.LaunchSites.First().Latitude.ShouldBe("-31.100000");
-			country.LaunchSites.First().Longitude.ShouldBe("136.600000");
+			country.LaunchSites.First().LatitudeDegs.ShouldBe(-31.100000);
+			country.LaunchSites.First().LongitudeDegs.ShouldBe(136.600000);
 		}
 		
 		[Fact]
