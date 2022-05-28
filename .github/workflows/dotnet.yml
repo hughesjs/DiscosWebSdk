@@ -8,9 +8,9 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
+    env:
+      DISCOS_API_KEY: ${{ secrets.DISCOS_API_KEY }}
     steps:
     - uses: actions/checkout@v2
       with: 

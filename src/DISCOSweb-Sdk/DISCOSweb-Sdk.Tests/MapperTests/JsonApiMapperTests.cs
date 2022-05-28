@@ -1,6 +1,6 @@
 using System;
+using System.Collections;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using DISCOSweb_Sdk.Enums;
 using DISCOSweb_Sdk.Mapping.JsonApi;
@@ -9,12 +9,12 @@ using Hypermedia.JsonApi.Client;
 using Shouldly;
 using Xunit;
 
-namespace DISCOSweb_Sdk.Tests.Client;
+namespace DISCOSweb_Sdk.Tests.MapperTests;
 
-public class ClientTests
+public class JsonApiMapperTests
 {
 	[Fact]
-	public async Task CanFetchSputnik()
+	public async Task CanFetchSputnikIgnoringLinks()
 	{
 		DiscosObject expectedSputnik = new()
 									   {
@@ -32,13 +32,22 @@ public class ClientTests
 										   Height = 28.0f,
 										   ObjectClass = ObjectClass.RocketBody,
 										   VimpelId = null,
+										   States = null!,
+										   InitialOrbits = null!,
+										   DestinationOrbits = null!,
+										   Operators = null!
 									   };
 		
+		foreach (DictionaryEntry environmentVariable in Environment.GetEnvironmentVariables())
+		{
+			Console.WriteLine($"{environmentVariable.Key}: {environmentVariable.Value}");
+		}
 		HttpClient client = new();
-		client.DefaultRequestHeaders.Authorization = new ("bearer", Environment.GetEnvironmentVariable("discos_api_key"));
+		client.DefaultRequestHeaders.Authorization = new ("bearer", Environment.GetEnvironmentVariable("DISCOS_API_KEY"));
 		HttpResponseMessage res = await client.GetAsync("https://discosweb.esoc.esa.int/api/objects/1");
 		res.EnsureSuccessStatusCode();
 		DiscosObject discosResult = await res.Content.ReadAsJsonApiAsync<DiscosObject>(DiscosObjectResolver.CreateResolver());
+		discosResult = discosResult with {States = null!, Operators = null!, DestinationOrbits = null!, InitialOrbits = null!};
 		discosResult.ShouldBeEquivalentTo(expectedSputnik);
 	}
 }
