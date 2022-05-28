@@ -16,6 +16,8 @@ jobs:
     - uses: actions/checkout@v2
       with: 
         submodules: recursive
+    - name: Debug
+      run: echo $DISCOS_API_KEY && echo ${{secrets.DISCOS_API_KEY}}        
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
