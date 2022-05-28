@@ -14,7 +14,7 @@ namespace DISCOSweb_Sdk.Tests.Client;
 public class ClientTests
 {
 	[Fact]
-	public async Task CanFetchSputnik()
+	public async Task CanFetchSputnikIgnoringLinks()
 	{
 		DiscosObject expectedSputnik = new()
 									   {
@@ -32,6 +32,10 @@ public class ClientTests
 										   Height = 28.0f,
 										   ObjectClass = ObjectClass.RocketBody,
 										   VimpelId = null,
+										   States = null!,
+										   InitialOrbits = null!,
+										   DestinationOrbits = null!,
+										   Operators = null!
 									   };
 		
 		HttpClient client = new();
@@ -39,6 +43,7 @@ public class ClientTests
 		HttpResponseMessage res = await client.GetAsync("https://discosweb.esoc.esa.int/api/objects/1");
 		res.EnsureSuccessStatusCode();
 		DiscosObject discosResult = await res.Content.ReadAsJsonApiAsync<DiscosObject>(DiscosObjectResolver.CreateResolver());
+		discosResult = discosResult with {States = null!, Operators = null!, DestinationOrbits = null!, InitialOrbits = null!};
 		discosResult.ShouldBeEquivalentTo(expectedSputnik);
 	}
 }
