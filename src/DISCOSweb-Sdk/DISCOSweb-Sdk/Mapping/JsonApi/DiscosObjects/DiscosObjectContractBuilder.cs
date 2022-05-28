@@ -27,6 +27,9 @@ internal static class DiscosObjectContractBuilder
 					  .HasMany<OrbitDetails>(AttributeUtilities.GetJsonPropertyName<DiscosObject>(nameof(DiscosObject.InitialOrbits)))
 					  .Template(initialOrbitsLinkTemplate, objectIdFieldName, IdSelector)
 					  .HasMany<Organisation>(AttributeUtilities.GetJsonPropertyName<DiscosObject>(nameof(DiscosObject.Operators)))
-					  .Template(operatorsLinkTemplate, objectIdFieldName, IdSelector);
+					  .Template(operatorsLinkTemplate, objectIdFieldName, IdSelector)
+					  .Field(nameof(DiscosObject.CrossSectionMaximum)).Deserialization().Rename("xSectMax")
+					  .Field(nameof(DiscosObject.CrossSectionMinimum)).Deserialization().Rename("xSectMin")
+					  .Field(nameof(DiscosObject.CrossSectionAverage)).Deserialization().Rename("xSectAvg");
 	}
 }
