@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -45,7 +46,10 @@ public class JsonApiMapperTests
 										   Operators = null!
 									   };
 		
-		_testOutputHelper.WriteLine(Environment.GetEnvironmentVariable("DISCOS_API_KEY"));	
+		foreach (DictionaryEntry environmentVariable in Environment.GetEnvironmentVariables())
+		{
+			Console.WriteLine($"{environmentVariable.Key}: {environmentVariable.Value}");
+		}
 		HttpClient client = new();
 		client.DefaultRequestHeaders.Authorization = new ("bearer", Environment.GetEnvironmentVariable("DISCOS_API_KEY"));
 		HttpResponseMessage res = await client.GetAsync("https://discosweb.esoc.esa.int/api/objects/1");
