@@ -25,6 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\..\Hypermedia\Src\Hypermedia.JsonApi.Client\Hypermedia.JsonApi.Client.csproj" />
       <ProjectReference Include="..\DISCOSweb-Sdk\DISCOSweb-Sdk.csproj" />
     </ItemGroup>
 
