@@ -1,0 +1,3 @@
+[submodule "vendor/Hypermedia"]
+	path = vendor/Hypermedia
+	url = git@github.com:hughesjs/Hypermedia.git
