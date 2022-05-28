@@ -8,11 +8,18 @@ using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
 using Hypermedia.JsonApi.Client;
 using Shouldly;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace DISCOSweb_Sdk.Tests.Client;
 
 public class JsonApiMapperTests
 {
+	private readonly ITestOutputHelper _testOutputHelper;
+	public JsonApiMapperTests(ITestOutputHelper testOutputHelper)
+	{
+		_testOutputHelper = testOutputHelper;
+	}
+
 	[Fact]
 	public async Task CanFetchSputnikIgnoringLinks()
 	{
@@ -38,6 +45,7 @@ public class JsonApiMapperTests
 										   Operators = null!
 									   };
 		
+		_testOutputHelper.WriteLine(Environment.GetEnvironmentVariable("DISCOS_API_KEY"));	
 		HttpClient client = new();
 		client.DefaultRequestHeaders.Authorization = new ("bearer", Environment.GetEnvironmentVariable("DISCOS_API_KEY"));
 		HttpResponseMessage res = await client.GetAsync("https://discosweb.esoc.esa.int/api/objects/1");
