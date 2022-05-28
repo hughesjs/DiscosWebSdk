@@ -8,7 +8,7 @@ internal static class GenericDiscosModelContractBuilder
 {
 	internal static DelegatingContractBuilder<T> WithBasicObject<T>(this IBuilder builder) where T: DiscosModelBase
 	{
-		return builder.With<T>()
+		return builder.With<T>("objectClass")
 					  .Id(nameof(DiscosModelBase.Id));
 	}
 }

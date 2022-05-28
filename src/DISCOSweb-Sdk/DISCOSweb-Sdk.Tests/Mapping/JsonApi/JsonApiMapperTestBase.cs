@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using DISCOSweb_Sdk.Mapping.JsonApi;
 using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
+using DISCOSweb_Sdk.Models.ResponseModels.Entities;
 using Hypermedia.JsonApi.Client;
 
 namespace DISCOSweb_Sdk.Tests.Mapping.JsonApi;
@@ -14,7 +15,10 @@ public abstract class JsonApiMapperTestBase
 
 	private readonly Dictionary<Type, string> _endpoints = new()
 														  {
-															  {typeof(DiscosObject), "objects" }
+															  {typeof(DiscosObject), "objects" },
+															  {typeof(DiscosObjectClass), "object-classes"},
+															  {typeof(Country), "entities"},
+															  {typeof(Organisation), "entities"}
 														  };
 
 	protected async Task<T> FetchSingle<T>(string id, string queryString = "")
@@ -31,7 +35,8 @@ public abstract class JsonApiMapperTestBase
 	{
 		HttpClient client = new();
 		client.DefaultRequestHeaders.Authorization = new("bearer", Environment.GetEnvironmentVariable("DISCOS_API_KEY"));
-		HttpResponseMessage res = await client.GetAsync($"https://discosweb.esoc.esa.int/api/objects{queryString}");
+		string endpoint = _endpoints[typeof(T)];
+		HttpResponseMessage res = await client.GetAsync($"{ApiBase}{endpoint}{queryString}");
 		res.EnsureSuccessStatusCode();
 		return await res.Content.ReadAsJsonApiManyAsync<T>(DiscosObjectResolver.CreateResolver());
 	}

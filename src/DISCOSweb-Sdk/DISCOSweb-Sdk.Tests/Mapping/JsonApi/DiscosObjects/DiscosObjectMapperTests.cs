@@ -1,18 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using DISCOSweb_Sdk.Enums;
-using DISCOSweb_Sdk.Mapping.JsonApi;
 using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
-using Hypermedia.JsonApi.Client;
 using Shouldly;
 using Xunit;
 
-namespace DISCOSweb_Sdk.Tests.Mapping.JsonApi;
+namespace DISCOSweb_Sdk.Tests.Mapping.JsonApi.DiscosObjects;
 
-public class DiscosObjectMapperTests: JsonApiMapperTestBase
+public class DiscosObjectMapperTests : JsonApiMapperTestBase
 {
 	private readonly DiscosObject _expectedSputnik = new()
 													 {
@@ -47,11 +44,11 @@ public class DiscosObjectMapperTests: JsonApiMapperTestBase
 	public async Task CanFetchSputnikIncludingLinks()
 	{
 		string[] includes = {"states", "destinationOrbits", "initialOrbits", "launch", "operators", "reentry"};
-		string queryString = $"?include={includes.Aggregate((a, e) => $"{a},{e}")}";
+		string queryString = $"?include={string.Join(',', includes)}";
 		DiscosObject discosResult = await FetchSingle<DiscosObject>("1", queryString);
 		discosResult.States.First().Name.ShouldBe("USSR, Union of Soviet Socialist Republics");
 		discosResult.Operators.First().Name.ShouldBe("Strategic Rocket Forces");
-		discosResult.InitialOrbits.First().Epoch.ShouldBe(new DateTime(1957,11,04));
+		discosResult.InitialOrbits.First().Epoch.ShouldBe(new DateTime(1957, 11, 04));
 	}
 
 	[Fact]
