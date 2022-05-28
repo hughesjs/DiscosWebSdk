@@ -4,7 +4,6 @@
         <TargetFramework>net6.0</TargetFramework>
         <RootNamespace>DISCOSweb_Sdk.Tests</RootNamespace>
         <Nullable>enable</Nullable>
-
         <IsPackable>false</IsPackable>
     </PropertyGroup>
 
@@ -26,6 +25,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\..\Hypermedia\Src\Hypermedia.JsonApi.Client\Hypermedia.JsonApi.Client.csproj" />
+      <ProjectReference Include="..\..\..\vendor\Hypermedia\Src\Hypermedia.JsonApi.Client\Hypermedia.JsonApi.Client.csproj" />
+      <ProjectReference Include="..\..\..\vendor\Hypermedia\Src\Hypermedia\Hypermedia.csproj" />
       <ProjectReference Include="..\DISCOSweb-Sdk\DISCOSweb-Sdk.csproj" />
     </ItemGroup>
 
