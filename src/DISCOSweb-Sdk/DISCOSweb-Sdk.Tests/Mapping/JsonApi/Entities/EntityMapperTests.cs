@@ -44,29 +44,48 @@ public class EntityMapperTests: JsonApiMapperTestBase
 		[Fact]
 		public async Task CanFetchMultipleCountries()
 		{
-			IReadOnlyList<Country> countries = await FetchMultiple<Country>();
+			IReadOnlyList<Country> countries = await FetchMultiple<Country>("?filter=contains(name,'Republic')");
+			countries.Count.ShouldBeGreaterThan(1);
 		}
 	}
 
 
 	public class OrganisationMapperTests: EntityMapperTests
 	{
+		private readonly Organisation _spaceX = new()
+												{
+													Id = "738",
+													Name = "SpaceX",
+													HostCountry = null!,
+													Launches = null!,
+													LaunchSites = null!,
+													LaunchSystems = null!,
+													Objects = null!
+												};
 		[Fact]
 		public async Task CanFetchSingleOrganisationWithoutLinks()
 		{
-			
+			Organisation country = await FetchSingle<Organisation>(_spaceX.Id);
+			country = country with {Launches = null!, LaunchSites = null!, LaunchSystems = null!, Objects = null!, HostCountry = null!};
+			country.ShouldBeEquivalentTo(_spaceX);
 		}
 
 		[Fact]
 		public async Task CanFetchSingleOrganisationWithLinks()
 		{
-			
+			string[] includes = {"launches", "launchSites", "launchSystems", "objects", "hostCountry"};
+			string queryString = $"?include={string.Join(',', includes)}";
+			Organisation org = await FetchSingle<Organisation>(_spaceX.Id, queryString);
+			org.LaunchSites.Count.ShouldBe(0);
+			org.Launches.Count.ShouldBeGreaterThan(130); //135 as of 2022-05-28
+			org.Objects.Count.ShouldBeGreaterThan(150); //159 as of 2022-05-28
 		}
 
 		[Fact]
 		public async Task CanFetchMultipleCountries()
 		{
-			
+			IReadOnlyList<Organisation> orgs = await FetchMultiple<Organisation>();
+			orgs.Count.ShouldBeGreaterThan(1);
 		}
 	}
 
