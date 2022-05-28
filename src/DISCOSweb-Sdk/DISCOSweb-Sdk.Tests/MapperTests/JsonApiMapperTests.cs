@@ -11,7 +11,7 @@ using Xunit;
 
 namespace DISCOSweb_Sdk.Tests.Client;
 
-public class ClientTests
+public class JsonApiMapperTests
 {
 	[Fact]
 	public async Task CanFetchSputnikIgnoringLinks()
