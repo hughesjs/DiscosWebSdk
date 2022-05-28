@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -11,11 +10,10 @@ using Hypermedia.JsonApi.Client;
 using Shouldly;
 using Xunit;
 
-namespace DISCOSweb_Sdk.Tests.MapperTests;
+namespace DISCOSweb_Sdk.Tests.Mapping.JsonApi;
 
 public class JsonApiMapperTests
 {
-	
 	private readonly DiscosObject _expectedSputnik = new()
 													 {
 														 Id = "1",
