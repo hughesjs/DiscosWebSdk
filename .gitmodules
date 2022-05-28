@@ -1,3 +1,3 @@
-[submodule "src/System.Text.Json.EnumExtensions"]
-	path = src/System.Text.Json.EnumExtensions
-	url = git@github.com:hughesjs/System.Text.Json.EnumExtensions.git
+[submodule "vendor/Hypermedia"]
+	path = vendor/Hypermedia
+	url = git@github.com:hughesjs/Hypermedia.git

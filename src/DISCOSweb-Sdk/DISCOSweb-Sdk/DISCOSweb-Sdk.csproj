@@ -19,7 +19,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\System.Text.Json.EnumExtensions\src\System.Text.Json.EnumExtensions\System.Text.Json.EnumExtensions.csproj" />
+      <PackageReference Include="EnumExtensions.System.Text.Json" Version="1.1.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\Hypermedia\Src\Hypermedia\Hypermedia.csproj" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>DISCOSweb-Sdk.Tests</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+    
 </Project>

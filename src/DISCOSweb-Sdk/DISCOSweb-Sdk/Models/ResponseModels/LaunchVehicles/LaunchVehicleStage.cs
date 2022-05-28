@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using DISCOSweb_Sdk.Models.ResponseModels.Propellants;
 
 namespace DISCOSweb_Sdk.Models.ResponseModels.LaunchVehicles;
 
@@ -30,4 +31,10 @@ public record LaunchVehicleStage: DiscosModelBase
 	
 	[JsonPropertyName("oxidiserMass")]
 	public float? OxidiserMass { get; init; }
+	
+	[JsonPropertyName("propellant")]
+	public Propellant? Propellant { get; init; }
+	
+	[JsonPropertyName("vehicles")]
+	public IReadOnlyCollection<LaunchVehicle> Vehicles { get; init; } = ArraySegment<LaunchVehicle>.Empty;
 }

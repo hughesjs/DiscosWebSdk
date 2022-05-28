@@ -1,22 +1,27 @@
 using System.Diagnostics;
 using System.Text;
 using System.Text.Json.Serialization;
+using DISCOSweb_Sdk.Models.ResponseModels.LaunchVehicles;
 
 namespace DISCOSweb_Sdk.Models.ResponseModels.Propellants;
 
 [DebuggerDisplay("{Name}")]
-public record Propellant: DiscosModelBase
+public record Propellant : DiscosModelBase
 {
 	[JsonIgnore] // This seems to be pretty much the only return type without a name, delegating to fuel-oxidiser to keep polymorphism
 	public override string Name => GenerateName();
-	
+
 	[JsonPropertyName("fuel")]
 	public string? Fuel { get; init; }
+
 	[JsonPropertyName("oxidiser")]
 	public string? Oxidiser { get; init; }
+
 	[JsonPropertyName("solidPropellant")]
 	public string? SolidPropellant { get; init; }
 
+	[JsonPropertyName("stages")]
+	public IReadOnlyCollection<LaunchVehicleStage> Stages { get; init; } = ArraySegment<LaunchVehicleStage>.Empty;
 
 	private string GenerateName()
 	{

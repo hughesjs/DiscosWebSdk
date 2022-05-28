@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using DISCOSweb_Sdk.Models.ResponseModels.Launches;
 
 namespace DISCOSweb_Sdk.Models.ResponseModels.LaunchVehicles;
 
@@ -30,4 +31,13 @@ public record LaunchVehicle: DiscosModelBase
 	public float? Mass { get; init; }
 	[JsonPropertyName("thrustLevel")]
 	public float? ThrustLevel { get; init; }
+	
+	[JsonPropertyName("stages")]
+	public IReadOnlyCollection<LaunchVehicleStage> Stages { get; init; } = ArraySegment<LaunchVehicleStage>.Empty;
+	[JsonPropertyName("launches")]
+	public IReadOnlyCollection<Launch> Launches { get; init; } = ArraySegment<Launch>.Empty;
+	[JsonPropertyName("engines")]
+	public IReadOnlyCollection<LaunchVehicleEngine> Engines { get; init; } = ArraySegment<LaunchVehicleEngine>.Empty;
+	[JsonPropertyName("family")]
+	public LaunchVehicleFamily? Family { get; init; }
 }
