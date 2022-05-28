@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using DISCOSweb_Sdk.Enums;
 using DISCOSweb_Sdk.Mapping.JsonApi;
@@ -9,18 +8,11 @@ using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
 using Hypermedia.JsonApi.Client;
 using Shouldly;
 using Xunit;
-using Xunit.Abstractions;
 
-namespace DISCOSweb_Sdk.Tests.Client;
+namespace DISCOSweb_Sdk.Tests.MapperTests;
 
 public class JsonApiMapperTests
 {
-	private readonly ITestOutputHelper _testOutputHelper;
-	public JsonApiMapperTests(ITestOutputHelper testOutputHelper)
-	{
-		_testOutputHelper = testOutputHelper;
-	}
-
 	[Fact]
 	public async Task CanFetchSputnikIgnoringLinks()
 	{
