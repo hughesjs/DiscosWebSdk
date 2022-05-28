@@ -36,5 +36,5 @@ public record LaunchVehicleStage: DiscosModelBase
 	public Propellant? Propellant { get; init; }
 	
 	[JsonPropertyName("vehicles")]
-	public IReadOnlyCollection<LaunchVehicle> Vehicles { get; init; } = ArraySegment<LaunchVehicle>.Empty;
+	public IReadOnlyList<LaunchVehicle> Vehicles { get; init; } = ArraySegment<LaunchVehicle>.Empty;
 }

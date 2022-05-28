@@ -21,7 +21,7 @@ public record Propellant : DiscosModelBase
 	public string? SolidPropellant { get; init; }
 
 	[JsonPropertyName("stages")]
-	public IReadOnlyCollection<LaunchVehicleStage> Stages { get; init; } = ArraySegment<LaunchVehicleStage>.Empty;
+	public IReadOnlyList<LaunchVehicleStage> Stages { get; init; } = ArraySegment<LaunchVehicleStage>.Empty;
 
 	private string GenerateName()
 	{

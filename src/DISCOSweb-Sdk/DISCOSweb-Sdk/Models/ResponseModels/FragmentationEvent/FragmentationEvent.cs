@@ -21,6 +21,6 @@ public record FragmentationEvent: DiscosModelBase
 	public string? EventType { get; init; }
 	
 	[JsonPropertyName("objects")]
-	public IReadOnlyCollection<DiscosObject> Objects { get; init; } = ArraySegment<DiscosObject>.Empty;
+	public IReadOnlyList<DiscosObject> Objects { get; init; } = ArraySegment<DiscosObject>.Empty;
 
 }

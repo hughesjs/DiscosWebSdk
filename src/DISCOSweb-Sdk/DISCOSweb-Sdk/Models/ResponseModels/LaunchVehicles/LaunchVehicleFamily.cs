@@ -6,7 +6,7 @@ namespace DISCOSweb_Sdk.Models.ResponseModels.LaunchVehicles;
 public record LaunchVehicleFamily: DiscosModelBase
 {
 	[JsonPropertyName("vehicles")]
-	public IReadOnlyCollection<LaunchVehicle> Vehicles { get; init; } = ArraySegment<LaunchVehicle>.Empty;
+	public IReadOnlyList<LaunchVehicle> Vehicles { get; init; } = ArraySegment<LaunchVehicle>.Empty;
 	
 	[JsonPropertyName("system")]
 	public LaunchSystem? System { get; init; }

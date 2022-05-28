@@ -12,5 +12,5 @@ public record Reentry: DiscosModelBase
 	public DateTime Epoch { get; init; }
 	
 	[JsonPropertyName("objects")]
-	public IReadOnlyCollection<DiscosObject> Objects { get; init; } = ArraySegment<DiscosObject>.Empty;
+	public IReadOnlyList<DiscosObject> Objects { get; init; } = ArraySegment<DiscosObject>.Empty;
 }

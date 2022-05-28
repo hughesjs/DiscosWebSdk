@@ -7,8 +7,8 @@ namespace DISCOSweb_Sdk.Models.ResponseModels.Launches;
 public record LaunchSystem: DiscosModelBase
 {
 	[JsonPropertyName("families")]
-	public IReadOnlyCollection<LaunchVehicleFamily> Families { get; init; } = ArraySegment<LaunchVehicleFamily>.Empty;
+	public IReadOnlyList<LaunchVehicleFamily> Families { get; init; } = ArraySegment<LaunchVehicleFamily>.Empty;
 	
 	[JsonPropertyName("entities")]
-	public IReadOnlyCollection<Entity> Entities { get; init; } = ArraySegment<Entity>.Empty;
+	public IReadOnlyList<Entity> Entities { get; init; } = ArraySegment<Entity>.Empty;
 }

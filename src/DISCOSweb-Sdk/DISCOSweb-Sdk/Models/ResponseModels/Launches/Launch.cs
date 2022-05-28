@@ -21,10 +21,10 @@ public record Launch: DiscosModelBase
 	public bool Failure { get; init; }
 	
 	[JsonPropertyName("objects")]
-	public IReadOnlyCollection<DiscosObject> Objects { get; init; } = ArraySegment<DiscosObject>.Empty;
+	public IReadOnlyList<DiscosObject> Objects { get; init; } = ArraySegment<DiscosObject>.Empty;
 
 	[JsonPropertyName("entities")]
-	public IReadOnlyCollection<Entity> Entities { get; init; } = ArraySegment<Entity>.Empty;
+	public IReadOnlyList<Entity> Entities { get; init; } = ArraySegment<Entity>.Empty;
 
 	[JsonPropertyName("vehicle")]
 	public LaunchVehicle Vehicle { get; init; } = null!;

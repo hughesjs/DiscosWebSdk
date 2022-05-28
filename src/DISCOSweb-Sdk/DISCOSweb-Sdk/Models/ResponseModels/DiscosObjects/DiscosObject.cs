@@ -49,15 +49,15 @@ public record DiscosObject : DiscosModelBase
 	public Reentry Reentry { get; init; }
 
 	[JsonPropertyName("states")]
-	public IReadOnlyCollection<Country> States { get; init; }
+	public IReadOnlyList<Country> States { get; init; }
 	
 	[JsonPropertyName("destinationOrbits")]
-	public IReadOnlyCollection<OrbitDetails> DestinationOrbits { get; init; }
+	public IReadOnlyList<OrbitDetails> DestinationOrbits { get; init; }
 	
 	[JsonPropertyName("initalOrbits")]
-	public IReadOnlyCollection<OrbitDetails> InitialOrbits { get; init; }
+	public IReadOnlyList<OrbitDetails> InitialOrbits { get; init; }
 	
 	[JsonPropertyName("operators")]
-	public IReadOnlyCollection<Organisation> Operators { get; init; }
+	public IReadOnlyList<Organisation> Operators { get; init; }
 	
 }

@@ -25,9 +25,9 @@ public record LaunchSite: DiscosModelBase
 	public List<string>? Constraints { get; init; }
 	
 	[JsonPropertyName("launches")]
-	public IReadOnlyCollection<Launch> Launches { get; init; } = ArraySegment<Launch>.Empty;
+	public IReadOnlyList<Launch> Launches { get; init; } = ArraySegment<Launch>.Empty;
 	
 	[JsonPropertyName("operators")]
-	public IReadOnlyCollection<Entity> Operators { get; init; } = ArraySegment<Entity>.Empty;
+	public IReadOnlyList<Entity> Operators { get; init; } = ArraySegment<Entity>.Empty;
 
 }
