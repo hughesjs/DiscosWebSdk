@@ -34,14 +34,14 @@ public class DiscosObjectMapperTests : JsonApiMapperTestBase
 													 };
 
 	[Fact]
-	public async Task CanFetchSputnikIgnoringLinks()
+	public override async Task CanGetSingleWithoutLinks()
 	{
 		DiscosObject discosResult = await FetchSingle<DiscosObject>("1");
 		discosResult.ShouldBeEquivalentTo(_expectedSputnik);
 	}
 
 	[Fact]
-	public async Task CanFetchSputnikIncludingLinks()
+	public override async Task CanGetSingleWithLinks()
 	{
 		string[] includes = {"states", "destinationOrbits", "initialOrbits", "launch", "operators", "reentry"};
 		string queryString = $"?include={string.Join(',', includes)}";
@@ -52,7 +52,7 @@ public class DiscosObjectMapperTests : JsonApiMapperTestBase
 	}
 
 	[Fact]
-	public async Task CanFetchManyObjects()
+	public override async Task CanGetMultiple()
 	{
 		IReadOnlyList<DiscosObject> discosResult = await FetchMultiple<DiscosObject>();
 		discosResult.Count.ShouldBeGreaterThan(1);

@@ -22,7 +22,7 @@ public class EntityMapperTests: JsonApiMapperTestBase
 									  };
 		
 		[Fact]
-		public async Task CanFetchSingleCountryWithoutLinks()
+		public override async Task CanGetSingleWithoutLinks()
 		{
 			Country country = await FetchSingle<Country>(_uk.Id);
 			country = country with {Launches = null!, LaunchSites = null!, LaunchSystems = null!, Objects = null!};
@@ -30,7 +30,7 @@ public class EntityMapperTests: JsonApiMapperTestBase
 		}
 
 		[Fact]
-		public async Task CanFetchSingleCountryWithLinks()
+		public override async Task CanGetSingleWithLinks()
 		{
 			string[] includes = {"launches", "launchSites", "launchSystems", "objects"};
 			string queryString = $"?include={string.Join(',', includes)}";
@@ -42,7 +42,7 @@ public class EntityMapperTests: JsonApiMapperTestBase
 		}
 		
 		[Fact]
-		public async Task CanFetchMultipleCountries()
+		public override async Task CanGetMultiple()
 		{
 			IReadOnlyList<Country> countries = await FetchMultiple<Country>("?filter=contains(name,'Republic')");
 			countries.Count.ShouldBeGreaterThan(1);
@@ -63,7 +63,7 @@ public class EntityMapperTests: JsonApiMapperTestBase
 													Objects = null!
 												};
 		[Fact]
-		public async Task CanFetchSingleOrganisationWithoutLinks()
+		public override async Task CanGetSingleWithoutLinks()
 		{
 			Organisation country = await FetchSingle<Organisation>(_spaceX.Id);
 			country = country with {Launches = null!, LaunchSites = null!, LaunchSystems = null!, Objects = null!, HostCountry = null!};
@@ -71,7 +71,7 @@ public class EntityMapperTests: JsonApiMapperTestBase
 		}
 
 		[Fact]
-		public async Task CanFetchSingleOrganisationWithLinks()
+		public override async Task CanGetSingleWithLinks()
 		{
 			string[] includes = {"launches", "launchSites", "launchSystems", "objects", "hostCountry"};
 			string queryString = $"?include={string.Join(',', includes)}";
@@ -82,7 +82,7 @@ public class EntityMapperTests: JsonApiMapperTestBase
 		}
 
 		[Fact]
-		public async Task CanFetchMultipleCountries()
+		public override async Task CanGetMultiple()
 		{
 			IReadOnlyList<Organisation> orgs = await FetchMultiple<Organisation>();
 			orgs.Count.ShouldBeGreaterThan(1);
@@ -97,4 +97,10 @@ public class EntityMapperTests: JsonApiMapperTestBase
 		entities.Select(e => e.Name).ShouldContain("United Kingdom");
 		entities.Select(e => e.Name).ShouldContain("United States");
 	}
+
+	public override async Task CanGetSingleWithoutLinks() => await new CountryMapperTests().CanGetSingleWithoutLinks();
+
+	public override async Task CanGetSingleWithLinks() => await new OrganisationMapperTests().CanGetSingleWithLinks();
+
+	public override async Task CanGetMultiple() => await CanFetchMixtureOfCountriesAndOrganisations();
 }

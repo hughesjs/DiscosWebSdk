@@ -1,5 +1,4 @@
 using DISCOSweb_Sdk.Models.ResponseModels;
-using DISCOSweb_Sdk.Models.ResponseModels.Entities;
 using Hypermedia.Configuration;
 
 namespace DISCOSweb_Sdk.Mapping.JsonApi.Generic;

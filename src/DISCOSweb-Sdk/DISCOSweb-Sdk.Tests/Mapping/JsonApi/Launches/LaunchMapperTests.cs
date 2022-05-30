@@ -24,7 +24,7 @@ public class LaunchMapperTests: JsonApiMapperTestBase
 									  };
 	
 	[Fact]
-	public async Task CanFetchSingleLaunchWithoutLinks()
+	public override async Task CanGetSingleWithoutLinks()
 	{
 		Launch launch = await FetchSingle<Launch>(_launch.Id);
 		launch = launch with {Objects = null!, Vehicle = null!, Entities = null!};
@@ -32,7 +32,7 @@ public class LaunchMapperTests: JsonApiMapperTestBase
 	}
 	
 	[Fact]
-	public async Task CanFetchSingleLaunchWithLinks()
+	public override async Task CanGetSingleWithLinks()
 	{
 		string[] includes = {"objects", "vehicle", "entities", "site"};
 		string queryString = $"?include={string.Join(',', includes)}";
@@ -47,7 +47,7 @@ public class LaunchMapperTests: JsonApiMapperTestBase
 	}
 
 	[Fact]
-	public async Task CanFetchMultipleLaunches()
+	public override async Task CanGetMultiple()
 	{
 		IReadOnlyList<Launch> launches = await FetchMultiple<Launch>();
 		launches.Count.ShouldBeGreaterThan(1);

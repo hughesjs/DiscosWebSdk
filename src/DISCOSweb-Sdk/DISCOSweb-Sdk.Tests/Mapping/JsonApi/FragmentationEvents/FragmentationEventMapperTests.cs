@@ -24,7 +24,7 @@ public class FragmentationEventMapperTests: JsonApiMapperTestBase
 															  };
 	
 	[Fact]
-	public async Task CanFetchIndividualFragmentationEventWithoutLinks()
+	public override async Task CanGetSingleWithoutLinks()
 	{
 		FragmentationEvent frag = await FetchSingle<FragmentationEvent>(_fragmentationEvent.Id);
 		frag = frag with {Objects = null!};
@@ -32,7 +32,7 @@ public class FragmentationEventMapperTests: JsonApiMapperTestBase
 	}
 
 	[Fact]
-	public async Task CanFetchIndividualFragmentationEventWithLinks()
+	public override async Task CanGetSingleWithLinks()
 	{
 		const string query = "?include=objects";
 		FragmentationEvent frag = await FetchSingle<FragmentationEvent>(_fragmentationEvent.Id, query);
@@ -41,7 +41,7 @@ public class FragmentationEventMapperTests: JsonApiMapperTestBase
 	}
 	
 	[Fact]
-	public async Task CanFetchMultipleFragmentationEvents()
+	public override async Task CanGetMultiple()
 	{
 		IReadOnlyList<FragmentationEvent> fragEvents = await FetchMultiple<FragmentationEvent>();
 		fragEvents.Count.ShouldBeGreaterThan(1);

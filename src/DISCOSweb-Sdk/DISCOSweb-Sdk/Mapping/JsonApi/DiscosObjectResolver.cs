@@ -8,8 +8,6 @@ using DISCOSweb_Sdk.Mapping.JsonApi.Orbits;
 using DISCOSweb_Sdk.Mapping.JsonApi.Propellants;
 using DISCOSweb_Sdk.Mapping.JsonApi.Reentries;
 using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
-using DISCOSweb_Sdk.Models.ResponseModels.Entities;
-using DISCOSweb_Sdk.Models.ResponseModels.Orbits;
 using Hypermedia.Configuration;
 using Hypermedia.Metadata;
 
