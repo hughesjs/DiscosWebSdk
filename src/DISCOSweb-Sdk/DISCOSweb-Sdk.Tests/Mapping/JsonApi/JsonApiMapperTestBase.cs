@@ -18,7 +18,8 @@ public abstract class JsonApiMapperTestBase
 															  {typeof(DiscosObject), "objects" },
 															  {typeof(DiscosObjectClass), "object-classes"},
 															  {typeof(Country), "entities"},
-															  {typeof(Organisation), "entities"}
+															  {typeof(Organisation), "entities"},
+															  {typeof(Entity), "entities"}
 														  };
 
 	protected async Task<T> FetchSingle<T>(string id, string queryString = "")

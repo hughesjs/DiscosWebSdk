@@ -92,6 +92,9 @@ public class EntityMapperTests: JsonApiMapperTestBase
 	[Fact]
 	public async Task CanFetchMixtureOfCountriesAndOrganisations()
 	{
-		
+		IReadOnlyList<Entity> entities = await FetchMultiple<Entity>("?filter=contains(name,'United')");
+		entities.Select(e => e.Name).ShouldContain("United Launch Alliance/Decatur");
+		entities.Select(e => e.Name).ShouldContain("United Kingdom");
+		entities.Select(e => e.Name).ShouldContain("United States");
 	}
 }

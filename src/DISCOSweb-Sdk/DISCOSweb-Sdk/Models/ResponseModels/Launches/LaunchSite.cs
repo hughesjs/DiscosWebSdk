@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using DISCOSweb_Sdk.Models.ResponseModels.Entities;
 using DISCOSweb_Sdk.Models.SubObjects;
+using JetBrains.Annotations;
 
 namespace DISCOSweb_Sdk.Models.ResponseModels.Launches;
 
@@ -33,7 +34,7 @@ public record LaunchSite: DiscosModelBase
 	
 	// These are needed because the API returns these as strings and I can't see a 
 	// Way to recast as part of the Hypermedia pipeline
-	internal string Longitude { get; init; }
-	
-	internal string Latitude { get; init; }
+	private string Longitude { get; [UsedImplicitly] init; } = "0";
+
+	private string Latitude { get; [UsedImplicitly] init; } = "0";
 }
