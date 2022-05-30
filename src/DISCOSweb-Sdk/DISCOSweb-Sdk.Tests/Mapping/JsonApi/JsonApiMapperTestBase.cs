@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DISCOSweb_Sdk.Mapping.JsonApi;
 using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
 using DISCOSweb_Sdk.Models.ResponseModels.Entities;
+using DISCOSweb_Sdk.Models.ResponseModels.FragmentationEvent;
 using Hypermedia.JsonApi.Client;
 
 namespace DISCOSweb_Sdk.Tests.Mapping.JsonApi;
@@ -19,7 +20,8 @@ public abstract class JsonApiMapperTestBase
 															  {typeof(DiscosObjectClass), "object-classes"},
 															  {typeof(Country), "entities"},
 															  {typeof(Organisation), "entities"},
-															  {typeof(Entity), "entities"}
+															  {typeof(Entity), "entities"},
+															  {typeof(FragmentationEvent), "fragmentations"}
 														  };
 
 	protected async Task<T> FetchSingle<T>(string id, string queryString = "")
