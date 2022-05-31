@@ -27,11 +27,11 @@ internal static class OrbitDetailsContractBuilder
 					  .Id(nameof(OrbitDetails.Id))
 					  .BelongsTo<DiscosObject>(AttributeUtilities.GetJsonPropertyName<OrbitDetails>(nameof(OrbitDetails.Object)))
 					  .Template(objectLinkTemplate, orbitIdFieldName, IdSelector)
-					  .Field(nameof(OrbitDetails.Eccentricity)).Deserialization().Rename(AttributeUtilities.GetJsonPropertyName<OrbitDetails>(nameof(OrbitDetails.Eccentricity)))
-					  .Field(nameof(OrbitDetails.ArgumentOfPeriapsis)).Deserialization().Rename(AttributeUtilities.GetJsonPropertyName<OrbitDetails>(nameof(OrbitDetails.ArgumentOfPeriapsis)))
-					  .Field(nameof(OrbitDetails.Inclination)).Deserialization().Rename(AttributeUtilities.GetJsonPropertyName<OrbitDetails>(nameof(OrbitDetails.Inclination)))
-					  .Field(nameof(OrbitDetails.MeanAnomaly)).Deserialization().Rename(AttributeUtilities.GetJsonPropertyName<OrbitDetails>(nameof(OrbitDetails.MeanAnomaly)))
-					  .Field(nameof(OrbitDetails.RightAscensionAscendingNode)).Deserialization().Rename(AttributeUtilities.GetJsonPropertyName<OrbitDetails>(nameof(OrbitDetails.RightAscensionAscendingNode)))
-					  .Field(nameof(OrbitDetails.SemiMajorAxis)).Deserialization().Rename(AttributeUtilities.GetJsonPropertyName<OrbitDetails>(nameof(OrbitDetails.SemiMajorAxis)));
+					  .RenameFieldUsingJsonPropertyName(nameof(OrbitDetails.Eccentricity))
+					  .RenameFieldUsingJsonPropertyName(nameof(OrbitDetails.ArgumentOfPeriapsis))
+					  .RenameFieldUsingJsonPropertyName(nameof(OrbitDetails.Inclination))
+					  .RenameFieldUsingJsonPropertyName(nameof(OrbitDetails.MeanAnomaly))
+					  .RenameFieldUsingJsonPropertyName(nameof(OrbitDetails.RightAscensionAscendingNode))
+					  .RenameFieldUsingJsonPropertyName(nameof(OrbitDetails.SemiMajorAxis));
 	}
 }
