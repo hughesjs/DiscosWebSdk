@@ -22,7 +22,7 @@ namespace DISCOSweb_Sdk.Tests.Mapping.JsonApi;
 
 public abstract class JsonApiMapperTestBase
 {
-	private const string ApiBase = "https://discosweb.esoc.esa.int/api/";
+	private readonly string _apiBase = Environment.GetEnvironmentVariable("DISCOS_URL") ?? "http://localhost:3000/api/";
 
 	private readonly Dictionary<Type, string> _endpoints = new()
 														   {
@@ -48,14 +48,14 @@ public abstract class JsonApiMapperTestBase
 	protected async Task<T> FetchSingle<T>(string id, string queryString = "")
 	{
 		string endpoint = _endpoints[typeof(T)];
-		HttpResponseMessage res = await GetWithRateLimitRetry($"{ApiBase}{endpoint}/{id}{queryString}");
+		HttpResponseMessage res = await GetWithRateLimitRetry($"{_apiBase}{endpoint}/{id}{queryString}");
 		return await res.Content.ReadAsJsonApiAsync<T>(DiscosObjectResolver.CreateResolver());
 	}
 
 	protected async Task<IReadOnlyList<T>> FetchMultiple<T>(string queryString = "")
 	{
 		string endpoint = _endpoints[typeof(T)];
-		HttpResponseMessage res = await GetWithRateLimitRetry($"{ApiBase}{endpoint}{queryString}");
+		HttpResponseMessage res = await GetWithRateLimitRetry($"{_apiBase}{endpoint}{queryString}");
 		return await res.Content.ReadAsJsonApiManyAsync<T>(DiscosObjectResolver.CreateResolver());
 	}
 

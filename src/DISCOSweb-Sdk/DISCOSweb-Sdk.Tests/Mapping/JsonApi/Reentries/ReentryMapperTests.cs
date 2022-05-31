@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DISCOSweb_Sdk.Models.ResponseModels.Reentries;
 using Shouldly;
+using Xunit;
 
 namespace DISCOSweb_Sdk.Tests.Mapping.JsonApi.Reentries;
 
@@ -16,6 +17,7 @@ public class ReentryMapperTests: JsonApiMapperTestBase
 											Objects = null!
 										};
 	
+	[Fact]
 	public override async Task CanGetSingleWithoutLinks()
 	{
 		Reentry reentry = await FetchSingle<Reentry>(_reentry.Id);
@@ -23,6 +25,7 @@ public class ReentryMapperTests: JsonApiMapperTestBase
 		reentry.ShouldBeEquivalentTo(_reentry);
 	}
 
+	[Fact]
 	public override async Task CanGetSingleWithLinks()
 	{
 		const string queryString = "?include=objects";
@@ -32,6 +35,7 @@ public class ReentryMapperTests: JsonApiMapperTestBase
 
 	}
 
+	[Fact]
 	public override async Task CanGetMultiple()
 	{
 		IReadOnlyList<Reentry> reentries = await FetchMultiple<Reentry>();
