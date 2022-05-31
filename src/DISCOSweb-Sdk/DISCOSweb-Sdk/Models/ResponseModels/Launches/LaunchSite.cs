@@ -34,7 +34,7 @@ public record LaunchSite: DiscosModelBase
 	
 	// These are needed because the API returns these as strings and I can't see a 
 	// Way to recast as part of the Hypermedia pipeline
-	private string Longitude { get; [UsedImplicitly] init; } = "0";
+	internal string Longitude { get; [UsedImplicitly] init; } = "0";
 
-	private string Latitude { get; [UsedImplicitly] init; } = "0";
+	internal string Latitude { get; [UsedImplicitly] init; } = "0";
 }

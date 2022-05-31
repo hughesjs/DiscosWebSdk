@@ -15,6 +15,7 @@ internal static class LaunchSiteContractBuilder
 		object IdSelector(LaunchSite ls) => ls.Id;
 
 		return builder.With<LaunchSite>("launchSite")
+					  .Id(nameof(LaunchSite.Id))
 					  .HasMany<Entity>(AttributeUtilities.GetJsonPropertyName<LaunchSite>(nameof(LaunchSite.Operators)))
 					  .Template(launchSiteOperatorsLinkTemplate, launchSiteIdFieldName, IdSelector)
 					  .HasMany<Launch>(AttributeUtilities.GetJsonPropertyName<LaunchSite>(nameof(LaunchSite.Launches)))
