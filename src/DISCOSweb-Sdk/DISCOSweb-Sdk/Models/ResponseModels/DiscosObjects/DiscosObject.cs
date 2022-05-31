@@ -53,10 +53,10 @@ public record DiscosObject : DiscosModelBase
 	public IReadOnlyList<Country> States { get; init; }
 	
 	[JsonPropertyName("destinationOrbits")]
-	public IReadOnlyList<OrbitDetails> DestinationOrbits { get; init; }
+	public IReadOnlyList<DestinationOrbitDetails> DestinationOrbits { get; init; }
 	
-	[JsonPropertyName("initalOrbits")]
-	public IReadOnlyList<OrbitDetails> InitialOrbits { get; init; }
+	[JsonPropertyName("initialOrbits")]
+	public IReadOnlyList<InitialOrbitDetails> InitialOrbits { get; init; }
 	
 	[JsonPropertyName("operators")]
 	public IReadOnlyList<Organisation> Operators { get; init; }
