@@ -14,7 +14,8 @@ internal static class PropellantContractBuilder
 		object IdSelector(Propellant propellant) => propellant.Id;
 		
 		return builder.With<Propellant>("propellant")
-					  .HasMany<LaunchVehicleStage>(AttributeUtilities.GetJsonPropertyName<Propellant>(nameof(Propellant.Id)))
+					  .Id(nameof(Propellant.Id))
+					  .HasMany<LaunchVehicleStage>(AttributeUtilities.GetJsonPropertyName<Propellant>(nameof(Propellant.Stages)))
 					  .Template(stageLinkTemplate, propellantIdFieldName, IdSelector);
 	}
 }

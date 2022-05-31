@@ -6,7 +6,7 @@ namespace DISCOSweb_Sdk.Models.ResponseModels.Orbits;
 
 public record OrbitDetails: DiscosModelBase
 {
-	[JsonPropertyName("RightAscensionAscendingNode")]
+	[JsonPropertyName("raan")]
 	public float? RightAscensionAscendingNode { get; init; }
 	[JsonPropertyName("inc")]
 	public float? Inclination { get; init; }

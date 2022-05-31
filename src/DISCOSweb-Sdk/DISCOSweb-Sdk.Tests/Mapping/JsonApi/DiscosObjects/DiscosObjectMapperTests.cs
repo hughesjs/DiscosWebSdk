@@ -11,33 +11,36 @@ namespace DISCOSweb_Sdk.Tests.Mapping.JsonApi.DiscosObjects;
 
 public class DiscosObjectMapperTests : JsonApiMapperTestBase
 {
-	private readonly DiscosObject _expectedSputnik = new()
+	private readonly DiscosObject _object = new()
 													 {
-														 Id = "1",
-														 SatNo = 1,
-														 Name = "Sputnik (8K71PS) Blok-A",
-														 CosparId = "1957-001A",
-														 Shape = "Cyl",
-														 CrossSectionAverage = 59.8316320876176,
-														 CrossSectionMaximum = 72.9933461154505,
-														 CrossSectionMinimum = 5.30929158456675,
-														 Mass = 3964.32f,
-														 Depth = 28.0f,
-														 Length = 2.6f,
-														 Height = 28.0f,
-														 ObjectClass = ObjectClass.RocketBody,
+														 Id = "67013",
+														 Name = "Starlink 2534",
+														 CosparId = "2021-036AM",
+														 Shape = "Box + 1 Pan",
+														 CrossSectionAverage = 13.5615,
+														 CrossSectionMaximum = 23.657,
+														 CrossSectionMinimum = 0.2311,
+														 Mass = 260f,
+														 Length = 3.7f,
+														 Depth = 8.86f,
+														 Height = 0.1f,
+														 SatNo = 48311,
+														 ObjectClass = ObjectClass.Payload,
 														 VimpelId = null,
 														 States = null!,
-														 InitialOrbits = null!,
 														 DestinationOrbits = null!,
-														 Operators = null!
+														 InitialOrbits = null!,
+														 Launch = null!,
+														 Operators = null!,
+														 Reentry = null!
 													 };
 
 	[Fact]
 	public override async Task CanGetSingleWithoutLinks()
 	{
-		DiscosObject discosResult = await FetchSingle<DiscosObject>("1");
-		discosResult.ShouldBeEquivalentTo(_expectedSputnik);
+		DiscosObject discosResult = await FetchSingle<DiscosObject>(_object.Id);
+		discosResult = discosResult with {States = null!, DestinationOrbits = null!, InitialOrbits = null!, Launch = null!, Operators = null!, Reentry = null!};
+		discosResult.ShouldBeEquivalentTo(_object);
 	}
 
 	[Fact]
@@ -45,10 +48,12 @@ public class DiscosObjectMapperTests : JsonApiMapperTestBase
 	{
 		string[] includes = {"states", "destinationOrbits", "initialOrbits", "launch", "operators", "reentry"};
 		string queryString = $"?include={string.Join(',', includes)}";
-		DiscosObject discosResult = await FetchSingle<DiscosObject>("1", queryString);
-		discosResult.States.First().Name.ShouldBe("USSR, Union of Soviet Socialist Republics");
-		discosResult.Operators.First().Name.ShouldBe("Strategic Rocket Forces");
-		discosResult.InitialOrbits.First().Epoch.ShouldBe(new DateTime(1957, 11, 04));
+		DiscosObject discosResult = await FetchSingle<DiscosObject>(_object.Id, queryString);
+		discosResult.States.First().Name.ShouldBe("United States");
+		discosResult.Operators.First().Name.ShouldBe("SpaceX Seattle");
+		discosResult.InitialOrbits.First().Epoch.ShouldBe(new DateTime(2021, 04, 29));
+		discosResult.DestinationOrbits.First().Epoch.ShouldBe(new DateTime(2021, 05, 09));
+		discosResult.Launch.CosparLaunchNo.ShouldBe("2021-036"); 
 	}
 
 	[Fact]

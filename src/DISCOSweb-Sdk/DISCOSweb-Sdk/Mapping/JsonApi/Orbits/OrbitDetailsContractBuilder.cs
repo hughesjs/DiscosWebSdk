@@ -7,21 +7,31 @@ namespace DISCOSweb_Sdk.Mapping.JsonApi.Orbits;
 
 internal static class OrbitDetailsContractBuilder
 {
-	internal static DelegatingContractBuilder<OrbitDetails> WithOrbitDetails(this IBuilder builder)
+	internal static DelegatingContractBuilder<DestinationOrbitDetails> WithDestinationOrbits(this IBuilder builder)
 	{
-		return builder.WithOrbitDetails("initialOrbit")
-					  .WithOrbitDetails("destinationOrbit");
+		return builder.WithOrbitDetails<DestinationOrbitDetails>("destinationOrbit", "destination-orbits");
 	}
 
-	private static DelegatingContractBuilder<OrbitDetails> WithOrbitDetails(this IBuilder builder, string name)
+	internal static DelegatingContractBuilder<InitialOrbitDetails> WithInitialOrbits(this IBuilder builder)
+	{
+		return builder.WithOrbitDetails<InitialOrbitDetails>("initialOrbit", "initial-orbits");
+	}
+
+	private static DelegatingContractBuilder<T> WithOrbitDetails<T>(this IBuilder builder, string name, string endpoint) where T: OrbitDetails
 	{
 		const string orbitIdFieldName = nameof(OrbitDetails.Id);
-		const string objectLinkTemplate = $"/api/initial-orbits/{orbitIdFieldName}/object";
+		string objectLinkTemplate = $"/api/{endpoint}/{orbitIdFieldName}/object";
 		object IdSelector(OrbitDetails orbit) => orbit.Id;
 
-		return builder.With<OrbitDetails>(name)
+		return builder.With<T>(name)
 					  .Id(nameof(OrbitDetails.Id))
 					  .BelongsTo<DiscosObject>(AttributeUtilities.GetJsonPropertyName<OrbitDetails>(nameof(OrbitDetails.Object)))
-					  .Template(objectLinkTemplate, orbitIdFieldName, IdSelector);
+					  .Template(objectLinkTemplate, orbitIdFieldName, IdSelector)
+					  .Field(nameof(OrbitDetails.Eccentricity)).Deserialization().Rename(AttributeUtilities.GetJsonPropertyName<OrbitDetails>(nameof(OrbitDetails.Eccentricity)))
+					  .Field(nameof(OrbitDetails.ArgumentOfPeriapsis)).Deserialization().Rename(AttributeUtilities.GetJsonPropertyName<OrbitDetails>(nameof(OrbitDetails.ArgumentOfPeriapsis)))
+					  .Field(nameof(OrbitDetails.Inclination)).Deserialization().Rename(AttributeUtilities.GetJsonPropertyName<OrbitDetails>(nameof(OrbitDetails.Inclination)))
+					  .Field(nameof(OrbitDetails.MeanAnomaly)).Deserialization().Rename(AttributeUtilities.GetJsonPropertyName<OrbitDetails>(nameof(OrbitDetails.MeanAnomaly)))
+					  .Field(nameof(OrbitDetails.RightAscensionAscendingNode)).Deserialization().Rename(AttributeUtilities.GetJsonPropertyName<OrbitDetails>(nameof(OrbitDetails.RightAscensionAscendingNode)))
+					  .Field(nameof(OrbitDetails.SemiMajorAxis)).Deserialization().Rename(AttributeUtilities.GetJsonPropertyName<OrbitDetails>(nameof(OrbitDetails.SemiMajorAxis)));
 	}
 }

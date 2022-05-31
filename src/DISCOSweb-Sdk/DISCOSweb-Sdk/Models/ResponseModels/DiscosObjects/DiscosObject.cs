@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Text.Json.Serialization;
 using DISCOSweb_Sdk.Enums;
 using DISCOSweb_Sdk.Models.ResponseModels.Entities;
+using DISCOSweb_Sdk.Models.ResponseModels.Launches;
 using DISCOSweb_Sdk.Models.ResponseModels.Orbits;
 using DISCOSweb_Sdk.Models.ResponseModels.Reentries;
 
@@ -59,5 +60,7 @@ public record DiscosObject : DiscosModelBase
 	
 	[JsonPropertyName("operators")]
 	public IReadOnlyList<Organisation> Operators { get; init; }
-	
+
+	[JsonPropertyName("launch")]
+	public Launch Launch { get; init; }
 }

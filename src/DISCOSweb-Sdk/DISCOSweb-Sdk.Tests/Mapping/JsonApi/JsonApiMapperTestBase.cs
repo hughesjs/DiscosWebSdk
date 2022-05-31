@@ -10,9 +10,13 @@ using DISCOSweb_Sdk.Models.ResponseModels.Entities;
 using DISCOSweb_Sdk.Models.ResponseModels.FragmentationEvent;
 using DISCOSweb_Sdk.Models.ResponseModels.Launches;
 using DISCOSweb_Sdk.Models.ResponseModels.LaunchVehicles;
+using DISCOSweb_Sdk.Models.ResponseModels.Orbits;
+using DISCOSweb_Sdk.Models.ResponseModels.Propellants;
+using DISCOSweb_Sdk.Models.ResponseModels.Reentries;
 using Hypermedia.JsonApi.Client;
 using JetBrains.Annotations;
 using Shouldly;
+using Xunit;
 
 namespace DISCOSweb_Sdk.Tests.Mapping.JsonApi;
 
@@ -34,7 +38,11 @@ public abstract class JsonApiMapperTestBase
 															   {typeof(LaunchVehicle), "launch-vehicles"},
 															   {typeof(LaunchVehicleFamily), "launch-vehicles/families"},
 															   {typeof(LaunchVehicleEngine), "launch-vehicles/engines"},
-															   {typeof(LaunchVehicleStage), "launch-vehicles/stages"}
+															   {typeof(LaunchVehicleStage), "launch-vehicles/stages"},
+															   {typeof(InitialOrbitDetails), "initial-orbits"},
+															   {typeof(DestinationOrbitDetails), "destination-orbits"},
+															   {typeof(Propellant), "propellants"},
+															   {typeof(Reentry), "reentries"}
 														   };
 
 	protected async Task<T> FetchSingle<T>(string id, string queryString = "")
@@ -69,7 +77,7 @@ public abstract class JsonApiMapperTestBase
 		return res;
 	}
 
-	[UsedImplicitly] public abstract Task CanGetSingleWithoutLinks();
-	[UsedImplicitly] public abstract Task CanGetSingleWithLinks();
-	[UsedImplicitly] public abstract Task CanGetMultiple();
+	[UsedImplicitly] [Fact] public abstract Task CanGetSingleWithoutLinks();
+	[UsedImplicitly] [Fact] public abstract Task CanGetSingleWithLinks();
+	[UsedImplicitly] [Fact] public abstract Task CanGetMultiple();
 }

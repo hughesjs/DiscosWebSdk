@@ -13,7 +13,7 @@ internal static class AttributeUtilities
 
 	public static string GetJsonPropertyName<T>(string fieldName)
 	{
-		FieldInfo? field = typeof(T).GetField(fieldName);
+		PropertyInfo? field = typeof(T).GetProperty(fieldName);
 		return field is null ? fieldName : GetJsonPropertyName(field);
 	}
 }
