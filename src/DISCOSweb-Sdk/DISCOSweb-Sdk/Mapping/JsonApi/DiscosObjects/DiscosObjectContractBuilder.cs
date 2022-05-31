@@ -1,6 +1,7 @@
 using DISCOSweb_Sdk.Misc;
 using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
 using DISCOSweb_Sdk.Models.ResponseModels.Entities;
+using DISCOSweb_Sdk.Models.ResponseModels.Launches;
 using DISCOSweb_Sdk.Models.ResponseModels.Orbits;
 using Hypermedia.Configuration;
 
@@ -15,6 +16,7 @@ internal static class DiscosObjectContractBuilder
 		const string destinationOrbitsLinkTemplate = $"/api/objects/{objectIdFieldName}/relationships/destination-orbits";
 		const string initialOrbitsLinkTemplate = $"/api/objects/{objectIdFieldName}/relationships/initial-orbits";
 		const string operatorsLinkTemplate = $"/api/objects/{objectIdFieldName}/relationships/initial-orbits";
+		const string launchLinkTemplate = $"/api/objects/{objectIdFieldName}/relationships/launch";
 
 		object IdSelector(DiscosObject r) => r.Id;
 
@@ -22,12 +24,14 @@ internal static class DiscosObjectContractBuilder
 					  .Id(nameof(DiscosObject.Id))
 					  .HasMany<Country>(AttributeUtilities.GetJsonPropertyName<DiscosObject>(nameof(DiscosObject.States)))
 					  .Template(countryLinkTemplate, objectIdFieldName, IdSelector)
-					  .HasMany<OrbitDetails>(AttributeUtilities.GetJsonPropertyName<DiscosObject>(nameof(DiscosObject.DestinationOrbits)))
+					  .HasMany<DestinationOrbitDetails>(AttributeUtilities.GetJsonPropertyName<DiscosObject>(nameof(DiscosObject.DestinationOrbits)))
 					  .Template(destinationOrbitsLinkTemplate, objectIdFieldName, IdSelector)
-					  .HasMany<OrbitDetails>(AttributeUtilities.GetJsonPropertyName<DiscosObject>(nameof(DiscosObject.InitialOrbits)))
+					  .HasMany<InitialOrbitDetails>(AttributeUtilities.GetJsonPropertyName<DiscosObject>(nameof(DiscosObject.InitialOrbits)))
 					  .Template(initialOrbitsLinkTemplate, objectIdFieldName, IdSelector)
 					  .HasMany<Organisation>(AttributeUtilities.GetJsonPropertyName<DiscosObject>(nameof(DiscosObject.Operators)))
 					  .Template(operatorsLinkTemplate, objectIdFieldName, IdSelector)
+					  .BelongsTo<Launch>(AttributeUtilities.GetJsonPropertyName<DiscosObject>(nameof(DiscosObject.Launch)))
+					  .Template(launchLinkTemplate, objectIdFieldName, IdSelector)
 					  .Field(nameof(DiscosObject.CrossSectionMaximum)).Deserialization().Rename("xSectMax")
 					  .Field(nameof(DiscosObject.CrossSectionMinimum)).Deserialization().Rename("xSectMin")
 					  .Field(nameof(DiscosObject.CrossSectionAverage)).Deserialization().Rename("xSectAvg");

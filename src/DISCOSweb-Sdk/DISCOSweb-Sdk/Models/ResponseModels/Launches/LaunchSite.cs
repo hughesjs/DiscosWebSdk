@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using DISCOSweb_Sdk.Models.ResponseModels.Entities;
 using DISCOSweb_Sdk.Models.SubObjects;
+using JetBrains.Annotations;
 
 namespace DISCOSweb_Sdk.Models.ResponseModels.Launches;
 
@@ -14,12 +15,12 @@ public record LaunchSite: DiscosModelBase
 	
 	[JsonPropertyName("azimuths")]
 	public List<Azimuth>? Azimuths { get; init; }
-	
+
 	[JsonPropertyName("latitude")]
-	public double? Latitude { get; init; }
-	
+	public double? LatitudeDegs => double.Parse(Latitude); // TODO - Work out how to map these directly
+
 	[JsonPropertyName("longitude")]
-	public double? Longitude { get; init; }
+	public double? LongitudeDegs => double.Parse(Longitude); // TODO - Work out how to map these directly
 	
 	[JsonPropertyName("constraints")]
 	public List<string>? Constraints { get; init; }
@@ -29,5 +30,11 @@ public record LaunchSite: DiscosModelBase
 	
 	[JsonPropertyName("operators")]
 	public IReadOnlyList<Entity> Operators { get; init; } = ArraySegment<Entity>.Empty;
+	
+	
+	// These are needed because the API returns these as strings and I can't see a 
+	// Way to recast as part of the Hypermedia pipeline
+	internal string Longitude { get; [UsedImplicitly] init; } = "0";
 
+	internal string Latitude { get; [UsedImplicitly] init; } = "0";
 }

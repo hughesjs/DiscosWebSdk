@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace DISCOSweb_Sdk.Models.SubObjects;
 
-[DebuggerDisplay("{Display()}")]
+[DebuggerDisplay("{Display}")]
 public record Azimuth
 {
 	[JsonPropertyName("empty")]

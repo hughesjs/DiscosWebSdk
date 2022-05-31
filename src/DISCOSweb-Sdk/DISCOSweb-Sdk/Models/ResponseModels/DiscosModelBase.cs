@@ -7,7 +7,7 @@ namespace DISCOSweb_Sdk.Models.ResponseModels;
 public abstract record DiscosModelBase
 {
 	[JsonPropertyName("name")]
-	public virtual string? Name { get; init; }
+	public virtual string Name { get; init; } = string.Empty;
 
 	[JsonPropertyName("id")]
 	public string Id { get; init; } = string.Empty;

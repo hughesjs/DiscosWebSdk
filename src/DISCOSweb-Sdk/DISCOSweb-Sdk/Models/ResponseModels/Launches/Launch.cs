@@ -33,32 +33,3 @@ public record Launch: DiscosModelBase
 	public LaunchSite Site { get; init; } = null!;
 	
 }
-
-/*
-"relationships": {
-                "objects": {
-                    "links": {
-                        "self": "/api/launches/6389/relationships/objects",
-                        "related": "/api/launches/6389/objects"
-                    }
-                },
-                "vehicle": {
-                    "links": {
-                        "self": "/api/launches/6389/relationships/vehicle",
-                        "related": "/api/launches/6389/vehicle"
-                    }
-                },
-                "site": {
-                    "links": {
-                        "self": "/api/launches/6389/relationships/site",
-                        "related": "/api/launches/6389/site"
-                    }
-                },
-                "entities": {
-                    "links": {
-                        "self": "/api/launches/6389/relationships/entities",
-                        "related": "/api/launches/6389/entities"
-                    }
-                }
-            },
-*/
