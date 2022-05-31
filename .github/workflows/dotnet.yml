@@ -20,19 +20,9 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
-
     - name: Restore dependencies
       run: dotnet restore src/DISCOSweb-Sdk/DISCOSweb-Sdk.sln
     - name: Build
       run: dotnet build --no-restore src/DISCOSweb-Sdk/DISCOSweb-Sdk.sln
     - name: Test
       run: dotnet test --no-build --verbosity normal src/DISCOSweb-Sdk/DISCOSweb-Sdk.sln
-        ## DEBUG
-    - name: Setup upterm session
-      uses: lhotari/action-upterm@v1
-      with:
-        ## limits ssh access and adds the ssh public key for the user which triggered the workflow
-        limit-access-to-actor: true
-        ## limits ssh access and adds the ssh public keys of the listed GitHub users
-        limit-access-to-users: hughesjs
-  ## END DEBUG
