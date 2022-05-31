@@ -9,6 +9,7 @@ using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
 using DISCOSweb_Sdk.Models.ResponseModels.Entities;
 using DISCOSweb_Sdk.Models.ResponseModels.FragmentationEvent;
 using DISCOSweb_Sdk.Models.ResponseModels.Launches;
+using DISCOSweb_Sdk.Models.ResponseModels.LaunchVehicles;
 using Hypermedia.JsonApi.Client;
 using JetBrains.Annotations;
 using Shouldly;
@@ -29,7 +30,11 @@ public abstract class JsonApiMapperTestBase
 															   {typeof(FragmentationEvent), "fragmentations"},
 															   {typeof(Launch), "launches"},
 															   {typeof(LaunchSite), "launch-sites"},
-															   {typeof(LaunchSystem), "launch-systems"}
+															   {typeof(LaunchSystem), "launch-systems"},
+															   {typeof(LaunchVehicle), "launch-vehicles"},
+															   {typeof(LaunchVehicleFamily), "launch-vehicles/families"},
+															   {typeof(LaunchVehicleEngine), "launch-vehicles/engines"},
+															   {typeof(LaunchVehicleStage), "launch-vehicles/stages"}
 														   };
 
 	protected async Task<T> FetchSingle<T>(string id, string queryString = "")
@@ -45,7 +50,7 @@ public abstract class JsonApiMapperTestBase
 		HttpResponseMessage res = await GetWithRateLimitRetry($"{ApiBase}{endpoint}{queryString}");
 		return await res.Content.ReadAsJsonApiManyAsync<T>(DiscosObjectResolver.CreateResolver());
 	}
-	
+
 	private async Task<HttpResponseMessage> GetWithRateLimitRetry(string uri, int retries = 0)
 	{
 		const int maxAttempts = 5;
