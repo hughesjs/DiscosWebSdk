@@ -36,7 +36,4 @@ internal static class DiscosObjectResolver
 			  .WithBasicObject<DiscosObjectClass>()
 			  .Build();
 	}
-	
-
-
 }

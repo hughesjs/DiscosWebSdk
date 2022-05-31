@@ -32,8 +32,8 @@ internal static class DiscosObjectContractBuilder
 					  .Template(operatorsLinkTemplate, objectIdFieldName, IdSelector)
 					  .BelongsTo<Launch>(AttributeUtilities.GetJsonPropertyName<DiscosObject>(nameof(DiscosObject.Launch)))
 					  .Template(launchLinkTemplate, objectIdFieldName, IdSelector)
-					  .Field(nameof(DiscosObject.CrossSectionMaximum)).Deserialization().Rename("xSectMax")
-					  .Field(nameof(DiscosObject.CrossSectionMinimum)).Deserialization().Rename("xSectMin")
-					  .Field(nameof(DiscosObject.CrossSectionAverage)).Deserialization().Rename("xSectAvg");
+					  .RenameFieldUsingJsonPropertyName(nameof(DiscosObject.CrossSectionMaximum))
+					  .RenameFieldUsingJsonPropertyName(nameof(DiscosObject.CrossSectionMinimum))
+					  .RenameFieldUsingJsonPropertyName(nameof(DiscosObject.CrossSectionAverage));
 	}
 }
