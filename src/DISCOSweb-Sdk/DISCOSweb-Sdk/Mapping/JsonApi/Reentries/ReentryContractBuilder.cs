@@ -14,6 +14,7 @@ internal static class ReentryContractBuilder
 		object IdSelector(Reentry reentry) => reentry.Id;
 
 		return builder.With<Reentry>("reentry")
+					  .Id(nameof(Reentry.Id))
 					  .HasMany<DiscosObject>(AttributeUtilities.GetJsonPropertyName<Reentry>(nameof(Reentry.Objects)))
 					  .Template(objectLinkTemplate, reentryIdFieldName, IdSelector);
 	}

@@ -12,7 +12,7 @@ public class ReentryMapperTests: JsonApiMapperTestBase
 	private readonly Reentry _reentry = new()
 										{
 											Id = "29338",
-											Epoch = new(22,03,21),
+											Epoch = new(2022,03,21),
 											Objects = null!
 										};
 	
