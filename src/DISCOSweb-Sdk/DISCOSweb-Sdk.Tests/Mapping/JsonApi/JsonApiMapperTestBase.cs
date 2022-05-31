@@ -28,7 +28,8 @@ public abstract class JsonApiMapperTestBase
 															   {typeof(Entity), "entities"},
 															   {typeof(FragmentationEvent), "fragmentations"},
 															   {typeof(Launch), "launches"},
-															   {typeof(LaunchSite), "launch-sites"}
+															   {typeof(LaunchSite), "launch-sites"},
+															   {typeof(LaunchSystem), "launch-systems"}
 														   };
 
 	protected async Task<T> FetchSingle<T>(string id, string queryString = "")

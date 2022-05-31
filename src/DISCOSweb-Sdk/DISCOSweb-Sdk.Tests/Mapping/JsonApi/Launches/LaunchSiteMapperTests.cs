@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DISCOSweb_Sdk.Models.ResponseModels.Launches;
-using DISCOSweb_Sdk.Models.SubObjects;
 using Shouldly;
 using Xunit;
 
