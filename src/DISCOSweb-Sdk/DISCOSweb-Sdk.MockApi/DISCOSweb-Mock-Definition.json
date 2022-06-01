@@ -2921,6 +2921,34 @@
       "endpoint": "fragmentations/:id",
       "responses": [
         {
+          "uuid": "8fc3eeeb-9182-4b0e-8c82-b25baa8a4184",
+          "body": "{\n    \"data\": {\n        \"type\": \"fragmentation\",\n        \"attributes\": {\n            \"eventType\": \"Cosmos 699 Class (EORSAT)\",\n            \"epoch\": \"1975-04-17\",\n            \"altitude\": 440.0,\n            \"comment\": \"Cosmos 699 was the first of a new type spacecraft. Many members of this class have experienced breakups. Beginning in 1988 old spacecraft have been commanded to lower perigee at end of life, resulting in an accelerated natural decay with fewer fragmentations. For several spacecraft, two distinct events have been detected and observational data suggest that the spacecraft remain essentially intact after each event. In all but one case, breakups occur after spacecraft has ceased orbit maintenance and entered natural decay. Debris are sometimes highly unidirectional. In the case of Cosmos 699, the spacecraft had been in a regime of natural decay for one month at the time of the event.\",\n            \"latitude\": \"1.000000\",\n            \"longitude\": \"278.000000\"\n        },\n        \"id\": \"86\",\n        \"relationships\": {\n            \"objects\": {\n                \"links\": {\n                    \"self\": \"/api/fragmentations/86/relationships/objects\",\n                    \"related\": \"/api/fragmentations/86/objects\"\n                },\n                \"data\": [\n                    {\n                        \"type\": \"object\",\n                        \"id\": \"7585\"\n                    }\n                ]\n            }\n        },\n        \"links\": {\n            \"self\": \"/api/fragmentations/86\"\n        }\n    },\n    \"links\": {\n        \"self\": \"/api/fragmentations/86?include=objects\"\n    },\n    \"included\": [\n        {\n            \"type\": \"object\",\n            \"attributes\": {\n                \"shape\": \"Cyl\",\n                \"height\": 10.0,\n                \"xSectAvg\": 10.8738375722377,\n                \"xSectMax\": 13.0675853190489,\n                \"name\": \"Cosmos-699\",\n                \"cosparId\": \"1974-103A\",\n                \"depth\": 10.0,\n                \"satno\": 7587,\n                \"xSectMin\": 1.32732289614169,\n                \"objectClass\": \"Payload\",\n                \"length\": 1.3,\n                \"vimpelId\": null,\n                \"mass\": 2973.24\n            },\n            \"relationships\": {\n                \"states\": {\n                    \"links\": {\n                        \"self\": \"/api/objects/7585/relationships/states\",\n                        \"related\": \"/api/objects/7585/states\"\n                    }\n                },\n                \"destinationOrbits\": {\n                    \"links\": {\n                        \"self\": \"/api/objects/7585/relationships/destination-orbits\",\n                        \"related\": \"/api/objects/7585/destination-orbits\"\n                    }\n                },\n                \"launch\": {\n                    \"links\": {\n                        \"self\": \"/api/objects/7585/relationships/launch\",\n                        \"related\": \"/api/objects/7585/launch\"\n                    }\n                },\n                \"initialOrbits\": {\n                    \"links\": {\n                        \"self\": \"/api/objects/7585/relationships/initial-orbits\",\n                        \"related\": \"/api/objects/7585/initial-orbits\"\n                    }\n                },\n                \"operators\": {\n                    \"links\": {\n                        \"self\": \"/api/objects/7585/relationships/operators\",\n                        \"related\": \"/api/objects/7585/operators\"\n                    }\n                },\n                \"reentry\": {\n                    \"links\": {\n                        \"self\": \"/api/objects/7585/relationships/reentry\",\n                        \"related\": \"/api/objects/7585/reentry\"\n                    }\n                }\n            },\n            \"id\": \"7585\",\n            \"links\": {\n                \"self\": \"/api/objects/7585\"\n            }\n        }\n    ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Fragmentation with Links Response",
+          "headers": [],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "id",
+              "value": "86",
+              "operator": "equals"
+            },
+            {
+              "target": "query",
+              "modifier": "include",
+              "value": "objects",
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
           "uuid": "61038a61-5d28-4493-b90d-4a12c8bf6710",
           "body": "{\n    \"data\": {\n        \"type\": \"fragmentation\",\n        \"attributes\": {\n            \"eventType\": \"Cosmos 699 Class (EORSAT)\",\n            \"epoch\": \"1975-04-17\",\n            \"altitude\": 440.0,\n            \"comment\": \"Cosmos 699 was the first of a new type spacecraft. Many members of this class have experienced breakups. Beginning in 1988 old spacecraft have been commanded to lower perigee at end of life, resulting in an accelerated natural decay with fewer fragmentations. For several spacecraft, two distinct events have been detected and observational data suggest that the spacecraft remain essentially intact after each event. In all but one case, breakups occur after spacecraft has ceased orbit maintenance and entered natural decay. Debris are sometimes highly unidirectional. In the case of Cosmos 699, the spacecraft had been in a regime of natural decay for one month at the time of the event.\",\n            \"latitude\": \"1.000000\",\n            \"longitude\": \"278.000000\"\n        },\n        \"id\": \"86\",\n        \"relationships\": {\n            \"objects\": {\n                \"links\": {\n                    \"self\": \"/api/fragmentations/86/relationships/objects\",\n                    \"related\": \"/api/fragmentations/86/objects\"\n                }\n            }\n        },\n        \"links\": {\n            \"self\": \"/api/fragmentations/86\"\n        }\n    },\n    \"links\": {\n        \"self\": \"/api/fragmentations/86\"\n    }\n}",
           "latency": 0,
@@ -2946,11 +2974,18 @@
           ],
           "filePath": "",
           "sendFileAsBody": false,
-          "rules": [],
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "id",
+              "value": "86",
+              "operator": "equals"
+            }
+          ],
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,
-          "default": true
+          "default": false
         },
         {
           "uuid": "6363305e-2310-4084-8ed3-9cb8e52427cb",
@@ -2970,7 +3005,7 @@
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,
-          "default": false
+          "default": true
         },
         {
           "uuid": "0336a37d-5145-43dc-81c9-1e82ac0fd94a",
