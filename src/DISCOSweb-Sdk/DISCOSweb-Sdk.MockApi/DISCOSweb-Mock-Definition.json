@@ -5,7 +5,7 @@
   "endpointPrefix": "api",
   "latency": 0,
   "port": 3000,
-  "hostname": "127.0.0.1",
+  "hostname": "0.0.0.0",
   "routes": [
     {
       "uuid": "374c2bc7-9af6-4e02-8425-19de5ce9cc82",

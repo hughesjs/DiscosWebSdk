@@ -22,7 +22,7 @@ namespace DISCOSweb_Sdk.Tests.Mapping.JsonApi;
 
 public abstract class JsonApiMapperTestBase
 {
-	private readonly string _apiBase = Environment.GetEnvironmentVariable("DISCOS_URL") ?? "http://localhost:3000/api/";
+	private readonly string _apiBase = Environment.GetEnvironmentVariable("DISCOS_API_URL") ?? "https://discosweb.esoc.esa.int/api/";
 
 	private readonly Dictionary<Type, string> _endpoints = new()
 														   {

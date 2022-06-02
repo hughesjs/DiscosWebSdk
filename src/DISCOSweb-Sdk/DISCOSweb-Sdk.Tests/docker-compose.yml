@@ -1,0 +1,26 @@
+services:
+  mockoon:
+    build:
+      context: ../DISCOSweb-Sdk.MockApi
+      dockerfile: ./Dockerfile
+    networks: 
+      - internal-net
+      - host
+  
+  test-runner:
+    build:
+      context: ../../../
+      dockerfile: ./src/DISCOSweb-Sdk/DISCOSweb-Sdk.Tests/Dockerfile      
+      args:
+        DISCOS_API_URL: "http://mockoon:3000/api/"
+    networks:
+      - internal-net
+      - host
+    depends_on: 
+      - mockoon
+
+networks:
+  internal-net:
+    internal: true
+  host:
+    internal: false
