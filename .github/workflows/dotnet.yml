@@ -17,7 +17,7 @@ jobs:
       with: 
         submodules: recursive
     - name: Build docker stack
-      run: docker-compose -f src/DISCOSweb-Sdk/DISCOSweb-Sdk.Tests/docker-compose.yml up -d --force-recreate --build --abort-on-container-exit
+      run: docker-compose -f src/DISCOSweb-Sdk/DISCOSweb-Sdk.Tests/docker-compose.yml up -d --force-recreate --build
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
