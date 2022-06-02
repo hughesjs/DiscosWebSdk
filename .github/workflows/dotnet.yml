@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DISCOS_API_KEY: ${{ secrets.DISCOS_API_KEY }}
-      
+      DISCOS_API_URL: http://localhost:3000/api      
     steps:
     - uses: actions/checkout@v2
       with: 
