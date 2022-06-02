@@ -5,6 +5,7 @@
         <RootNamespace>DISCOSweb_Sdk.Tests</RootNamespace>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
@@ -28,10 +29,6 @@
       <ProjectReference Include="..\..\..\vendor\Hypermedia\Src\Hypermedia.JsonApi.Client\Hypermedia.JsonApi.Client.csproj" />
       <ProjectReference Include="..\..\..\vendor\Hypermedia\Src\Hypermedia\Hypermedia.csproj" />
       <ProjectReference Include="..\DISCOSweb-Sdk\DISCOSweb-Sdk.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Client" />
     </ItemGroup>
 
 </Project>

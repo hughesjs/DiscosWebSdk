@@ -11,15 +11,19 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DISCOS_API_KEY: ${{ secrets.DISCOS_API_KEY }}
-      
+      DISCOS_API_URL: http://localhost:3000/api/
     steps:
     - uses: actions/checkout@v2
       with: 
         submodules: recursive
+    - name: Build docker stack
+      run: docker-compose -f src/DISCOSweb-Sdk/DISCOSweb-Sdk.Tests/docker-compose.yml up -d --force-recreate --build
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
+#    - name: Debugging with ssh
+#      uses: lhotari/action-upterm@v1
     - name: Restore dependencies
       run: dotnet restore src/DISCOSweb-Sdk/DISCOSweb-Sdk.sln
     - name: Build

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DISCOSweb_Sdk.Models.ResponseModels.Propellants;
 using Shouldly;
+using Xunit;
 
 namespace DISCOSweb_Sdk.Tests.Mapping.JsonApi.Propellants;
 
@@ -18,6 +19,7 @@ public class PropellantMapperTests: JsonApiMapperTestBase
 											Stages = null!
 										};
 	
+	[Fact]
 	public override async Task CanGetSingleWithoutLinks()
 	{
 		Propellant rocketFuel = await FetchSingle<Propellant>(_prop.Id);
@@ -25,6 +27,7 @@ public class PropellantMapperTests: JsonApiMapperTestBase
 		rocketFuel.ShouldBeEquivalentTo(_prop);
 	}
 
+	[Fact]
 	public override async Task CanGetSingleWithLinks()
 	{
 		const string queryString = "?include=stages";
@@ -33,6 +36,7 @@ public class PropellantMapperTests: JsonApiMapperTestBase
 		rocketFuel.Stages.First().Name.ShouldBe("CZ-NGLV-300");
 	}
 
+	[Fact]
 	public override async Task CanGetMultiple()
 	{
 		IReadOnlyList<Propellant> props = await FetchMultiple<Propellant>();
