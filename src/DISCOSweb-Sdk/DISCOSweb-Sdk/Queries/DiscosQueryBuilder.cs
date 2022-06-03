@@ -89,14 +89,7 @@ public class DiscosQueryBuilder<TObject>: IDiscosQueryBuilder<TObject>
 	private void AddFilterString(StringBuilder builder)
 	{
 		builder.Append("filter=");
-
-		foreach (FilterDefinition f in _filterDefinitions)
-		{
-			builder.Append(f);
-			;
-
-		}
-			
+		_filterDefinitions.ForEach(f => builder.Append(f));
 	}
 
 	private void AddIncludeString(StringBuilder builder)

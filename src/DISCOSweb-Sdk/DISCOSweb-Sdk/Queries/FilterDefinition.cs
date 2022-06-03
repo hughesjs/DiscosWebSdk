@@ -13,9 +13,9 @@ public abstract record FilterDefinition
 public record FilterDefinition<TObject, TParam>: FilterDefinition where TObject: notnull
 {
 	public string FieldName { get; }
-	public TParam Value { get; }
+	public TParam? Value { get; }
 	public DiscosFunction Function { get; }
-	public FilterDefinition(string fieldName, TParam value, DiscosFunction function)
+	public FilterDefinition(string fieldName, TParam? value, DiscosFunction function)
 	{
 		ValidateParams(fieldName, function);
 		FieldName = fieldName;
@@ -59,6 +59,16 @@ public record FilterDefinition<TObject, TParam>: FilterDefinition where TObject:
 
 	public override string ToString()
 	{
+		if (Value is null)
+		{
+			return $"{Function.GetEnumMemberValue()}({GetFieldNameJsonProperty()},null)";
+		}
+
+		if (Value is bool val)
+		{
+			return $"{Function.GetEnumMemberValue()}({GetFieldNameJsonProperty()},{(val ? "true": "false")})";
+		}
+		
 		if (typeof(TParam).IsCollectionType())
 		{
 			IEnumerable<string> elements;

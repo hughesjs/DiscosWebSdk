@@ -6,7 +6,7 @@ namespace DISCOSweb_Sdk.Misc;
 
 internal static class AttributeUtilities
 {
-	private static string GetJsonPropertyName(MemberInfo field)
+	public static string GetJsonPropertyName(MemberInfo field)
 	{
 		JsonPropertyNameAttribute? att = field.GetCustomAttribute(typeof(JsonPropertyNameAttribute)) as JsonPropertyNameAttribute;
 		return att?.Name ?? field.Name;
