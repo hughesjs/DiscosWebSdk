@@ -1,5 +1,6 @@
 using System.Text;
 using DISCOSweb_Sdk.Extensions;
+using DISCOSweb_Sdk.Queries.Filters;
 
 namespace DISCOSweb_Sdk.Queries;
 

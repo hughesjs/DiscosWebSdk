@@ -3,7 +3,7 @@ using DISCOSweb_Sdk.Enums;
 using DISCOSweb_Sdk.Extensions;
 using DISCOSweb_Sdk.Misc;
 
-namespace DISCOSweb_Sdk.Queries;
+namespace DISCOSweb_Sdk.Queries.Filters;
 
 public abstract record FilterDefinition
 {
