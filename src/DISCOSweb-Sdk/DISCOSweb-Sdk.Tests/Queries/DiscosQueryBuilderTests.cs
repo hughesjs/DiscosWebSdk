@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using DISCOSweb_Sdk.Extensions;
 using DISCOSweb_Sdk.Queries;
+using DISCOSweb_Sdk.Tests.TestCaseModels;
+using DISCOSweb_Sdk.Tests.TestDataGenerators;
 using Shouldly;
 using Xunit;
 using Xunit.Abstractions;
@@ -20,22 +22,22 @@ public partial class DiscosQueryBuilderTests
 	[Theory]
 	//[MemberData(nameof(CanAddSingleFilterTestData))]
 	[ClassData(typeof(CanAddSingleFilterTestDataGenerator))]
-	public void CanAddSingleFilter(TestCase testCase)
+	public void CanAddSingleFilter(SingleFilterTestCase singleFilterTestCase)
 	{
-		_testOutputHelper.WriteLine(testCase.TestNum.ToString());
+		_testOutputHelper.WriteLine(singleFilterTestCase.TestNum.ToString());
 		Type unconstructedBuilderType = typeof(DiscosQueryBuilder<>);
-		Type constructedBuilderType = unconstructedBuilderType.MakeGenericType(testCase.ObjectType);
+		Type constructedBuilderType = unconstructedBuilderType.MakeGenericType(singleFilterTestCase.ObjectType);
 		object builder = Activator.CreateInstance(constructedBuilderType) ?? throw new("Couldn't create builder");
 
 		Type unconstructedFilterType = typeof(FilterDefinition<,>);
-		Type constructedFilterType = unconstructedFilterType.MakeGenericType(testCase.ObjectType, testCase.ParamType);
-		object filter = Activator.CreateInstance(constructedFilterType, testCase.ParamName, testCase.ParamValue, testCase.Func) ?? throw new("Couldn't create filter");
+		Type constructedFilterType = unconstructedFilterType.MakeGenericType(singleFilterTestCase.ObjectType, singleFilterTestCase.ParamType);
+		object filter = Activator.CreateInstance(constructedFilterType, singleFilterTestCase.ParamName, singleFilterTestCase.ParamValue, singleFilterTestCase.Func) ?? throw new("Couldn't create filter");
 		
 		MethodInfo addFilterMethod = constructedBuilderType.GetMethod(nameof(DiscosQueryBuilder<object>.AddFilter)) ?? throw new("Couldn't find AddFilter method");
 		MethodInfo getQueryStringMethod = constructedBuilderType.GetMethod(nameof(DiscosQueryBuilder<object>.GetQueryString)) ?? throw new("Couldn't find GetQueryString method");
 
 		addFilterMethod.Invoke(builder, new[] {filter});
-		getQueryStringMethod.Invoke(builder, null).ShouldBe(testCase.Expected);
+		getQueryStringMethod.Invoke(builder, null).ShouldBe(singleFilterTestCase.Expected);
 	}
 	
 	[Fact]
