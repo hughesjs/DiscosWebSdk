@@ -1,7 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Reflection;
-using DISCOSweb_Sdk.Extensions;
+using DISCOSweb_Sdk.Enums;
+using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
 using DISCOSweb_Sdk.Queries;
 using DISCOSweb_Sdk.Tests.TestCaseModels;
 using DISCOSweb_Sdk.Tests.TestDataGenerators;
@@ -20,7 +20,6 @@ public class DiscosQueryBuilderTests
 	}
 
 	[Theory]
-	//[MemberData(nameof(CanAddSingleFilterTestData))]
 	[ClassData(typeof(CanAddSingleFilterTestDataGenerator))]
 	public void CanAddSingleFilter(SingleFilterTestCase singleFilterTestCase)
 	{
@@ -43,7 +42,8 @@ public class DiscosQueryBuilderTests
 	[Fact]
 	public void ThrowsIfFieldDoesntExist()
 	{
-		
+		DiscosQueryBuilder<DiscosObject> builder = new();
+		Should.Throw<MissingFieldException>(() => builder.AddFilter(new FilterDefinition<DiscosObject, string>("The Spanish Inquisition", null, DiscosFunction.Contains)));
 	}
 }
 

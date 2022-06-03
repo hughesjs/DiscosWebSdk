@@ -85,7 +85,7 @@ public class DiscosQueryBuilder<TObject>: IDiscosQueryBuilder<TObject>
 		}
 		return builder.ToString();
 	}
-
+	
 	private void AddFilterString(StringBuilder builder)
 	{
 		builder.Append("filter=");
