@@ -73,6 +73,13 @@ public abstract class JsonApiMapperTestBase
 			await Task.Delay(retryAfter.Delta.Value);
 			return await GetWithRateLimitRetry(uri, ++retries);
 		}
+		if (res.StatusCode == HttpStatusCode.BadGateway)
+		{
+			retries.ShouldBeLessThan(maxAttempts);
+			Console.WriteLine("Bad Gateway, probably transient. Waiting for 5s...");
+			await Task.Delay(TimeSpan.FromSeconds(5));
+			return await GetWithRateLimitRetry(uri, ++retries);
+		}
 		res.EnsureSuccessStatusCode();
 		return res;
 	}
