@@ -14,11 +14,14 @@ namespace DISCOSweb_Sdk.Tests.Queries;
 public partial class DiscosQueryBuilderTests
 {
 	/// <summary>
-	/// Frankly ridiculous test data generator that should probably not exist
-	/// This is an abomination unto nature
+	/// Frankly ridiculous test data generator that should probably not exist.
+	/// This is an abomination unto nature.
+	/// But... It was quite fun to write so here we are.
 	/// </summary>
 	private class CanAddSingleFilterTestDataGenerator : IEnumerable<object[]>
 	{
+		private int _testNumber;
+		
 		private readonly DiscosFunction[] _simpleFuncs =
 		{
 			DiscosFunction.Equal,
@@ -27,18 +30,32 @@ public partial class DiscosQueryBuilderTests
 			DiscosFunction.LessThan,
 			DiscosFunction.GreaterThanOrEqual,
 			DiscosFunction.LessThanOrEqual
-
 		};
+
+		private readonly DiscosFunction[] _arrayFields =
+		{
+			DiscosFunction.Includes,
+			DiscosFunction.DoesNotInclude
+		};
+
+		private readonly DiscosFunction[] _hybridFields =
+		{
+			DiscosFunction.Contains,
+			DiscosFunction.Excludes
+		};
+		public CanAddSingleFilterTestDataGenerator()
+		{
+			_testNumber = 0;
+		}
 
 		private List<TestCase> GetCasesForEachPermutationOfSimpleFuncs()
 		{
-			int testNum = 0;
 			List<TestCase> testCases = new();
-			IEnumerable<Type> discosObjectTypes = typeof(DiscosObject).Assembly.GetTypes().Where(t => t.IsAssignableTo(typeof(DiscosModelBase)) && t != typeof(DiscosModelBase));
-			foreach (Type objectType in discosObjectTypes)
+			Dictionary<Type, PropertyInfo[]> permutations = GetDiscosObjectsPrimitivePropertiesPermutations();
+			foreach (KeyValuePair<Type, PropertyInfo[]> permutation in permutations)
 			{
-				IEnumerable<PropertyInfo> propertiesToTest = objectType.GetProperties().Where(p => p.PropertyType.IsPrimitive || p.PropertyType == typeof(string));
-				foreach (PropertyInfo prop in propertiesToTest)
+				Type objectType = permutation.Key;
+				foreach (PropertyInfo prop in permutation.Value)
 				{
 					foreach (DiscosFunction func in _simpleFuncs)
 					{
@@ -51,7 +68,7 @@ public partial class DiscosQueryBuilderTests
 										  fake,
 										  func,
 										  res,
-										  testNum++));
+										  _testNumber++));
 						fake = null;
 						if (prop.PropertyType != typeof(bool)) // bools are never null
 						{
@@ -63,7 +80,7 @@ public partial class DiscosQueryBuilderTests
 											  null,
 											  func,
 											  res,
-											  testNum++));
+											  _testNumber++));
 						}
 					}
 
@@ -72,7 +89,55 @@ public partial class DiscosQueryBuilderTests
 			return testCases;
 		}
 
+		private List<TestCase> GetCasesForEachPermutationOfArrayFuncs()
+		{
+			List<TestCase> testCases = new();
+			Dictionary<Type, PropertyInfo[]> permutations = GetDiscosObjectsPrimitivePropertiesPermutations();
+			foreach (KeyValuePair<Type, PropertyInfo[]> permutation in permutations)
+			{
+				Type objectType = permutation.Key;
+				foreach (PropertyInfo prop in permutation.Value.Where(p => p.PropertyType != typeof(bool)))
+				{
+					foreach (DiscosFunction func in _arrayFields)
+					{
+						object fake = GenerateFakeArray(prop);
+						
+						string res = GenerateRes(objectType, prop.Name, fake, func);
+						testCases.Add(new(
+										  objectType,
+										  prop.PropertyType.MakeArrayType(),
+										  prop.Name,
+										  fake,
+										  func,
+										  res,
+										  _testNumber++));
+					}
+				}
+			}
+			return testCases;
+		}
+
+		private object GenerateFakeArray(PropertyInfo prop)
+		{
+			const int arrSize = 5;
+			Array arr = Array.CreateInstance(prop.PropertyType, 5);
+			for (int i = 0; i < arrSize; i++)
+			{
+				arr.SetValue(GenerateFake(prop), i);
+			}
+			return arr;
+		}
+
 		private string GenerateRes(Type objectType, string propName, object? fake, DiscosFunction func)
+		{
+			string val = GetStringRepresentation(fake);
+
+			string propertyName = AttributeUtilities.GetJsonPropertyName(objectType.GetProperty(propName) ?? throw new("Test data generator issue"));
+
+			return $"?filter={func.GetEnumMemberValue()}({propertyName},{val})";
+		}
+
+		private string GetStringRepresentation(object? fake)
 		{
 			string val = string.Empty;
 			if (fake is null)
@@ -87,14 +152,22 @@ public partial class DiscosQueryBuilderTests
 			{
 				val = isTrue ? "true" : "false";
 			}
+			else if (fake.GetType().IsCollectionType())
+			{
+				val += '(';
+				List<string> components = new();
+				foreach (object item in (IEnumerable)fake)
+				{
+					components.Add(GetStringRepresentation(item));
+				}
+				val += string.Join(',', components);
+				val += ')';
+			}
 			else
 			{
 				val = fake.ToString()!;
 			}
-
-			string propertyName = AttributeUtilities.GetJsonPropertyName(objectType.GetProperty(propName) ?? throw new("Test data generator issue"));
-
-			return $"?filter={func.GetEnumMemberValue()}({propertyName},{val})";
+			return val;
 		}
 
 		private object GenerateFake(PropertyInfo prop)
@@ -118,9 +191,24 @@ public partial class DiscosQueryBuilderTests
 			throw new("Forgot this case!");
 		}
 
+		private Dictionary<Type, PropertyInfo[]> GetDiscosObjectsPrimitivePropertiesPermutations()
+		{
+			Dictionary<Type, PropertyInfo[]> dict = new();
+			IEnumerable<Type> discosObjectTypes = typeof(DiscosObject).Assembly.GetTypes().Where(t => t.IsAssignableTo(typeof(DiscosModelBase)) && t != typeof(DiscosModelBase));
+			foreach (Type objectType in discosObjectTypes)
+			{
+				IEnumerable<PropertyInfo> propertiesToTest = objectType.GetProperties().Where(p => p.PropertyType.IsPrimitive || p.PropertyType == typeof(string));
+				dict.Add(objectType, propertiesToTest.ToArray());
+			}
+			return dict;
+		}
+
 		public IEnumerator<object[]> GetEnumerator()
 		{
-			return GetCasesForEachPermutationOfSimpleFuncs().Select(tc => new object[] {tc}).GetEnumerator();
+			List<TestCase> testCases = new();
+			testCases.AddRange(GetCasesForEachPermutationOfSimpleFuncs());
+			testCases.AddRange(GetCasesForEachPermutationOfArrayFuncs());
+			return testCases.Select(tc => new object[] {tc}).GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

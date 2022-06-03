@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Reflection;
+using DISCOSweb_Sdk.Extensions;
 using DISCOSweb_Sdk.Queries;
 using Shouldly;
 using Xunit;
