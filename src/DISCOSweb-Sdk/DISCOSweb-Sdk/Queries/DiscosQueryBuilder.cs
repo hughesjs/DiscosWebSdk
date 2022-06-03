@@ -1,12 +1,14 @@
 using System.Text;
+using DISCOSweb_Sdk.Exceptions;
 using DISCOSweb_Sdk.Extensions;
 using DISCOSweb_Sdk.Queries.Filters;
+using DISCOSweb_Sdk.Queries.Filters.Tree;
 
 namespace DISCOSweb_Sdk.Queries;
 
 public class DiscosQueryBuilder<TObject>: IDiscosQueryBuilder<TObject>
 {
-	private List<FilterDefinition> _filterDefinitions = new();
+	private FilterTree _filterDefinitions = new();
 	private List<string> _includes = new();
 	private int? _numPages;
 	private int? _pageNum;
@@ -16,9 +18,9 @@ public class DiscosQueryBuilder<TObject>: IDiscosQueryBuilder<TObject>
 		Reset();
 	}
 
-	public IDiscosQueryBuilder<TObject> AddFilter(FilterDefinition filterDefinition) 
+	public IDiscosQueryBuilder<TObject> AddFilter(FilterDefinition filterDefinition)
 	{
-		_filterDefinitions.Add(filterDefinition);
+		throw new NotImplementedException();
 		return this;
 	}
 
@@ -61,7 +63,7 @@ public class DiscosQueryBuilder<TObject>: IDiscosQueryBuilder<TObject>
 		}
 		StringBuilder builder = new();
 		bool isFirst = true;
-		if (_filterDefinitions.Count > 0)
+		if (_filterDefinitions.CountNodes() > 0)
 		{
 			AppendJoiningChar(builder, ref isFirst);
 			AddFilterString(builder);
@@ -90,7 +92,7 @@ public class DiscosQueryBuilder<TObject>: IDiscosQueryBuilder<TObject>
 	private void AddFilterString(StringBuilder builder)
 	{
 		builder.Append("filter=");
-		_filterDefinitions.ForEach(f => builder.Append(f));
+		throw new NotImplementedException();
 	}
 
 	private void AddIncludeString(StringBuilder builder)
