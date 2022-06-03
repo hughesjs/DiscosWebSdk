@@ -5,7 +5,7 @@ namespace DISCOSweb_Sdk.Tests.TestCaseModels;
 
 public struct SingleFilterTestCase
 {
-	public SingleFilterTestCase(Type objectType, Type paramType, string paramName, object paramValue, DiscosFunction func, string expected, int testNum = 0)
+	public SingleFilterTestCase(Type objectType, Type paramType, string paramName, object? paramValue, DiscosFunction func, string expected, int testNum = 0)
 	{
 		ObjectType = objectType;
 		ParamType = paramType;

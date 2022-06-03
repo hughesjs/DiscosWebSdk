@@ -16,11 +16,13 @@ namespace DISCOSweb_Sdk.Tests.TestDataGenerators;
 /// Frankly ridiculous test data generator that should probably not exist.
 /// This is an abomination unto nature.
 /// But... It was quite fun to write so here we are.
+///
+/// Some of these queries are invalid for type reasons... I *might* fix this later.
 /// </summary>
 internal class CanAddSingleFilterTestDataGenerator : IEnumerable<object[]>
 {
 	private int _testNumber;
-		
+
 	private readonly DiscosFunction[] _simpleFuncs =
 	{
 		DiscosFunction.Equal,
@@ -28,24 +30,18 @@ internal class CanAddSingleFilterTestDataGenerator : IEnumerable<object[]>
 		DiscosFunction.GreaterThan,
 		DiscosFunction.LessThan,
 		DiscosFunction.GreaterThanOrEqual,
-		DiscosFunction.LessThanOrEqual
+		DiscosFunction.LessThanOrEqual,
+		DiscosFunction.Contains,
+		DiscosFunction.Excludes
 	};
 
 	private readonly DiscosFunction[] _arrayFields =
 	{
 		DiscosFunction.Includes,
-		DiscosFunction.DoesNotInclude
-	};
-
-	private readonly DiscosFunction[] _hybridFields =
-	{
+		DiscosFunction.DoesNotInclude,
 		DiscosFunction.Contains,
 		DiscosFunction.Excludes
 	};
-	public CanAddSingleFilterTestDataGenerator()
-	{
-		_testNumber = 0;
-	}
 
 	private List<SingleFilterTestCase> GetCasesForEachPermutationOfSimpleFuncs()
 	{
@@ -58,34 +54,43 @@ internal class CanAddSingleFilterTestDataGenerator : IEnumerable<object[]>
 			{
 				foreach (DiscosFunction func in _simpleFuncs)
 				{
-					object? fake = GenerateFake(prop);
-					string res = GenerateRes(objectType, prop.Name, fake, func);
-					testCases.Add(new(
-									  objectType,
-									  prop.PropertyType,
-									  prop.Name,
-									  fake,
-									  func,
-									  res,
-									  _testNumber++));
-					fake = null;
+					testCases.Add(GenerateSimpleTestCase(prop, objectType, func));
 					if (prop.PropertyType != typeof(bool)) // bools are never null
 					{
-						res = GenerateRes(objectType, prop.Name, fake, func);
-						testCases.Add(new(
-										  objectType,
-										  prop.PropertyType,
-										  prop.Name,
-										  null,
-										  func,
-										  res,
-										  _testNumber++));
+						testCases.Add(GenerateSimpleTestCaseForNullValue(prop, objectType, func));
 					}
 				}
 
 			}
 		}
 		return testCases;
+	}
+
+	private SingleFilterTestCase GenerateSimpleTestCase(PropertyInfo prop, Type objectType, DiscosFunction func)
+	{
+		object fake = GenerateFake(prop);
+		string res = GenerateRes(objectType, prop.Name, fake, func);
+		return new(
+				   objectType,
+				   prop.PropertyType,
+				   prop.Name,
+				   fake,
+				   func,
+				   res,
+				   _testNumber++);
+	}
+
+	private SingleFilterTestCase GenerateSimpleTestCaseForNullValue(PropertyInfo prop, Type objectType, DiscosFunction func)
+	{
+		string res = GenerateRes(objectType, prop.Name, null, func);
+		return new(
+				   objectType,
+				   prop.PropertyType,
+				   prop.Name,
+				   null,
+				   func,
+				   res,
+				   _testNumber++);
 	}
 
 	private List<SingleFilterTestCase> GetCasesForEachPermutationOfArrayFuncs()
@@ -99,21 +104,26 @@ internal class CanAddSingleFilterTestDataGenerator : IEnumerable<object[]>
 			{
 				foreach (DiscosFunction func in _arrayFields)
 				{
-					object fake = GenerateFakeArray(prop);
-						
-					string res = GenerateRes(objectType, prop.Name, fake, func);
-					testCases.Add(new(
-									  objectType,
-									  prop.PropertyType.MakeArrayType(),
-									  prop.Name,
-									  fake,
-									  func,
-									  res,
-									  _testNumber++));
+					testCases.Add(GenerateArrayTestCase(prop, objectType, func));
 				}
 			}
 		}
 		return testCases;
+	}
+
+	private SingleFilterTestCase GenerateArrayTestCase(PropertyInfo prop, Type objectType, DiscosFunction func)
+	{
+		object fake = GenerateFakeArray(prop);
+		string res = GenerateRes(objectType, prop.Name, fake, func);
+		return new(
+				   objectType,
+				   prop.PropertyType.MakeArrayType(),
+				   prop.Name,
+				   fake,
+				   func,
+				   res,
+				   _testNumber++
+				  );
 	}
 
 	private object GenerateFakeArray(PropertyInfo prop)

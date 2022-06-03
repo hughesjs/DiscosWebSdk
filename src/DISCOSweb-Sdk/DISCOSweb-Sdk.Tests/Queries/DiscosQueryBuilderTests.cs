@@ -11,7 +11,7 @@ using Xunit.Abstractions;
 
 namespace DISCOSweb_Sdk.Tests.Queries;
 
-public partial class DiscosQueryBuilderTests
+public class DiscosQueryBuilderTests
 {
 	private readonly ITestOutputHelper _testOutputHelper;
 	public DiscosQueryBuilderTests(ITestOutputHelper testOutputHelper)
