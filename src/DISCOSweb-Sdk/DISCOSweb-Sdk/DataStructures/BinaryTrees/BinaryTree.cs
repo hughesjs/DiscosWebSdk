@@ -9,21 +9,17 @@ internal class BinaryTree<T> : BinaryTree
 	
 	public override BinaryTreeNode<T> SetRoot(BinaryTreeNode rootNode)
 	{
-		if (Root is not null)
-		{
-			throw new BinaryTreeAlreadyHasRootException();
-		}
 		if (rootNode is not BinaryTreeNode<T> node)
 		{
 			throw new InvalidNodeTypeException("Root must be of same type as tree.");
 		}
-		BaseSetRoot(node);
+		base.SetRoot(node);
 		return node;
 	}
 }
 
 
-internal abstract class BinaryTree
+internal class BinaryTree
 {
 	private BinaryTreeNode? _root;
 	private BinaryTreeNode? _head;
@@ -34,7 +30,8 @@ internal abstract class BinaryTree
 
 	public BinaryTree(BinaryTreeNode root)
 	{
-		BaseSetRoot(root);
+		_root = root;
+		_head = root;
 	}
 
 	public bool IsEmpty => Root is null;
@@ -58,10 +55,14 @@ internal abstract class BinaryTree
 		EnsureNodeIsInTree(node.Parent);
 	}
 
-	protected void BaseSetRoot(BinaryTreeNode newRoot)
+	public virtual BinaryTreeNode SetRoot(BinaryTreeNode rootNode)
 	{
-		_root = newRoot;
-		_head = newRoot;
-	} 
-	public abstract BinaryTreeNode SetRoot(BinaryTreeNode rootNode);
+		if (_root is not null)
+		{
+			throw new BinaryTreeAlreadyHasRootException();
+		}
+		_root = rootNode;
+		_head = rootNode;
+		return rootNode;
+	}
 }

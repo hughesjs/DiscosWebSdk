@@ -10,27 +10,38 @@ internal abstract class BinaryTreeNode<T>: BinaryTreeNode
 
 	public virtual T? Data { get; }
 
-	public new BinaryTreeNode<T>? Parent
-	{
-		get => base.Parent as BinaryTreeNode<T>;
-		set => base.Parent = value;
-	}
-	public new BinaryTreeNode<T>? LeftChild
-	{
-		get => base.LeftChild as BinaryTreeNode<T>;
-		set => base.LeftChild = value;
-	}
-	public new BinaryTreeNode<T>? RightChild 
-	{
-		get => base.RightChild as BinaryTreeNode<T>;
-		set => base.RightChild = value;
-	}
+	public override BinaryTreeNode<T>? Parent { get; }
+	public override BinaryTreeNode<T>? LeftChild { get; }
+	public override BinaryTreeNode<T>? RightChild { get; }
+
+	public override BinaryTreeNode<T> SetLeftChild(BinaryTreeNode node) => (BinaryTreeNode<T>)base.SetLeftChild(node);
+	public override BinaryTreeNode<T> SetRightChild(BinaryTreeNode node) => (BinaryTreeNode<T>)base.SetRightChild(node);
 }
 
 
-internal abstract class BinaryTreeNode
+internal class BinaryTreeNode
 {
-	public BinaryTreeNode? Parent { get; set; }
-	public BinaryTreeNode? LeftChild { get; set; }
-	public BinaryTreeNode? RightChild { get; set; }
+	private BinaryTreeNode? _parent, _leftChild, _rightChild;
+	public virtual BinaryTreeNode? Parent => _parent;
+	public virtual BinaryTreeNode? LeftChild => _leftChild;
+	public virtual BinaryTreeNode? RightChild => _rightChild;
+
+	public virtual BinaryTreeNode SetLeftChild(BinaryTreeNode node)
+	{
+		_leftChild = node;
+		node.SetParent(this);
+		return node;
+	}
+
+	public virtual BinaryTreeNode SetRightChild(BinaryTreeNode node)
+	{
+		_rightChild = node;
+		node.SetParent(this);
+		return node;
+	}
+
+	protected void SetParent(BinaryTreeNode node)
+	{
+		_parent = node;
+	}
 }
