@@ -3,9 +3,9 @@ using DISCOSweb_Sdk.Queries.Filters.FilterTree.Data;
 
 namespace DISCOSweb_Sdk.Queries.Filters.FilterTree.Nodes;
 
-internal class DefinitionNode: BinaryTreeNode<DefinitionNodeData>
+internal class DefinitionNode<TObject, TParam>: FilterTreeNode
 {
-
-
-	public DefinitionNode(BinaryTreeNode<DefinitionNodeData>? parent, DefinitionNodeData? data) : base(parent, data) { }
+	
+	public override DefinitionNodeData<TObject, TParam>? Data { get; }
+	public DefinitionNode(BinaryTreeNode<FilterTreeNodeData>? parent, FilterTreeNodeData? data) : base(parent, data) { }
 }

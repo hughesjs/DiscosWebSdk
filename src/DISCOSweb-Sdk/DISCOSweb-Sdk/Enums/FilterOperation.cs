@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace DISCOSweb_Sdk.Enums;
 
 [JsonConverter(typeof(JsonStringEnumConverterWithAttributeSupport))]
-public enum NodeOperation
+public enum FilterOperation
 {
 	[EnumMember(Value = "and")]
 	And,

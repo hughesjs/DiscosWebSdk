@@ -3,8 +3,9 @@ using DISCOSweb_Sdk.Queries.Filters.FilterTree.Data;
 
 namespace DISCOSweb_Sdk.Queries.Filters.FilterTree.Nodes;
 
-internal class OperationNode: BinaryTreeNode<OperationNodeData>
+internal class OperationNode: FilterTreeNode
 {
+	public override OperationNodeData? Data { get; }
 
-	public OperationNode(BinaryTreeNode<OperationNodeData>? parent, OperationNodeData? data) : base(parent, data) { }
+	public OperationNode(BinaryTreeNode<FilterTreeNodeData>? parent, FilterTreeNodeData? data) : base(parent, data) { }
 }
