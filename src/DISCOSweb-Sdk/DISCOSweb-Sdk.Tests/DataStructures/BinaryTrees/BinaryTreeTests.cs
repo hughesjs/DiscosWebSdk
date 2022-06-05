@@ -1,7 +1,6 @@
 using System;
 using DISCOSweb_Sdk.DataStructures.BinaryTrees;
 using DISCOSweb_Sdk.Exceptions.BinaryTree;
-using DISCOSweb_Sdk.Queries.Filters.FilterTree.Nodes;
 using JetBrains.Annotations;
 using Shouldly;
 using Xunit;
@@ -44,8 +43,8 @@ public abstract class BinaryTreeTests
 	[UsedImplicitly]
 	public class GenericTreeTests : BinaryTreeTests
 	{
-		private BinaryTree<OperationNode> _tree;
-		private readonly OperationNode _rootNode;
+		private BinaryTree<SealedTestNodeType> _tree;
+		private readonly SealedTestNodeType _rootNode;
 
 		public GenericTreeTests()
 		{
@@ -76,7 +75,7 @@ public abstract class BinaryTreeTests
 
 		public override void CanMoveHead()
 		{
-			OperationNode newNode = new();
+			SealedTestNodeType newNode = new();
 			_tree.Root!.SetLeftChild(newNode);
 			_tree.MoveHeadTo(newNode);
 			_tree.Head.ShouldBe(newNode);
@@ -105,7 +104,7 @@ public abstract class BinaryTreeTests
 
 		public override void ThrowsIfRootSetMoreThanOnce()
 		{
-			Should.Throw<BinaryTreeAlreadyHasRootException>(() => _tree.SetRoot(new OperationNode()));
+			Should.Throw<BinaryTreeAlreadyHasRootException>(() => _tree.SetRoot(new SealedTestNodeType()));
 		}
 
 		public override void SetRootSetsTreeRef()
