@@ -32,4 +32,8 @@
       <ProjectReference Include="..\DISCOSweb-Sdk\DISCOSweb-Sdk.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="DataStructures" />
+    </ItemGroup>
+
 </Project>
