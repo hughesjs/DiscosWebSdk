@@ -2,14 +2,18 @@ using DISCOSweb_Sdk.Exceptions.BinaryTree;
 
 namespace DISCOSweb_Sdk.DataStructures.BinaryTrees;
 
-internal class BinaryTree<T> : BinaryTree
+internal class BinaryTree<TNodeType> : BinaryTree where TNodeType: BinaryTreeNode
 {
-	public override BinaryTreeNode<T>? Root { get;  }
-	public override BinaryTreeNode<T>? Head { get; }
+	public override TNodeType? Root => _root as TNodeType;
+	public override TNodeType? Head => _head as TNodeType;
 	
-	public override BinaryTreeNode<T> SetRoot(BinaryTreeNode rootNode)
+	
+	public BinaryTree(){}
+	public BinaryTree(TNodeType rootNode): base(rootNode) { }
+	
+	public override TNodeType SetRoot(BinaryTreeNode rootNode)
 	{
-		if (rootNode is not BinaryTreeNode<T> node)
+		if (rootNode is not TNodeType node)
 		{
 			throw new InvalidNodeTypeException("Root must be of same type as tree.");
 		}
@@ -21,8 +25,8 @@ internal class BinaryTree<T> : BinaryTree
 
 internal class BinaryTree
 {
-	private BinaryTreeNode? _root;
-	private BinaryTreeNode? _head;
+	protected BinaryTreeNode? _root;
+	protected BinaryTreeNode? _head;
 	public virtual BinaryTreeNode? Root => _root;
 	public virtual BinaryTreeNode? Head => _head;
 
@@ -63,6 +67,7 @@ internal class BinaryTree
 		}
 		_root = rootNode;
 		_head = rootNode;
+		rootNode.SetTree(this);
 		return rootNode;
 	}
 }

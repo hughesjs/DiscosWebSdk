@@ -1,18 +1,20 @@
-namespace DISCOSweb_Sdk.DataStructures;
+namespace DISCOSweb_Sdk.DataStructures.BinaryTrees;
 
-internal abstract class BinaryTreeNode<T>: BinaryTreeNode
+internal class BinaryTreeNode<T> : BinaryTreeNode where T : class
 {
-	protected BinaryTreeNode(BinaryTreeNode<T>? parent, T? data)
+	public BinaryTreeNode(BinaryTree tree, BinaryTreeNode<T>? parent, T? data): base(tree)
 	{
-		Data = data;
-		Parent = parent;
+		_data = data;
+		_parent = parent;
 	}
 
-	public virtual T? Data { get; }
+	public BinaryTreeNode() : base(){}
 
-	public override BinaryTreeNode<T>? Parent { get; }
-	public override BinaryTreeNode<T>? LeftChild { get; }
-	public override BinaryTreeNode<T>? RightChild { get; }
+	public override T? Data => _data as T;
+
+	public override BinaryTreeNode<T>? Parent => _parent as BinaryTreeNode<T>;
+	public override BinaryTreeNode<T>? LeftChild => _leftChild as BinaryTreeNode<T>;
+	public override BinaryTreeNode<T>? RightChild => _rightChild as BinaryTreeNode<T>;
 
 	public override BinaryTreeNode<T> SetLeftChild(BinaryTreeNode node) => (BinaryTreeNode<T>)base.SetLeftChild(node);
 	public override BinaryTreeNode<T> SetRightChild(BinaryTreeNode node) => (BinaryTreeNode<T>)base.SetRightChild(node);
@@ -21,15 +23,30 @@ internal abstract class BinaryTreeNode<T>: BinaryTreeNode
 
 internal class BinaryTreeNode
 {
-	private BinaryTreeNode? _parent, _leftChild, _rightChild;
+
+	public BinaryTreeNode(BinaryTree? tree)
+	{
+		Tree = tree;
+	}
+	
+	public BinaryTreeNode(){}
+
+	protected object? _data;
+
+	protected BinaryTreeNode? _parent, _leftChild, _rightChild;
 	public virtual BinaryTreeNode? Parent => _parent;
 	public virtual BinaryTreeNode? LeftChild => _leftChild;
 	public virtual BinaryTreeNode? RightChild => _rightChild;
+	
+	public BinaryTree? Tree { get; private set; }
+
+	public virtual object? Data => _data;
 
 	public virtual BinaryTreeNode SetLeftChild(BinaryTreeNode node)
 	{
 		_leftChild = node;
 		node.SetParent(this);
+		node.SetTree(Tree);
 		return node;
 	}
 
@@ -37,11 +54,17 @@ internal class BinaryTreeNode
 	{
 		_rightChild = node;
 		node.SetParent(this);
+		node.SetTree(Tree);
 		return node;
 	}
 
 	protected void SetParent(BinaryTreeNode node)
 	{
 		_parent = node;
+	}
+
+	public void SetTree(BinaryTree? tree)
+	{
+		Tree = tree;
 	}
 }

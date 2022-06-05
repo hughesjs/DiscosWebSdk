@@ -1,6 +1,8 @@
-using DISCOSweb_Sdk.DataStructures;
+using System;
+using DISCOSweb_Sdk.DataStructures.BinaryTrees;
 using DISCOSweb_Sdk.Exceptions.BinaryTree;
 using DISCOSweb_Sdk.Queries.Filters.FilterTree.Nodes;
+using JetBrains.Annotations;
 using Shouldly;
 using Xunit;
 
@@ -8,17 +10,144 @@ namespace DISCOSweb_Sdk.Tests.DataStructures.BinaryTrees;
 
 public abstract class BinaryTreeTests
 {
+	[Fact]
+	public abstract void SetsRootOnConstruct();
 
-	public class GenericTreeTests
+	[Fact]
+	public abstract void SetsHeadToRootOnConstruct();
+
+	[Fact]
+	public abstract void ReturnsIsEmptyIfRootIsNull();
+
+	[Fact]
+	public abstract void ReturnsNotEmptyIfRootIsNotNull();
+
+	[Fact]
+	public abstract void CanMoveHead();
+
+	[Fact]
+	public abstract void ThrowsIfHeadMovedToNonTreeNode();
+
+	[Fact]
+	public abstract void CanSetRootOnEmptyTree();
+
+	[Fact]
+	public abstract void HeadIsMovedOnSetRoot();
+
+	[Fact]
+	public abstract void ThrowsIfRootSetMoreThanOnce();
+
+	[Fact]
+	public abstract void SetRootSetsTreeRef();
+
+
+	[UsedImplicitly]
+	public class GenericTreeTests : BinaryTreeTests
 	{
+		private BinaryTree<OperationNode> _tree;
+		private readonly OperationNode _rootNode;
+
+		public GenericTreeTests()
+		{
+			_rootNode = new();
+			_tree = new(_rootNode);
+		}
+
+		public override void SetsRootOnConstruct()
+		{
+			_tree.Root.ShouldBe(_rootNode);
+		}
+
+		public override void SetsHeadToRootOnConstruct()
+		{
+			_tree.Head.ShouldBe(_rootNode);
+		}
+
+		public override void ReturnsIsEmptyIfRootIsNull()
+		{
+			_tree = new();
+			_tree.IsEmpty.ShouldBeTrue();
+		}
+
+		public override void ReturnsNotEmptyIfRootIsNotNull()
+		{
+			_tree.IsEmpty.ShouldBeFalse();
+		}
+
+		public override void CanMoveHead()
+		{
+			OperationNode newNode = new();
+			_tree.Root!.SetLeftChild(newNode);
+			_tree.MoveHeadTo(newNode);
+			_tree.Head.ShouldBe(newNode);
+		}
+
+		public override void ThrowsIfHeadMovedToNonTreeNode()
+		{
+			Should.Throw<NodeIsNotInBinaryTreeException>(() => _tree.MoveHeadTo(new()));
+		}
+
+		public override void CanSetRootOnEmptyTree()
+		{
+			_tree = new();
+			_tree.Root.ShouldBeNull();
+			_tree.SetRoot(_rootNode);
+			_tree.Root.ShouldBe(_rootNode);
+		}
+
+		public override void HeadIsMovedOnSetRoot()
+		{
+			_tree = new();
+			_tree.Root.ShouldBeNull();
+			_tree.SetRoot(_rootNode);
+			_tree.Head.ShouldBe(_rootNode);
+		}
+
+		public override void ThrowsIfRootSetMoreThanOnce()
+		{
+			Should.Throw<BinaryTreeAlreadyHasRootException>(() => _tree.SetRoot(new OperationNode()));
+		}
+
+		public override void SetRootSetsTreeRef()
+		{
+			_tree = new();
+			_tree.Root.ShouldBeNull();
+			_tree.SetRoot(_rootNode);
+			_rootNode.Tree.ShouldBe(_tree);
+		}
+
+		[Fact]
+		public void ThrowsWhenSettingRootIfNodeIsOfWrongType()
+		{
+			
+			BinaryTree<SealedTestNodeType> freshTree = new();
+			BinaryTreeNode<string> definitionNode = new();
+			Should.Throw<InvalidNodeTypeException>(() => freshTree.SetRoot(definitionNode));
+		}
+
+		[Theory]
+		[InlineData(typeof(TestNodeTypeA))]
+		[InlineData(typeof(TestNodeTypeB))]
+		[InlineData(typeof(TestNodeTypeC))]
+		public void DoesntThrowWhenSettingRootToDerivedTypes(Type t)
+		{
+			BinaryTree<TestNodeTypeA> freshTree = new();
+			TestNodeTypeA root = Activator.CreateInstance(t) as TestNodeTypeA ?? throw new("Whoops");
+			Should.NotThrow(() => freshTree.SetRoot(root));
+		}
 		
-		
+		private sealed class SealedTestNodeType: BinaryTreeNode<string>{}
+
+		private class TestNodeTypeA : BinaryTreeNode<object> {}
+		private sealed class TestNodeTypeB : TestNodeTypeA {}
+		private sealed class TestNodeTypeC : TestNodeTypeA {}
+
 	}
 
-
-	public class NonGenericTests
+	[UsedImplicitly]
+	public class NonGenericTests: BinaryTreeTests
 	{
-		private DISCOSweb_Sdk.DataStructures.BinaryTrees.BinaryTree _tree;
+		private BinaryTree _tree;
 		private readonly BinaryTreeNode _rootNode;
 
 		public NonGenericTests()
@@ -26,87 +155,68 @@ public abstract class BinaryTreeTests
 			_rootNode = new();
 			_tree = new(_rootNode);
 		}
-		
-		[Fact]
-		public void SetsRootOnConstruct()
+
+		public override void SetsRootOnConstruct()
 		{
 			_tree.Root.ShouldBe(_rootNode);
 		}
-
-		[Fact]
-		public void SetsHeadToRootOnConstruct()
+		
+		public override void SetsHeadToRootOnConstruct()
 		{
 			_tree.Head.ShouldBe(_rootNode);
 		}
 
-		[Fact]
-		public void ReturnsIsEmptyIfRootIsNull()
+		public override void ReturnsIsEmptyIfRootIsNull()
 		{
 			_tree = new();
 			_tree.IsEmpty.ShouldBeTrue();
 		}
 
-		[Fact]
-		public void ReturnsNotEmptyIfRootIsNotNull()
+		public override void ReturnsNotEmptyIfRootIsNotNull()
 		{
 			_tree.IsEmpty.ShouldBeFalse();
 		}
 
-		[Fact]
-		public void CanSetRightChild()
-		{
-			BinaryTreeNode newNode = new();
-			_rootNode.SetRightChild(newNode);
-			_rootNode.RightChild.ShouldBe(newNode);
-			newNode.Parent.ShouldBe(_rootNode);
-		}
-
-		[Fact]
-		public void CanSetLeftChild()
-		{
-			BinaryTreeNode newNode = new();
-			_rootNode.SetLeftChild(newNode);
-			_rootNode.LeftChild.ShouldBe(newNode);
-			newNode.Parent.ShouldBe(_rootNode);
-		}
-
-		[Fact]
-		public void CanMoveHead()
+		public override void CanMoveHead()
 		{
 			BinaryTreeNode newNode = new();
 			_tree.Root!.SetLeftChild(newNode);
 			_tree.MoveHeadTo(newNode);
 			_tree.Head.ShouldBe(newNode);
 		}
-
-		[Fact]
-		public void ThrowsIfHeadMovedToNonTreeNode()
+		
+		public override void ThrowsIfHeadMovedToNonTreeNode()
 		{
 			Should.Throw<NodeIsNotInBinaryTreeException>(() => _tree.MoveHeadTo(new()));
 		}
-
-		[Fact]
-		public void CanSetRootOnEmptyTree()
+		
+		public override void CanSetRootOnEmptyTree()
 		{
 			_tree = new();
 			_tree.Root.ShouldBeNull();
 			_tree.SetRoot(_rootNode);
 			_tree.Root.ShouldBe(_rootNode);
 		}
-
-		[Fact]
-		public void HeadIsMovedOnSetRoot()
+		
+		public override void HeadIsMovedOnSetRoot()
 		{
 			_tree = new();
 			_tree.Root.ShouldBeNull();
 			_tree.SetRoot(_rootNode);
 			_tree.Head.ShouldBe(_rootNode);
 		}
-
-		[Fact]
-		public void ThrowsIfRootSetMoreThanOnce()
+		
+		public override void ThrowsIfRootSetMoreThanOnce()
 		{
 			Should.Throw<BinaryTreeAlreadyHasRootException>(() => _tree.SetRoot(new()));
+		}
+
+		public override void SetRootSetsTreeRef()
+		{
+			_tree = new();
+			_tree.Root.ShouldBeNull();
+			_tree.SetRoot(_rootNode);
+			_rootNode.Tree.ShouldBe(_tree);
 		}
 	}
 }

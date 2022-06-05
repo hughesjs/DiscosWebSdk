@@ -22,4 +22,6 @@ internal class FilterTree: BinaryTree<FilterTreeNode>
 	// 	opNode.AddChild(prevCurrent);
 	// 	_currentNode = opNode;
 	// }
+	public FilterTree(FilterTreeNode rootNode) : base(rootNode) { }
+	public FilterTree() {}
 }
