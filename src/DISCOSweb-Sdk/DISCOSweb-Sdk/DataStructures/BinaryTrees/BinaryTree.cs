@@ -11,9 +11,9 @@ internal class BinaryTree<TNodeType> : BinaryTree where TNodeType: BinaryTreeNod
 	public BinaryTree(){}
 	public BinaryTree(TNodeType rootNode): base(rootNode) { }
 	
-	public override TNodeType SetRoot(BinaryTreeNode rootNode)
+	public override TNodeType SetRoot(BinaryTreeNode newRootNode)
 	{
-		if (rootNode is not TNodeType node)
+		if (newRootNode is not TNodeType node)
 		{
 			throw new InvalidNodeTypeException("Root must be of same type as tree.");
 		}
@@ -36,6 +36,7 @@ internal class BinaryTree
 	{
 		_root = root;
 		_head = root;
+		root.SetTree(this);
 	}
 
 	public bool IsEmpty => Root is null;
@@ -48,27 +49,19 @@ internal class BinaryTree
 
 	private void EnsureNodeIsInTree(BinaryTreeNode node)
 	{
-		if (node == Root)
-		{
-			return;
-		}
-		if (node.Parent is null) // Hit root node in other tree
+		if (node.Tree != this) // Hit root node in other tree
 		{
 			throw new NodeIsNotInBinaryTreeException(); 
 		}
-		EnsureNodeIsInTree(node.Parent);
 	}
 
-	public virtual BinaryTreeNode SetRoot(BinaryTreeNode rootNode)
+	public virtual BinaryTreeNode SetRoot(BinaryTreeNode newRootNode)
 	{
-		if (_root is not null)
-		{
-			throw new BinaryTreeAlreadyHasRootException();
-		}
-		_root = rootNode;
-		_head = rootNode;
-		rootNode.SetTree(this);
-		return rootNode;
+		_root?.ChangeParent(newRootNode, true);
+		_root = newRootNode;
+		_head = newRootNode;
+		newRootNode.SetTree(this);
+		return newRootNode;
 	}
 
 	/// <summary>
@@ -87,10 +80,12 @@ internal class BinaryTree
 		{
 			throw new InvalidOperationException("Cannot replace root using this method");
 		}
+
 		BinaryTreeNode? headParent = Head.Parent;
 		bool isLeftChild = Head.Parent.LeftChild == Head;
 		Head.ChangeParent(newNode, true);
 		newNode.ChangeParent(headParent, isLeftChild);
+		MoveHeadTo(newNode);
 		return newNode;
 	}
 }

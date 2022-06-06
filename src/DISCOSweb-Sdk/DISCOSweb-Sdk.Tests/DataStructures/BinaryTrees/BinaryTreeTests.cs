@@ -34,7 +34,7 @@ public abstract class BinaryTreeTests
 	public abstract void HeadIsMovedOnSetRoot();
 
 	[Fact]
-	public abstract void ThrowsIfRootSetMoreThanOnce();
+	public abstract void AddsRootNodeAsNewLayerIfAlreadyHasRoot();
 
 	[Fact]
 	public abstract void SetRootSetsTreeRef();
@@ -102,9 +102,15 @@ public abstract class BinaryTreeTests
 			_tree.Head.ShouldBe(_rootNode);
 		}
 
-		public override void ThrowsIfRootSetMoreThanOnce()
+		public override void AddsRootNodeAsNewLayerIfAlreadyHasRoot()
 		{
-			Should.Throw<BinaryTreeAlreadyHasRootException>(() => _tree.SetRoot(new SealedTestNodeType()));
+			SealedTestNodeType oldRoot = _rootNode;
+			SealedTestNodeType newRoot = new();
+			_tree.SetRoot(newRoot);
+			
+			newRoot.LeftChild.ShouldBe(oldRoot);
+			oldRoot.Parent.ShouldBe(newRoot);
+			_tree.Head.ShouldBe(newRoot);
 		}
 
 		public override void SetRootSetsTreeRef()
@@ -223,9 +229,15 @@ public abstract class BinaryTreeTests
 			_tree.Head.ShouldBe(_rootNode);
 		}
 		
-		public override void ThrowsIfRootSetMoreThanOnce()
+		public override void AddsRootNodeAsNewLayerIfAlreadyHasRoot()
 		{
-			Should.Throw<BinaryTreeAlreadyHasRootException>(() => _tree.SetRoot(new()));
+			BinaryTreeNode oldRoot = _rootNode;
+			BinaryTreeNode newRoot = new();
+			_tree.SetRoot(newRoot);
+			
+			newRoot.LeftChild.ShouldBe(oldRoot);
+			oldRoot.Parent.ShouldBe(newRoot);
+			_tree.Head.ShouldBe(newRoot);
 		}
 
 		public override void SetRootSetsTreeRef()

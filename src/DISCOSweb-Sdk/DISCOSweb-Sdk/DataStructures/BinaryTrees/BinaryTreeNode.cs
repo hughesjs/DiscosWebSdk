@@ -10,7 +10,7 @@ internal class BinaryTreeNode<T> : BinaryTreeNode where T : class
 
 	public BinaryTreeNode() : base(){}
 
-	public override T? Data => _data as T;
+	public override T? Data => base.Data as T;
 
 	public override BinaryTreeNode<T>? Parent => _parent as BinaryTreeNode<T>;
 	public override BinaryTreeNode<T>? LeftChild => _leftChild as BinaryTreeNode<T>;
@@ -23,7 +23,6 @@ internal class BinaryTreeNode<T> : BinaryTreeNode where T : class
 
 internal class BinaryTreeNode
 {
-
 	public BinaryTreeNode(BinaryTree? tree)
 	{
 		Tree = tree;
@@ -47,6 +46,7 @@ internal class BinaryTreeNode
 		_leftChild = node;
 		node.SetParent(this);
 		node.SetTree(Tree);
+		Tree?.MoveHeadTo(node);
 		return node;
 	}
 
@@ -55,10 +55,11 @@ internal class BinaryTreeNode
 		_rightChild = node;
 		node.SetParent(this);
 		node.SetTree(Tree);
+		Tree?.MoveHeadTo(node);
 		return node;
 	}
 
-	protected void SetParent(BinaryTreeNode? newParent)
+	private void SetParent(BinaryTreeNode? newParent)
 	{
 		_parent = newParent;
 	}
@@ -94,4 +95,6 @@ internal class BinaryTreeNode
 	{
 		Tree = tree;
 	}
+
+	public bool IsFull() => _leftChild is not null && _rightChild is not null;
 }
