@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Security.Authentication.ExtendedProtection;
 using DISCOSweb_Sdk.Enums;
+using DISCOSweb_Sdk.Exceptions;
 using DISCOSweb_Sdk.Extensions;
 using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
 using DISCOSweb_Sdk.Models.ResponseModels.Launches;
@@ -41,7 +42,7 @@ public class TypeExtensionsTests
 	[InlineData(typeof(Propellant), "Never gonna let you down")]
 	public void ThrowsIfFieldDoesntExist(Type type, string fieldName)
 	{
-		Should.Throw<MissingFieldException>(() => type.EnsureFieldExists(fieldName));
+		Should.Throw<MissingMemberException>(() => type.EnsureFieldExists(fieldName));
 	}
 
 	[Theory]
@@ -74,7 +75,7 @@ public class TypeExtensionsTests
 	[InlineData(typeof(DiscosObject), typeof(DiscosFunction), nameof(DiscosObject.Reentry))]
 	public void ThrowsIfFieldIsNotOfType(Type objectType, Type fieldType, string fieldName)
 	{
-		Should.Throw<MissingFieldException>(() => objectType.EnsureFieldIsOfType(fieldName, fieldType));
+		Should.Throw<MemberParameterTypeMismatchException>(() => objectType.EnsureFieldIsOfType(fieldName, fieldType));
 	}
 
 	[Theory]
