@@ -1,6 +1,6 @@
 using System;
 using DISCOSweb_Sdk.DataStructures.BinaryTrees;
-using DISCOSweb_Sdk.Exceptions.BinaryTree;
+using DISCOSweb_Sdk.Exceptions.DataStructures.BinaryTree;
 using JetBrains.Annotations;
 using Shouldly;
 using Xunit;

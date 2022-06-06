@@ -11,4 +11,14 @@ internal class DefinitionNode<TObject, TParam>: FilterTreeNode
 	public DefinitionNode(FilterTree tree, BinaryTreeNode<FilterTreeNodeData>? parent, FilterTreeNodeData? data) : base(tree, parent, data) { }
 	
 	public DefinitionNode() {}
+
+	public override BinaryTreeNode<FilterTreeNodeData> SetLeftChild(BinaryTreeNode node)
+	{
+		throw new InvalidOperationException("Filter definitions cannot have child nodes.");
+	}
+
+	public override BinaryTreeNode<FilterTreeNodeData> SetRightChild(BinaryTreeNode node)
+	{
+		throw new InvalidOperationException("Filter definitions cannot have child nodes.");
+	}
 }

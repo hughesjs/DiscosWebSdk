@@ -1,5 +1,7 @@
 using System.Collections;
 using DISCOSweb_Sdk.Enums;
+using DISCOSweb_Sdk.Exceptions;
+using DISCOSweb_Sdk.Exceptions.Queries.Filters.FilterDefinitions;
 using DISCOSweb_Sdk.Extensions;
 using DISCOSweb_Sdk.Misc;
 
@@ -10,11 +12,13 @@ public abstract record FilterDefinition
 	public abstract override string ToString();
 }
 
-public record FilterDefinition<TObject, TParam>: FilterDefinition where TObject: notnull
+
+public record FilterDefinition<TObject, TParam> : FilterDefinition where TObject : notnull
 {
 	public string FieldName { get; }
 	public TParam? Value { get; }
 	public DiscosFunction Function { get; }
+
 	public FilterDefinition(string fieldName, TParam? value, DiscosFunction function)
 	{
 		ValidateParams(fieldName, function);
@@ -25,16 +29,32 @@ public record FilterDefinition<TObject, TParam>: FilterDefinition where TObject:
 
 	private void ValidateParams(string fieldName, DiscosFunction function)
 	{
-		typeof(TObject).EnsureFieldExists(fieldName);
-		if (typeof(TParam).IsCollectionType() && DiscosFuncAcceptsArray(function))
+		try
 		{
-			Type elementType = typeof(TParam).GetElementType() ?? throw new("Could not determine collection element type");
-			typeof(TObject).EnsureFieldIsOfType(fieldName, elementType);
+			typeof(TObject).EnsureFieldExists(fieldName);
+			if (typeof(TParam).IsCollectionType())
+			{
+				if (!DiscosFuncAcceptsArray(function))
+				{
+					throw new DiscosFunctionDoesntSupportArraysException(function);
+				}
+				Type elementType = typeof(TParam).GetElementType() ?? throw new("Could not determine collection element type");
+				typeof(TObject).EnsureFieldIsOfType(fieldName, elementType);
+			}
+			else
+			{
+				typeof(TObject).EnsureFieldIsOfType(fieldName, typeof(TParam));
+			}
 		}
-		else
+		catch (MissingMemberException)
 		{
-			typeof(TObject).EnsureFieldIsOfType(fieldName, typeof(TParam));
+			throw new InvalidPropertyOnFilterDefinitionException(typeof(TObject).Name, fieldName);
 		}
+		catch (MemberParameterTypeMismatchException)
+		{
+			throw new TypeMismatchOnFilterDefinitionException(typeof(TObject), typeof(TParam));
+		}
+
 	}
 
 	private bool DiscosFuncAcceptsArray(DiscosFunction function)
@@ -66,24 +86,24 @@ public record FilterDefinition<TObject, TParam>: FilterDefinition where TObject:
 
 		if (Value is bool val)
 		{
-			return $"{Function.GetEnumMemberValue()}({GetFieldNameJsonProperty()},{(val ? "true": "false")})";
+			return $"{Function.GetEnumMemberValue()}({GetFieldNameJsonProperty()},{(val ? "true" : "false")})";
 		}
-		
+
 		if (typeof(TParam).IsCollectionType())
 		{
 			IEnumerable<string> elements;
 			// We can suppress the null checks below as we know these casts are safe
 			if (typeof(TParam).GetElementType() == typeof(string))
 			{
-				elements = ((IEnumerable<string>)Value!).Select(e => $"'{e}'"); 
+				elements = ((IEnumerable<string>)Value!).Select(e => $"'{e}'");
 			}
 			else
 			{
-				elements = ((IEnumerable)Value!).Cast<string>();
+				elements = ((IEnumerable)Value).Cast<object?>().Select(x => x.ToString()).ToList();
 			}
 			return $"{Function.GetEnumMemberValue()}({GetFieldNameJsonProperty()},({string.Join(',', elements.ToArray())}))";
 		}
-		
+
 		if (typeof(TParam).IsNumericType())
 		{
 			return $"{Function.GetEnumMemberValue()}({GetFieldNameJsonProperty()},{Value})";

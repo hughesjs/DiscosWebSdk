@@ -1,4 +1,4 @@
-using DISCOSweb_Sdk.Exceptions.BinaryTree;
+using DISCOSweb_Sdk.Exceptions.DataStructures.BinaryTree;
 
 namespace DISCOSweb_Sdk.DataStructures.BinaryTrees;
 

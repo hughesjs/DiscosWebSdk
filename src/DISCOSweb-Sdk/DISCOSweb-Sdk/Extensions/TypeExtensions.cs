@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Reflection;
+using DISCOSweb_Sdk.Exceptions;
 
 namespace DISCOSweb_Sdk.Extensions;
 
@@ -9,14 +10,12 @@ internal static class TypeExtensions
 	{
 		if (type.GetField(fieldName) is null && type.GetProperty(fieldName) is null)
 		{
-			throw new MissingFieldException($"Field ({fieldName}) does not exist on type {type.Name}");
+			throw new MissingMemberException($"Field ({fieldName}) does not exist on type {type.Name}");
 		}
 	}
 
 	internal static void EnsureFieldIsOfType(this Type objectType, string fieldName, Type fieldType, bool checkNullability = false)
 	{
-		
-		objectType.EnsureFieldExists(fieldName);
 		FieldInfo? fieldInfo = objectType.GetField(fieldName);
 		Type? objectFieldType = fieldInfo?.FieldType;
 		
@@ -38,13 +37,13 @@ internal static class TypeExtensions
 		
 		if (objectFieldType is not null && objectFieldType != fieldType)
 		{
-			throw new MissingFieldException($"Field ({fieldName}) is not of type ({fieldType})");
+			throw new MemberParameterTypeMismatchException(objectFieldType, fieldType);
 		}
 
 		
 		if (objectPropType is not null && objectPropType != fieldType)
 		{
-			throw new MissingFieldException($"Field ({fieldName}) is not of type ({fieldType})");
+			throw new MemberParameterTypeMismatchException(objectPropType, fieldType);
 		}
 	}
 	

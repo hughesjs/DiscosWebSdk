@@ -1,4 +1,4 @@
-namespace DISCOSweb_Sdk.Exceptions;
+namespace DISCOSweb_Sdk.Exceptions.Queries.Filters.FilterTree;
 
 public class InvalidFilterTreeException: Exception
 {
