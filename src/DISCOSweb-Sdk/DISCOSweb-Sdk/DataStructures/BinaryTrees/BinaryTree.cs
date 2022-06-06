@@ -70,4 +70,27 @@ internal class BinaryTree
 		rootNode.SetTree(this);
 		return rootNode;
 	}
+
+	/// <summary>
+	/// Inserts new node at the head by making the head an orphan
+	/// And then having the new adopt it as the left child
+	/// </summary>
+	/// <param name="newNode">New node to be inserted</param>
+	/// <returns></returns>
+	public BinaryTreeNode InsertNodeAtHead(BinaryTreeNode newNode)
+	{
+		if (Head is null)
+		{
+			throw new InvalidOperationException("Head is detached from tree");
+		}
+		if (Head.Parent is null)
+		{
+			throw new InvalidOperationException("Cannot replace root using this method");
+		}
+		BinaryTreeNode? headParent = Head.Parent;
+		bool isLeftChild = Head.Parent.LeftChild == Head;
+		Head.ChangeParent(newNode, true);
+		newNode.ChangeParent(headParent, isLeftChild);
+		return newNode;
+	}
 }

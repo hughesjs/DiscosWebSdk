@@ -155,6 +155,24 @@ public abstract class BinaryTreeTests
 			_tree = new(_rootNode);
 		}
 
+		[Fact]
+		public void CanInsertNewNodeAtHead()
+		{
+			BinaryTreeNode newChildNode = _rootNode.SetLeftChild(new());
+			BinaryTreeNode newLeftGrandChildNode = newChildNode.SetLeftChild(new());
+			BinaryTreeNode newRightGrandChildNode = newChildNode.SetRightChild(new());
+			_tree.MoveHeadTo(newChildNode);
+
+			BinaryTreeNode interloperNode = _tree.InsertNodeAtHead(new());
+			
+			_rootNode.LeftChild.ShouldBe(interloperNode);
+			interloperNode.LeftChild.ShouldBe(newChildNode);
+			interloperNode.Parent.ShouldBe(_rootNode);
+			newChildNode.Parent.ShouldBe(interloperNode);
+			newChildNode.LeftChild.ShouldBe(newLeftGrandChildNode);
+			newChildNode.RightChild.ShouldBe(newRightGrandChildNode);
+		}
+
 		public override void SetsRootOnConstruct()
 		{
 			_tree.Root.ShouldBe(_rootNode);

@@ -58,9 +58,36 @@ internal class BinaryTreeNode
 		return node;
 	}
 
-	protected void SetParent(BinaryTreeNode node)
+	protected void SetParent(BinaryTreeNode? newParent)
 	{
-		_parent = node;
+		_parent = newParent;
+	}
+
+	public void ChangeParent(BinaryTreeNode? newParent, bool isLeft)
+	{
+		// Detach from old parent
+		Parent?.AbandonChild(this);
+		// Attach to new parent
+		if (isLeft)
+		{
+			newParent?.SetLeftChild(this);
+		}
+		else
+		{
+			newParent?.SetRightChild(this);
+		}
+	}
+
+	private void AbandonChild(BinaryTreeNode child)
+	{
+		if (_leftChild == child)
+		{
+			_leftChild = null;
+		}
+		if (_rightChild == child)
+		{
+			_rightChild = null;
+		}
 	}
 
 	public void SetTree(BinaryTree? tree)
