@@ -97,4 +97,6 @@ internal class BinaryTreeNode
 	}
 
 	public bool IsFull() => _leftChild is not null && _rightChild is not null;
+
+	public override string ToString() => _data?.ToString() ?? base.ToString()!;
 }

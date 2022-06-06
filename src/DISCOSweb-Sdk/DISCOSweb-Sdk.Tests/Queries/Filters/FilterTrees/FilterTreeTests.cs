@@ -105,4 +105,54 @@ public class FilterTreeTests
 		
 		new FilterTree().IsCompleteTree().ShouldBeFalse();
 	}
+
+	[Fact]
+	public void CanPrintSingleNodeTree()
+	{
+		_tree.AddDefinitionNode(new FilterDefinition<DiscosObject, string>(nameof(DiscosObject.Name), "123", DiscosFunction.Equal));
+		_tree.ToString().ShouldBe("eq(name,'123')");
+	}
+
+	[Fact]
+	public void CanPrintSingleOperationTree()
+	{
+		FilterDefinition f1 = new FilterDefinition<DiscosObject, string>(nameof(DiscosObject.Id), "123", DiscosFunction.Equal);
+		FilterDefinition f2 = new FilterDefinition<DiscosObject, string>(nameof(DiscosObject.Id), "321", DiscosFunction.Equal);
+
+		_tree.AddDefinitionNode(f1);
+		_tree.AddOperationNode(FilterOperation.And);
+		_tree.AddDefinitionNode(f2);
+		
+		_tree.ToString().ShouldBe($"and({f1},{f2})");
+	}
+
+	[Fact]
+	public void CanPrintMultipleOperationTree()
+	{
+		FilterDefinition fd1 = new FilterDefinition<DiscosObject, string>(nameof(DiscosObject.Id), "1", DiscosFunction.Equal);
+		FilterDefinition fd2 = new FilterDefinition<DiscosObject, string>(nameof(DiscosObject.Id), "2", DiscosFunction.Equal);
+		FilterDefinition fd3 = new FilterDefinition<DiscosObject, string>(nameof(DiscosObject.Id), "3", DiscosFunction.NotEqual);
+		FilterDefinition fd4 = new FilterDefinition<DiscosObject, string>(nameof(DiscosObject.Id), "4", DiscosFunction.NotEqual);
+
+		_tree.AddDefinitionNode(fd1);
+		_tree.AddOperationNode(FilterOperation.And);
+		_tree.AddDefinitionNode(fd2);
+		_tree.AddOperationNode(FilterOperation.Or);
+		_tree.AddDefinitionNode(fd3);
+		_tree.AddOperationNode(FilterOperation.And);
+		_tree.AddDefinitionNode(fd4);
+		
+		_tree.ToString().ShouldBe($"or(and({fd1},{fd2}),and({fd3},{fd4}))");
+	}
+
+	[Fact]
+	public void CanPrintIncompleteTree()
+	{
+		FilterDefinition f1 = new FilterDefinition<DiscosObject, string>(nameof(DiscosObject.Id), "123", DiscosFunction.Equal);
+
+		_tree.AddDefinitionNode(f1);
+		_tree.AddOperationNode(FilterOperation.And);
+
+		_tree.ToString().ShouldBe($"and({f1},)");
+	}
 }

@@ -1,7 +1,8 @@
+using DISCOSweb_Sdk.Enums;
+
 namespace DISCOSweb_Sdk.Queries.Filters.FilterTree.Data;
 
-internal class OperationNodeData: FilterTreeNodeData
+internal class OperationNodeData: FilterTreeNodeData<FilterOperation>
 {
-	//public override object Value => base.Value;
-	public OperationNodeData(object? value) : base(value) { }
+	public OperationNodeData(FilterOperation value) : base(value) { }
 }

@@ -1,6 +1,8 @@
+using System.Text;
 using DISCOSweb_Sdk.DataStructures.BinaryTrees;
 using DISCOSweb_Sdk.Enums;
 using DISCOSweb_Sdk.Exceptions.Queries.Filters.FilterTree;
+using DISCOSweb_Sdk.Misc;
 using DISCOSweb_Sdk.Queries.Filters.FilterTree.Nodes;
 
 namespace DISCOSweb_Sdk.Queries.Filters.FilterTree;
@@ -73,6 +75,30 @@ internal class FilterTree : BinaryTree<FilterTreeNode>
 		}
 
 		return IsCompleteSubTree(startNode.LeftChild) && IsCompleteSubTree(startNode.RightChild);
+	}
+
+	public override string ToString()
+	{
+		if (IsEmpty)
+		{
+			return "Empty Tree";
+		}
+		return GetSubTreeString(Root!);
+	}
+
+	private string GetSubTreeString(FilterTreeNode? startNode)
+	{
+		switch (startNode)
+		{
+			case DefinitionNode node:
+				return node.ToString() ?? string.Empty;
+			case OperationNode node:
+				return $"{node.Data.Value.GetEnumMemberValue()}({GetSubTreeString(node.LeftChild)},{GetSubTreeString(node.RightChild)})";
+			case null:
+				return string.Empty;
+			default:
+				throw new InvalidFilterTreeException("Unknown node type in tree");
+		}
 	}
 
 	public FilterTree(FilterTreeNode rootNode) : base(rootNode) { }
