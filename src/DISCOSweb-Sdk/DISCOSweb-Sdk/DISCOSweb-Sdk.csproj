@@ -34,5 +34,10 @@
     <ItemGroup>
       <ProjectReference Include="..\..\..\vendor\Hypermedia\Src\Hypermedia\Hypermedia.csproj" />
     </ItemGroup>
+
+
+    <ItemGroup>
+      <Folder Include="Exceptions\DataStructures" />
+    </ItemGroup>
     
 </Project>

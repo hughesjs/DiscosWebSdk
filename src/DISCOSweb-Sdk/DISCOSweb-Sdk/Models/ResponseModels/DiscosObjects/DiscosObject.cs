@@ -37,11 +37,11 @@ public record DiscosObject : DiscosModelBase
 	public float? Depth { get; init; }
 
 	[JsonPropertyName("xSectMax")]
-	public double CrossSectionMaximum { get; init; }
+	public double? CrossSectionMaximum { get; init; }
 	[JsonPropertyName("xSectMin")]
-	public double CrossSectionMinimum { get; init; }
+	public double? CrossSectionMinimum { get; init; }
 	[JsonPropertyName("xSectAvg")]
-	public double CrossSectionAverage { get; init; }
+	public double? CrossSectionAverage { get; init; }
 	
 	[JsonPropertyName("objectClass")]
 	public ObjectClass? ObjectClass { get; init; }
