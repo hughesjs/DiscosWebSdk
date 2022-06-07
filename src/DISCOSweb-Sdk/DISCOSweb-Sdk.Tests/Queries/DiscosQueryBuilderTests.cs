@@ -14,11 +14,9 @@ namespace DISCOSweb_Sdk.Tests.Queries;
 
 public class DiscosQueryBuilderTests
 {
-	private IDiscosQueryBuilder<DiscosObject> _builder;
-	public DiscosQueryBuilderTests()
-	{
-		_builder = new DiscosQueryBuilder<DiscosObject>();
-	}
+	private readonly IDiscosQueryBuilder<DiscosObject> _builder;
+
+	public DiscosQueryBuilderTests() => _builder = new DiscosQueryBuilder<DiscosObject>();
 
 	[Fact]
 	public void CanAddFilter()
@@ -32,7 +30,7 @@ public class DiscosQueryBuilderTests
 	public void ThrowsIfFilterTObjectDoesntMatchBuilderType()
 	{
 		FilterDefinition filter = new FilterDefinition<Propellant, string>(nameof(DiscosObject.Name), "123", DiscosFunction.Equal);
-		Should.Throw<InvalidFilterTreeException>(() =>_builder.AddFilter(filter));
+		Should.Throw<InvalidFilterTreeException>(() => _builder.AddFilter(filter));
 	}
 
 	[Fact]
@@ -54,8 +52,7 @@ public class DiscosQueryBuilderTests
 		_builder.AddFilter(f1).Or().AddFilter(f2);
 		_builder.Build().ShouldBe($"?filter=or({f1},{f2})");
 	}
-	
-	
+
 
 	[Fact]
 	public void CanAddInclude()
@@ -119,6 +116,3 @@ public class DiscosQueryBuilderTests
 		_builder.Build().Count(c => c == '&').ShouldBe(2);
 	}
 }
-
-
-

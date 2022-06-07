@@ -10,10 +10,10 @@ internal static class LaunchVehicleContractBuilder
 	internal static DelegatingContractBuilder<LaunchVehicle> WithLaunchVehicle(this IBuilder builder)
 	{
 		const string launchVehicleIdField = nameof(LaunchVehicle.Id);
-		const string familyLinkTemplate = $"/api/launch-vehicles/{launchVehicleIdField}/family";
-		const string stageLinkTemplate = $"/api/launch-vehicles/{launchVehicleIdField}/stages";
-		const string launchLinkTemplate = $"/api/launch-vehicles/{launchVehicleIdField}/launches";
-		const string engineLinkTemplate = $"/api/launch-vehicles/{launchVehicleIdField}/engines";
+		const string familyLinkTemplate   = $"/api/launch-vehicles/{launchVehicleIdField}/family";
+		const string stageLinkTemplate    = $"/api/launch-vehicles/{launchVehicleIdField}/stages";
+		const string launchLinkTemplate   = $"/api/launch-vehicles/{launchVehicleIdField}/launches";
+		const string engineLinkTemplate   = $"/api/launch-vehicles/{launchVehicleIdField}/engines";
 
 		object IdSelector(LaunchVehicle vehicle) => vehicle.Id;
 

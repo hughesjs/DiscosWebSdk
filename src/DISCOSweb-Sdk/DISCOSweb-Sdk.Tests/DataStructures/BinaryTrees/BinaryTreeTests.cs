@@ -43,13 +43,13 @@ public abstract class BinaryTreeTests
 	[UsedImplicitly]
 	public class GenericTreeTests : BinaryTreeTests
 	{
-		private BinaryTree<SealedTestNodeType> _tree;
-		private readonly SealedTestNodeType _rootNode;
+		private readonly SealedTestNodeType             _rootNode;
+		private          BinaryTree<SealedTestNodeType> _tree;
 
 		public GenericTreeTests()
 		{
 			_rootNode = new();
-			_tree = new(_rootNode);
+			_tree     = new(_rootNode);
 		}
 
 		public override void SetsRootOnConstruct()
@@ -107,7 +107,7 @@ public abstract class BinaryTreeTests
 			SealedTestNodeType oldRoot = _rootNode;
 			SealedTestNodeType newRoot = new();
 			_tree.SetRoot(newRoot);
-			
+
 			newRoot.LeftChild.ShouldBe(oldRoot);
 			oldRoot.Parent.ShouldBe(newRoot);
 			_tree.Head.ShouldBe(newRoot);
@@ -124,9 +124,9 @@ public abstract class BinaryTreeTests
 		[Fact]
 		public void ThrowsWhenSettingRootIfNodeIsOfWrongType()
 		{
-			
-			BinaryTree<SealedTestNodeType> freshTree = new();
-			BinaryTreeNode<string> definitionNode = new();
+
+			BinaryTree<SealedTestNodeType> freshTree      = new();
+			BinaryTreeNode<string>         definitionNode = new();
 			Should.Throw<InvalidNodeTypeException>(() => freshTree.SetRoot(definitionNode));
 		}
 
@@ -137,40 +137,42 @@ public abstract class BinaryTreeTests
 		public void DoesntThrowWhenSettingRootToDerivedTypes(Type t)
 		{
 			BinaryTree<TestNodeTypeA> freshTree = new();
-			TestNodeTypeA root = Activator.CreateInstance(t) as TestNodeTypeA ?? throw new("Whoops");
+			TestNodeTypeA             root      = Activator.CreateInstance(t) as TestNodeTypeA ?? throw new("Whoops");
 			Should.NotThrow(() => freshTree.SetRoot(root));
 		}
-		
-		private sealed class SealedTestNodeType: BinaryTreeNode<string>{}
 
-		private class TestNodeTypeA : BinaryTreeNode<object> {}
-		private sealed class TestNodeTypeB : TestNodeTypeA {}
-		private sealed class TestNodeTypeC : TestNodeTypeA {}
+		private sealed class SealedTestNodeType : BinaryTreeNode<string> { }
 
+		private class TestNodeTypeA : BinaryTreeNode<object> { }
+
+		private sealed class TestNodeTypeB : TestNodeTypeA { }
+
+		private sealed class TestNodeTypeC : TestNodeTypeA { }
 	}
 
+
 	[UsedImplicitly]
-	public class NonGenericTests: BinaryTreeTests
+	public class NonGenericTests : BinaryTreeTests
 	{
-		private BinaryTree _tree;
 		private readonly BinaryTreeNode _rootNode;
+		private          BinaryTree     _tree;
 
 		public NonGenericTests()
 		{
 			_rootNode = new();
-			_tree = new(_rootNode);
+			_tree     = new(_rootNode);
 		}
 
 		[Fact]
 		public void CanInsertNewNodeAtHead()
 		{
-			BinaryTreeNode newChildNode = _rootNode.SetLeftChild(new());
-			BinaryTreeNode newLeftGrandChildNode = newChildNode.SetLeftChild(new());
+			BinaryTreeNode newChildNode           = _rootNode.SetLeftChild(new());
+			BinaryTreeNode newLeftGrandChildNode  = newChildNode.SetLeftChild(new());
 			BinaryTreeNode newRightGrandChildNode = newChildNode.SetRightChild(new());
 			_tree.MoveHeadTo(newChildNode);
 
 			BinaryTreeNode interloperNode = _tree.InsertNodeAtHead(new());
-			
+
 			_rootNode.LeftChild.ShouldBe(interloperNode);
 			interloperNode.LeftChild.ShouldBe(newChildNode);
 			interloperNode.Parent.ShouldBe(_rootNode);
@@ -183,7 +185,7 @@ public abstract class BinaryTreeTests
 		{
 			_tree.Root.ShouldBe(_rootNode);
 		}
-		
+
 		public override void SetsHeadToRootOnConstruct()
 		{
 			_tree.Head.ShouldBe(_rootNode);
@@ -207,12 +209,12 @@ public abstract class BinaryTreeTests
 			_tree.MoveHeadTo(newNode);
 			_tree.Head.ShouldBe(newNode);
 		}
-		
+
 		public override void ThrowsIfHeadMovedToNonTreeNode()
 		{
 			Should.Throw<NodeIsNotInBinaryTreeException>(() => _tree.MoveHeadTo(new()));
 		}
-		
+
 		public override void CanSetRootOnEmptyTree()
 		{
 			_tree = new();
@@ -220,7 +222,7 @@ public abstract class BinaryTreeTests
 			_tree.SetRoot(_rootNode);
 			_tree.Root.ShouldBe(_rootNode);
 		}
-		
+
 		public override void HeadIsMovedOnSetRoot()
 		{
 			_tree = new();
@@ -228,13 +230,13 @@ public abstract class BinaryTreeTests
 			_tree.SetRoot(_rootNode);
 			_tree.Head.ShouldBe(_rootNode);
 		}
-		
+
 		public override void AddsRootNodeAsNewLayerIfAlreadyHasRoot()
 		{
 			BinaryTreeNode oldRoot = _rootNode;
 			BinaryTreeNode newRoot = new();
 			_tree.SetRoot(newRoot);
-			
+
 			newRoot.LeftChild.ShouldBe(oldRoot);
 			oldRoot.Parent.ShouldBe(newRoot);
 			_tree.Head.ShouldBe(newRoot);

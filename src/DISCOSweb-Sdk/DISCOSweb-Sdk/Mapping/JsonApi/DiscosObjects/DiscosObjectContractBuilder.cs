@@ -11,12 +11,12 @@ internal static class DiscosObjectContractBuilder
 {
 	internal static DelegatingContractBuilder<DiscosObject> WithDiscosObject(this IBuilder builder)
 	{
-		const string objectIdFieldName = nameof(DiscosObject.Id);
-		const string countryLinkTemplate = $"/api/objects/{objectIdFieldName}/states";
+		const string objectIdFieldName             = nameof(DiscosObject.Id);
+		const string countryLinkTemplate           = $"/api/objects/{objectIdFieldName}/states";
 		const string destinationOrbitsLinkTemplate = $"/api/objects/{objectIdFieldName}/relationships/destination-orbits";
-		const string initialOrbitsLinkTemplate = $"/api/objects/{objectIdFieldName}/relationships/initial-orbits";
-		const string operatorsLinkTemplate = $"/api/objects/{objectIdFieldName}/relationships/initial-orbits";
-		const string launchLinkTemplate = $"/api/objects/{objectIdFieldName}/relationships/launch";
+		const string initialOrbitsLinkTemplate     = $"/api/objects/{objectIdFieldName}/relationships/initial-orbits";
+		const string operatorsLinkTemplate         = $"/api/objects/{objectIdFieldName}/relationships/initial-orbits";
+		const string launchLinkTemplate            = $"/api/objects/{objectIdFieldName}/relationships/launch";
 
 		object IdSelector(DiscosObject r) => r.Id;
 

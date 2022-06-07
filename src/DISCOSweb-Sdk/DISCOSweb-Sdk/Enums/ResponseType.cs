@@ -38,5 +38,5 @@ public enum ResponseType
 	Country,
 	[EnumMember(Value = "organisation")]
 	Organisation
-	
+
 }

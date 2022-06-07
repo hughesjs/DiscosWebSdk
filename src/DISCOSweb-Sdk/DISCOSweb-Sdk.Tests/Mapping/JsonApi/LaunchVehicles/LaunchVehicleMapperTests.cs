@@ -7,28 +7,28 @@ using Xunit;
 
 namespace DISCOSweb_Sdk.Tests.Mapping.JsonApi.LaunchVehicles;
 
-public class LaunchVehicleMapperTests: JsonApiMapperTestBase
+public class LaunchVehicleMapperTests : JsonApiMapperTestBase
 {
 	private readonly LaunchVehicle _vehicle = new()
 											  {
-												  Id = "207",
-												  Name = "Falcon 1+",
-												  NumStages = 2,
-												  Height = null,
-												  EscCapacity = null,
-												  Diameter = 1.7f,
-												  GtoCapacity = 430f,
-												  SsoCapacity = 430f,
-												  Mass = 30400f,
-												  LeoCapacity = 670f,
-												  GeoCapacity = null,
-												  ThrustLevel = 556000,
-												  FailedLaunches = 0,
+												  Id                 = "207",
+												  Name               = "Falcon 1+",
+												  NumStages          = 2,
+												  Height             = null,
+												  EscCapacity        = null,
+												  Diameter           = 1.7f,
+												  GtoCapacity        = 430f,
+												  SsoCapacity        = 430f,
+												  Mass               = 30400f,
+												  LeoCapacity        = 670f,
+												  GeoCapacity        = null,
+												  ThrustLevel        = 556000,
+												  FailedLaunches     = 0,
 												  SuccessfulLaunches = 2,
-												  Stages = null!,
-												  Launches = null!,
-												  Family = null!,
-												  Engines = null!
+												  Stages             = null!,
+												  Launches           = null!,
+												  Family             = null!,
+												  Engines            = null!
 											  };
 
 
@@ -43,9 +43,9 @@ public class LaunchVehicleMapperTests: JsonApiMapperTestBase
 	[Fact]
 	public override async Task CanGetSingleWithLinks()
 	{
-		string[] includes = {"stages", "launches", "family", "engines"};
-		string queryString = $"?include={string.Join(',', includes)}";
-		LaunchVehicle vehicle = await FetchSingle<LaunchVehicle>(_vehicle.Id, queryString);
+		string[]      includes    = {"stages", "launches", "family", "engines"};
+		string        queryString = $"?include={string.Join(',', includes)}";
+		LaunchVehicle vehicle     = await FetchSingle<LaunchVehicle>(_vehicle.Id, queryString);
 		vehicle.Launches.Count.ShouldBe(2);
 		vehicle.Launches.First().CosparLaunchNo.ShouldBe("2008-048");
 		vehicle.Stages.Count.ShouldBe(2);
@@ -53,7 +53,7 @@ public class LaunchVehicleMapperTests: JsonApiMapperTestBase
 		vehicle.Family!.Name.ShouldBe("Falcon");
 		vehicle.Engines.Count.ShouldBe(2);
 		vehicle.Engines.First().Name.ShouldBe("Merlin-1C");
-		
+
 	}
 
 	[Fact]

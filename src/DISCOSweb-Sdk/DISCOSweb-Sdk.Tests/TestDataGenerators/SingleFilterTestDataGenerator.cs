@@ -9,19 +9,27 @@ using DISCOSweb_Sdk.Misc;
 using DISCOSweb_Sdk.Models.ResponseModels;
 using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
 using DISCOSweb_Sdk.Tests.TestCaseModels;
+using Faker;
+using Boolean = Faker.Boolean;
 
 namespace DISCOSweb_Sdk.Tests.TestDataGenerators;
 
 /// <summary>
-/// Frankly ridiculous test data generator that should probably not exist.
-/// This is an abomination unto nature.
-/// But... It was quite fun to write so here we are.
-///
-/// Some of these queries are invalid for type reasons... I *might* fix this later.
+///     Frankly ridiculous test data generator that should probably not exist.
+///     This is an abomination unto nature.
+///     But... It was quite fun to write so here we are.
+///     Some of these queries are invalid for type reasons... I *might* fix this later.
 /// </summary>
 internal class SingleFilterTestDataGenerator : IEnumerable<object[]>
 {
-	private int _testNumber;
+
+	private readonly DiscosFunction[] _arrayFields =
+	{
+		DiscosFunction.Includes,
+		DiscosFunction.DoesNotInclude,
+		DiscosFunction.Contains,
+		DiscosFunction.Excludes
+	};
 
 	private readonly DiscosFunction[] _simpleFuncs =
 	{
@@ -34,18 +42,21 @@ internal class SingleFilterTestDataGenerator : IEnumerable<object[]>
 		DiscosFunction.Contains,
 		DiscosFunction.Excludes
 	};
+	private int _testNumber;
 
-	private readonly DiscosFunction[] _arrayFields =
+	public IEnumerator<object[]> GetEnumerator()
 	{
-		DiscosFunction.Includes,
-		DiscosFunction.DoesNotInclude,
-		DiscosFunction.Contains,
-		DiscosFunction.Excludes
-	};
+		List<SingleFilterTestCase> testCases = new();
+		testCases.AddRange(GetCasesForEachPermutationOfSimpleFuncs());
+		testCases.AddRange(GetCasesForEachPermutationOfArrayFuncs());
+		return testCases.Select(tc => new object[] {tc}).GetEnumerator();
+	}
+
+	IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
 	private List<SingleFilterTestCase> GetCasesForEachPermutationOfSimpleFuncs()
 	{
-		List<SingleFilterTestCase> testCases = new();
+		List<SingleFilterTestCase>       testCases    = new();
 		Dictionary<Type, PropertyInfo[]> permutations = GetDiscosObjectsPrimitivePropertiesPermutations();
 		foreach (KeyValuePair<Type, PropertyInfo[]> permutation in permutations)
 		{
@@ -69,7 +80,7 @@ internal class SingleFilterTestDataGenerator : IEnumerable<object[]>
 	private SingleFilterTestCase GenerateSimpleTestCase(PropertyInfo prop, Type objectType, DiscosFunction func)
 	{
 		object fake = GenerateFake(prop);
-		string res = GenerateRes(objectType, prop.Name, fake, func);
+		string res  = GenerateRes(objectType, prop.Name, fake, func);
 		return new(
 				   objectType,
 				   prop.PropertyType,
@@ -95,7 +106,7 @@ internal class SingleFilterTestDataGenerator : IEnumerable<object[]>
 
 	private List<SingleFilterTestCase> GetCasesForEachPermutationOfArrayFuncs()
 	{
-		List<SingleFilterTestCase> testCases = new();
+		List<SingleFilterTestCase>       testCases    = new();
 		Dictionary<Type, PropertyInfo[]> permutations = GetDiscosObjectsPrimitivePropertiesPermutations();
 		foreach (KeyValuePair<Type, PropertyInfo[]> permutation in permutations)
 		{
@@ -114,7 +125,7 @@ internal class SingleFilterTestDataGenerator : IEnumerable<object[]>
 	private SingleFilterTestCase GenerateArrayTestCase(PropertyInfo prop, Type objectType, DiscosFunction func)
 	{
 		object fake = GenerateFakeArray(prop);
-		string res = GenerateRes(objectType, prop.Name, fake, func);
+		string res  = GenerateRes(objectType, prop.Name, fake, func);
 		return new(
 				   objectType,
 				   prop.PropertyType.MakeArrayType(),
@@ -129,7 +140,7 @@ internal class SingleFilterTestDataGenerator : IEnumerable<object[]>
 	private object GenerateFakeArray(PropertyInfo prop)
 	{
 		const int arrSize = 5;
-		Array arr = Array.CreateInstance(prop.PropertyType, 5);
+		Array     arr     = Array.CreateInstance(prop.PropertyType, 5);
 		for (int i = 0; i < arrSize; i++)
 		{
 			arr.SetValue(GenerateFake(prop), i);
@@ -184,7 +195,7 @@ internal class SingleFilterTestDataGenerator : IEnumerable<object[]>
 		Random random = new((int)DateTime.Now.Ticks);
 		if (prop.PropertyType == typeof(string))
 		{
-			return Faker.Identification.UkNationalInsuranceNumber();
+			return Identification.UkNationalInsuranceNumber();
 		}
 
 		if (prop.PropertyType.IsNumericType())
@@ -194,7 +205,7 @@ internal class SingleFilterTestDataGenerator : IEnumerable<object[]>
 
 		if (prop.PropertyType == typeof(bool))
 		{
-			return Faker.Boolean.Random();
+			return Boolean.Random();
 		}
 
 		throw new("Forgot this case!");
@@ -202,8 +213,8 @@ internal class SingleFilterTestDataGenerator : IEnumerable<object[]>
 
 	private Dictionary<Type, PropertyInfo[]> GetDiscosObjectsPrimitivePropertiesPermutations()
 	{
-		Dictionary<Type, PropertyInfo[]> dict = new();
-		IEnumerable<Type> discosObjectTypes = typeof(DiscosObject).Assembly.GetTypes().Where(t => t.IsAssignableTo(typeof(DiscosModelBase)) && t != typeof(DiscosModelBase));
+		Dictionary<Type, PropertyInfo[]> dict              = new();
+		IEnumerable<Type>                discosObjectTypes = typeof(DiscosObject).Assembly.GetTypes().Where(t => t.IsAssignableTo(typeof(DiscosModelBase)) && t != typeof(DiscosModelBase));
 		foreach (Type objectType in discosObjectTypes)
 		{
 			IEnumerable<PropertyInfo> propertiesToTest = objectType.GetProperties().Where(p => p.PropertyType.IsPrimitive || p.PropertyType == typeof(string));
@@ -211,14 +222,4 @@ internal class SingleFilterTestDataGenerator : IEnumerable<object[]>
 		}
 		return dict;
 	}
-
-	public IEnumerator<object[]> GetEnumerator()
-	{
-		List<SingleFilterTestCase> testCases = new();
-		testCases.AddRange(GetCasesForEachPermutationOfSimpleFuncs());
-		testCases.AddRange(GetCasesForEachPermutationOfArrayFuncs());
-		return testCases.Select(tc => new object[] {tc}).GetEnumerator();
-	}
-
-	IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

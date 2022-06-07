@@ -68,7 +68,7 @@ public class FilterDefinitionTests
 
 	[Theory]
 	[InlineData(false, "false")]
-	[InlineData(true, "true")]
+	[InlineData(true,  "true")]
 	public void GeneratesCorrectStringForBoolValue(bool isTrue, string expected)
 	{
 		FilterDefinition<Launch, bool> filter = new(nameof(Launch.Failure), isTrue, DiscosFunction.Equal);
@@ -79,7 +79,7 @@ public class FilterDefinitionTests
 	public void GeneratesCorrectStringForStringArrayValue()
 	{
 		FilterDefinition<DiscosObject, string[]> filter = new(nameof(DiscosObject.Id), new[] {"1", "2"}, DiscosFunction.Contains);
-		filter.ToString().ShouldBe($"contains(id,('1','2'))");
+		filter.ToString().ShouldBe("contains(id,('1','2'))");
 	}
 
 	[Fact]
@@ -94,10 +94,10 @@ public class FilterDefinitionTests
 	[ClassData(typeof(SingleFilterTestDataGenerator))]
 	public void GeneratesCorrectStringForEveryPermutation(SingleFilterTestCase singleFilterTestCase)
 	{
-		Type unconstructedFilterType = typeof(FilterDefinition<,>);
-		Type constructedFilterType = unconstructedFilterType.MakeGenericType(singleFilterTestCase.ObjectType, singleFilterTestCase.ParamType);
-		FilterDefinition filter = (FilterDefinition)Activator.CreateInstance(constructedFilterType, singleFilterTestCase.ParamName, singleFilterTestCase.ParamValue, singleFilterTestCase.Func)! ?? throw new("Couldn't create filter");
-		
+		Type             unconstructedFilterType = typeof(FilterDefinition<,>);
+		Type             constructedFilterType   = unconstructedFilterType.MakeGenericType(singleFilterTestCase.ObjectType, singleFilterTestCase.ParamType);
+		FilterDefinition filter                  = (FilterDefinition)Activator.CreateInstance(constructedFilterType, singleFilterTestCase.ParamName, singleFilterTestCase.ParamValue, singleFilterTestCase.Func)! ?? throw new("Couldn't create filter");
+
 		filter.ToString().ShouldBe(singleFilterTestCase.Expected);
 	}
 }

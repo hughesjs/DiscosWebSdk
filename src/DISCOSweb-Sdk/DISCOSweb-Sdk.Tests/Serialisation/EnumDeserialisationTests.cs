@@ -23,25 +23,24 @@ public class EnumDeserialisationTests
 		ReadOnlySpan<char> json = $"{{\"TestEnum\":\"{jsonName}\"}}";
 
 		Type constructed = typeof(TestEnumWrapper<>).MakeGenericType(expected.GetType());
-		
+
 		object? res = JsonSerializer.Deserialize(json, constructed);
 
 		constructed.GetProperty("TestEnum").GetValue(res).ShouldBe(expected);
 	}
 
 
-	private class TestDataGenerator: IEnumerable<object[]>
+	private class TestDataGenerator : IEnumerable<object[]>
 	{
 
 		public IEnumerator<object[]> GetEnumerator()
 		{
-			IEnumerable<Type> allEnums = typeof(RecordType).Assembly.GetTypes().Where(t => t.IsEnum);
-			IEnumerable<Type> testEnums = allEnums.Where(e => e.GetCustomAttributes().Any(a => a is JsonConverterAttribute converter 
-																							&& converter.ConverterType == typeof(JsonStringEnumConverterWithAttributeSupport)));
+			IEnumerable<Type>      allEnums       = typeof(RecordType).Assembly.GetTypes().Where(t => t.IsEnum);
+			IEnumerable<Type>      testEnums      = allEnums.Where(e => e.GetCustomAttributes().Any(a => a is JsonConverterAttribute converter && converter.ConverterType == typeof(JsonStringEnumConverterWithAttributeSupport)));
 			IEnumerable<FieldInfo> enumMemberInfo = testEnums.SelectMany(e => e.GetFields(BindingFlags.Static | BindingFlags.Public));
 			IEnumerable<object[]> enumsWithNames = enumMemberInfo.Select(f =>
 																		 {
-																			return new[]
+																			 return new[]
 																					{
 																						f.GetValue(null)!,
 																						((EnumMemberAttribute)f.GetCustomAttributes().First(a => a is EnumMemberAttribute)).Value!
@@ -54,7 +53,7 @@ public class EnumDeserialisationTests
 	}
 
 
-	private class TestEnumWrapper<T> where T: struct
+	private class TestEnumWrapper<T> where T : struct
 	{
 		[UsedImplicitly]
 		public T TestEnum { get; set; }

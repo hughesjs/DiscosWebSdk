@@ -9,9 +9,9 @@ internal static class LaunchSiteContractBuilder
 {
 	internal static DelegatingContractBuilder<LaunchSite> WithLaunchSite(this IBuilder builder)
 	{
-		const string launchSiteIdFieldName = nameof(LaunchSite.Id);
+		const string launchSiteIdFieldName           = nameof(LaunchSite.Id);
 		const string launchSiteOperatorsLinkTemplate = $"/api/launch-sites/{launchSiteIdFieldName}/operators";
-		const string launchesLinkTemplate = $"/api/launch-sites/{launchSiteIdFieldName}/launches";
+		const string launchesLinkTemplate            = $"/api/launch-sites/{launchSiteIdFieldName}/launches";
 		object IdSelector(LaunchSite ls) => ls.Id;
 
 		return builder.With<LaunchSite>("launchSite")

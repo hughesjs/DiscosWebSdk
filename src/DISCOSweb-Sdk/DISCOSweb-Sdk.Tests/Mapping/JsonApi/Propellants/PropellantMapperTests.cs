@@ -7,18 +7,18 @@ using Xunit;
 
 namespace DISCOSweb_Sdk.Tests.Mapping.JsonApi.Propellants;
 
-public class PropellantMapperTests: JsonApiMapperTestBase
+public class PropellantMapperTests : JsonApiMapperTestBase
 {
 
 	private readonly Propellant _prop = new()
 										{
-											Id = "1",
-											Oxidiser = "LOX",
-											Fuel = "Kerosene",
+											Id              = "1",
+											Oxidiser        = "LOX",
+											Fuel            = "Kerosene",
 											SolidPropellant = null,
-											Stages = null!
+											Stages          = null!
 										};
-	
+
 	[Fact]
 	public override async Task CanGetSingleWithoutLinks()
 	{
@@ -31,7 +31,7 @@ public class PropellantMapperTests: JsonApiMapperTestBase
 	public override async Task CanGetSingleWithLinks()
 	{
 		const string queryString = "?include=stages";
-		Propellant rocketFuel = await FetchSingle<Propellant>(_prop.Id, queryString);
+		Propellant   rocketFuel  = await FetchSingle<Propellant>(_prop.Id, queryString);
 		rocketFuel.Stages.Count.ShouldBeGreaterThan(107); // 108 as of 2022-05-31
 		rocketFuel.Stages.First().Name.ShouldBe("CZ-NGLV-300");
 	}

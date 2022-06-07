@@ -9,14 +9,13 @@ public record Entity : DiscosModelBase
 {
 	[JsonPropertyName("launches")]
 	public IReadOnlyList<Launch> Launches { get; init; } = new ReadOnlyCollection<Launch>(new List<Launch>());
-    
+
 	[JsonPropertyName("objects")]
 	public IReadOnlyList<DiscosObject> Objects { get; init; } = new ReadOnlyCollection<DiscosObject>(new List<DiscosObject>());
-    
-	[JsonPropertyName("launchSystems")]
-	public IReadOnlyList<LaunchSystem> LaunchSystems { get; init; }= new ReadOnlyCollection<LaunchSystem>(new List<LaunchSystem>());
-    
-	[JsonPropertyName("launchSites")]
-	public IReadOnlyList<LaunchSite> LaunchSites { get; init; }= new ReadOnlyCollection<LaunchSite>(new List<LaunchSite>());
 
+	[JsonPropertyName("launchSystems")]
+	public IReadOnlyList<LaunchSystem> LaunchSystems { get; init; } = new ReadOnlyCollection<LaunchSystem>(new List<LaunchSystem>());
+
+	[JsonPropertyName("launchSites")]
+	public IReadOnlyList<LaunchSite> LaunchSites { get; init; } = new ReadOnlyCollection<LaunchSite>(new List<LaunchSite>());
 }

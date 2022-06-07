@@ -15,17 +15,18 @@ public abstract record FilterDefinition
 
 public record FilterDefinition<TObject, TParam> : FilterDefinition where TObject : notnull
 {
-	public string FieldName { get; }
-	public TParam? Value { get; }
-	public DiscosFunction Function { get; }
 
 	public FilterDefinition(string fieldName, TParam? value, DiscosFunction function)
 	{
 		ValidateParams(fieldName, function);
 		FieldName = fieldName;
-		Value = value;
-		Function = function;
+		Value     = value;
+		Function  = function;
 	}
+
+	public string         FieldName { get; }
+	public TParam?        Value     { get; }
+	public DiscosFunction Function  { get; }
 
 	private void ValidateParams(string fieldName, DiscosFunction function)
 	{
@@ -113,5 +114,4 @@ public record FilterDefinition<TObject, TParam> : FilterDefinition where TObject
 	}
 
 	private string GetFieldNameJsonProperty() => AttributeUtilities.GetJsonPropertyName<TObject>(FieldName);
-
 }

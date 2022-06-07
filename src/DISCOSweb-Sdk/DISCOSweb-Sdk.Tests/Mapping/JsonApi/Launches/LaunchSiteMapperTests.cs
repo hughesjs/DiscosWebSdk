@@ -11,18 +11,18 @@ public class LaunchSiteMapperTests : JsonApiMapperTestBase
 {
 	private readonly LaunchSite _site = new()
 										{
-											Id = "14",
+											Id       = "14",
 											Altitude = 0,
 											Azimuths = new()
 													   {
 														   new()
 														   {
-															   Display = "[90,191]",
+															   Display  = "[90,191]",
 															   LowerInc = true,
 															   UpperInc = true,
-															   Upper = 191.0f,
-															   Lower = 90.0f,
-															   Empty = false
+															   Upper    = 191.0f,
+															   Lower    = 90.0f,
+															   Empty    = false
 														   }
 													   },
 											Constraints = new()
@@ -30,14 +30,14 @@ public class LaunchSiteMapperTests : JsonApiMapperTestBase
 															  "Jan/Feb",
 															  "Aug/Sept"
 														  },
-											Pads = new() {"Y", "O"},
-											Name = "Tanegashima Space Center",
-											Latitude = "30.400000",
+											Pads      = new() {"Y", "O"},
+											Name      = "Tanegashima Space Center",
+											Latitude  = "30.400000",
 											Longitude = "130.600000",
-											Launches = null!,
+											Launches  = null!,
 											Operators = null!
 										};
-	
+
 	[Fact]
 	public override async Task CanGetSingleWithoutLinks()
 	{
@@ -49,9 +49,9 @@ public class LaunchSiteMapperTests : JsonApiMapperTestBase
 	[Fact]
 	public override async Task CanGetSingleWithLinks()
 	{
-		string[] includes = {"operators", "launches"};
-		string queryString = $"?include={string.Join(',', includes)}";
-		LaunchSite site = await FetchSingle<LaunchSite>(_site.Id, queryString);
+		string[]   includes    = {"operators", "launches"};
+		string     queryString = $"?include={string.Join(',', includes)}";
+		LaunchSite site        = await FetchSingle<LaunchSite>(_site.Id, queryString);
 		site.Operators.Count.ShouldBe(1);
 		site.Operators.First().Name.ShouldBe("Japan");
 		site.Launches.Count.ShouldBe(85);

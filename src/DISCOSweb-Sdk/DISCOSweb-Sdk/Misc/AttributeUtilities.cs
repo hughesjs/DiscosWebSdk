@@ -17,7 +17,7 @@ internal static class AttributeUtilities
 		PropertyInfo? field = typeof(T).GetProperty(fieldName);
 		return field is null ? fieldName : GetJsonPropertyName(field);
 	}
-	
+
 	public static string? GetEnumMemberValue<T>(this T value)
 		where T : Enum
 	{

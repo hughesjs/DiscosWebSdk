@@ -11,17 +11,17 @@ using DISCOSweb_Sdk.Queries.Filters.FilterTree;
 
 namespace DISCOSweb_Sdk.Queries;
 
-internal class DiscosQueryBuilder<TObject> : IDiscosQueryBuilder<TObject> where TObject: DiscosModelBase
+internal class DiscosQueryBuilder<TObject> : IDiscosQueryBuilder<TObject> where TObject : DiscosModelBase
 {
-	private FilterTree _filterTree;
+	private FilterTree   _filterTree;
 	private List<string> _includes;
-	private int? _numPages;
-	private int? _pageNum;
+	private int?         _numPages;
+	private int?         _pageNum;
 
 	public DiscosQueryBuilder()
 	{
 		_filterTree = new();
-		_includes = new();
+		_includes   = new();
 		Reset();
 	}
 
@@ -79,15 +79,16 @@ internal class DiscosQueryBuilder<TObject> : IDiscosQueryBuilder<TObject> where 
 	public IDiscosQueryBuilder<TObject> Reset()
 	{
 		_filterTree = new();
-		_includes = new();
-		_numPages = null;
-		_pageNum = null;
+		_includes   = new();
+		_numPages   = null;
+		_pageNum    = null;
 		return this;
 	}
 
 	public string Build()
 	{
 		bool firstDone = false;
+
 		void AddJoiningChar(StringBuilder builder)
 		{
 			if (firstDone)
@@ -100,6 +101,7 @@ internal class DiscosQueryBuilder<TObject> : IDiscosQueryBuilder<TObject> where 
 				builder.Append('?');
 			}
 		}
+
 		StringBuilder builder = new();
 		if (!_filterTree.IsEmpty)
 		{
@@ -137,7 +139,7 @@ internal class DiscosQueryBuilder<TObject> : IDiscosQueryBuilder<TObject> where 
 	private void AddIncludeString(StringBuilder builder)
 	{
 		builder.Append("include=");
-		builder.Append(string.Join(',',_includes.Distinct()));
+		builder.Append(string.Join(',', _includes.Distinct()));
 	}
 
 	private void AddPageNumberString(StringBuilder builder)

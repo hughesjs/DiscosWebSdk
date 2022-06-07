@@ -15,25 +15,23 @@ namespace DISCOSweb_Sdk.Mapping.JsonApi;
 
 internal static class DiscosObjectResolver
 {
-	internal static IContractResolver CreateResolver()
-	{
-		return new Builder()
-			  .WithDiscosObject()
-			  .WithCountry()
-			  .WithOrganisation()
-			  .WithFragmentationEvent()
-			  .WithLaunch()
-			  .WithLaunchSite()
-			  .WithLaunchSystem()
-			  .WithLaunchVehicle()
-			  .WithLaunchVehicleEngine()
-			  .WithLaunchVehicleFamily()
-			  .WithLaunchVehicleStage()
-			  .WithDestinationOrbits()
-			  .WithInitialOrbits()
-			  .WithPropellant()
-			  .WithReentry()
-			  .WithBasicObject<DiscosObjectClass>()
-			  .Build();
-	}
+	internal static IContractResolver CreateResolver() =>
+		new Builder()
+		   .WithDiscosObject()
+		   .WithCountry()
+		   .WithOrganisation()
+		   .WithFragmentationEvent()
+		   .WithLaunch()
+		   .WithLaunchSite()
+		   .WithLaunchSystem()
+		   .WithLaunchVehicle()
+		   .WithLaunchVehicleEngine()
+		   .WithLaunchVehicleFamily()
+		   .WithLaunchVehicleStage()
+		   .WithDestinationOrbits()
+		   .WithInitialOrbits()
+		   .WithPropellant()
+		   .WithReentry()
+		   .WithBasicObject<DiscosObjectClass>()
+		   .Build();
 }
