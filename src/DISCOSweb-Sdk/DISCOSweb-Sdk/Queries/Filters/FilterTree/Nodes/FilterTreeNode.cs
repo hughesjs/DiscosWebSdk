@@ -1,4 +1,3 @@
-using DISCOSweb_Sdk.DataStructures;
 using DISCOSweb_Sdk.DataStructures.BinaryTrees;
 using DISCOSweb_Sdk.Queries.Filters.FilterTree.Data;
 

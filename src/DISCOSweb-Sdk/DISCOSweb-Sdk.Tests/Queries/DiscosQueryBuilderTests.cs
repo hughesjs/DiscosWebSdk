@@ -1,15 +1,3 @@
-using System;
-using System.Reflection;
-using DISCOSweb_Sdk.Enums;
-using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
-using DISCOSweb_Sdk.Queries;
-using DISCOSweb_Sdk.Queries.Filters;
-using DISCOSweb_Sdk.Tests.TestCaseModels;
-using DISCOSweb_Sdk.Tests.TestDataGenerators;
-using Shouldly;
-using Xunit;
-using Xunit.Abstractions;
-
 namespace DISCOSweb_Sdk.Tests.Queries;
 
 public class DiscosQueryBuilderTests

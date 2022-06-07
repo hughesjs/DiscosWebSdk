@@ -1,5 +1,3 @@
-using DISCOSweb_Sdk.Queries.Filters.FilterTree.Nodes;
-
 namespace DISCOSweb_Sdk.Queries.Filters.FilterTree.Data;
 
 internal class DefinitionNodeData<TObject, TParam>: FilterTreeNodeData<FilterDefinition<TObject, TParam>> where TObject : notnull

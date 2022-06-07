@@ -1,4 +1,3 @@
-using System.Text;
 using DISCOSweb_Sdk.DataStructures.BinaryTrees;
 using DISCOSweb_Sdk.Enums;
 using DISCOSweb_Sdk.Exceptions.Queries.Filters.FilterTree;
