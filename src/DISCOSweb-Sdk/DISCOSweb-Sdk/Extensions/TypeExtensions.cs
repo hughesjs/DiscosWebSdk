@@ -16,12 +16,12 @@ internal static class TypeExtensions
 
 	internal static void EnsureFieldIsOfType(this Type objectType, string fieldName, Type fieldType, bool checkNullability = false)
 	{
-		FieldInfo? fieldInfo = objectType.GetField(fieldName);
-		Type? objectFieldType = fieldInfo?.FieldType;
-		
-		PropertyInfo? propInfo = objectType.GetProperty(fieldName);
-		Type? objectPropType = propInfo?.PropertyType;
-		
+		FieldInfo? fieldInfo       = objectType.GetField(fieldName);
+		Type?      objectFieldType = fieldInfo?.FieldType;
+
+		PropertyInfo? propInfo       = objectType.GetProperty(fieldName);
+		Type?         objectPropType = propInfo?.PropertyType;
+
 		if (!checkNullability)
 		{
 			fieldType = Nullable.GetUnderlyingType(fieldType) ?? fieldType;
@@ -34,19 +34,19 @@ internal static class TypeExtensions
 				objectPropType = Nullable.GetUnderlyingType(objectPropType) ?? objectPropType;
 			}
 		}
-		
+
 		if (objectFieldType is not null && objectFieldType != fieldType)
 		{
 			throw new MemberParameterTypeMismatchException(objectFieldType, fieldType);
 		}
 
-		
+
 		if (objectPropType is not null && objectPropType != fieldType)
 		{
 			throw new MemberParameterTypeMismatchException(objectPropType, fieldType);
 		}
 	}
-	
+
 	public static bool IsNumericType(this Type t)
 	{
 		t = Nullable.GetUnderlyingType(t) ?? t; // If nullable, get underlying type

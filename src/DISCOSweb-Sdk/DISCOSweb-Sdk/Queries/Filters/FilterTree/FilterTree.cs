@@ -8,6 +8,10 @@ namespace DISCOSweb_Sdk.Queries.Filters.FilterTree;
 
 internal class FilterTree : BinaryTree<FilterTreeNode>
 {
+
+	public FilterTree(FilterTreeNode rootNode) : base(rootNode) { }
+	public FilterTree() { }
+
 	public OperationNode AddOperationNode(FilterOperation operation)
 	{
 		OperationNode newNode = new(this, null, new(operation));
@@ -99,7 +103,4 @@ internal class FilterTree : BinaryTree<FilterTreeNode>
 				throw new InvalidFilterTreeException("Unknown node type in tree");
 		}
 	}
-
-	public FilterTree(FilterTreeNode rootNode) : base(rootNode) { }
-	public FilterTree() { }
 }

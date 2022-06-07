@@ -9,9 +9,9 @@ internal static class LaunchVehicleStageContractBuilder
 {
 	internal static DelegatingContractBuilder<LaunchVehicleStage> WithLaunchVehicleStage(this IBuilder builder)
 	{
-		const string stageIdFieldName = nameof(LaunchVehicleStage.Id);
+		const string stageIdFieldName       = nameof(LaunchVehicleStage.Id);
 		const string propellantLinkTemplate = $"/api/launch-vehicles/stages/{stageIdFieldName}/propellant";
-		const string vehiclesLinkTemplate = $"/api/launch-vehicles/stages/{stageIdFieldName}/vehicles";
+		const string vehiclesLinkTemplate   = $"/api/launch-vehicles/stages/{stageIdFieldName}/vehicles";
 
 		object IdSelector(LaunchVehicleStage stage) => stage.Id;
 

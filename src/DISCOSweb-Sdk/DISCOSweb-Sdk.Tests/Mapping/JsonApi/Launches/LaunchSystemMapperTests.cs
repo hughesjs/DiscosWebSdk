@@ -7,16 +7,16 @@ using Xunit;
 
 namespace DISCOSweb_Sdk.Tests.Mapping.JsonApi.Launches;
 
-public class LaunchSystemMapperTests: JsonApiMapperTestBase
+public class LaunchSystemMapperTests : JsonApiMapperTestBase
 {
 	private readonly LaunchSystem _launchSystem = new()
 												  {
-													  Id = "13",
-													  Name = "Falcon",
+													  Id       = "13",
+													  Name     = "Falcon",
 													  Entities = null!,
 													  Families = null!
 												  };
-	
+
 	[Fact]
 	public override async Task CanGetSingleWithoutLinks()
 	{
@@ -28,9 +28,9 @@ public class LaunchSystemMapperTests: JsonApiMapperTestBase
 	[Fact]
 	public override async Task CanGetSingleWithLinks()
 	{
-		string[] includes = {"entities", "families"};
-		string queryString = $"?include={string.Join(',', includes)}";
-		LaunchSystem system = await FetchSingle<LaunchSystem>(_launchSystem.Id, queryString);
+		string[]     includes    = {"entities", "families"};
+		string       queryString = $"?include={string.Join(',', includes)}";
+		LaunchSystem system      = await FetchSingle<LaunchSystem>(_launchSystem.Id, queryString);
 		system.Entities.Count.ShouldBe(1);
 		system.Entities.First().Name.ShouldBe("United States");
 		system.Families.Count.ShouldBe(1);

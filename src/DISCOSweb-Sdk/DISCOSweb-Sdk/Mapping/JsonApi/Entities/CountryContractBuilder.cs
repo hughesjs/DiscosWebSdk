@@ -10,11 +10,11 @@ internal static class CountryContractBuilder
 {
 	internal static DelegatingContractBuilder<Country> WithCountry(this IBuilder builder)
 	{
-		const string countryIdFieldName = nameof(Country.Id);
-		const string launchLinkTemplate = $"/api/entities/{countryIdFieldName}/launches";
-		const string objectLinkTemplate = $"/api/entities/{countryIdFieldName}/objects";
+		const string countryIdFieldName       = nameof(Country.Id);
+		const string launchLinkTemplate       = $"/api/entities/{countryIdFieldName}/launches";
+		const string objectLinkTemplate       = $"/api/entities/{countryIdFieldName}/objects";
 		const string launchSystemLinkTemplate = $"/api/entities/{countryIdFieldName}/launch-systems";
-		const string launchSitesLinkTemplate = $"/api/entities/{countryIdFieldName}/launch-sites";
+		const string launchSitesLinkTemplate  = $"/api/entities/{countryIdFieldName}/launch-sites";
 
 		object IdSelector(Country r) => r.Id;
 

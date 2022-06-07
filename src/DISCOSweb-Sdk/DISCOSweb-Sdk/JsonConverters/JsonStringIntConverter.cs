@@ -13,7 +13,7 @@ public class JsonStringIntConverter : JsonConverter<int>
 		{
 			return reader.GetInt32();
 		}
-		
+
 		ReadOnlySpan<byte> span = reader.HasValueSequence ? reader.ValueSequence.ToArray() : reader.ValueSpan;
 		if (Utf8Parser.TryParse(span, out int number, out int bytesConsumed) && span.Length == bytesConsumed)
 		{

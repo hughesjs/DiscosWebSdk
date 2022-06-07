@@ -7,20 +7,14 @@ namespace DISCOSweb_Sdk.Mapping.JsonApi.Orbits;
 
 internal static class OrbitDetailsContractBuilder
 {
-	internal static DelegatingContractBuilder<DestinationOrbitDetails> WithDestinationOrbits(this IBuilder builder)
-	{
-		return builder.WithOrbitDetails<DestinationOrbitDetails>("destinationOrbit", "destination-orbits");
-	}
+	internal static DelegatingContractBuilder<DestinationOrbitDetails> WithDestinationOrbits(this IBuilder builder) => builder.WithOrbitDetails<DestinationOrbitDetails>("destinationOrbit", "destination-orbits");
 
-	internal static DelegatingContractBuilder<InitialOrbitDetails> WithInitialOrbits(this IBuilder builder)
-	{
-		return builder.WithOrbitDetails<InitialOrbitDetails>("initialOrbit", "initial-orbits");
-	}
+	internal static DelegatingContractBuilder<InitialOrbitDetails> WithInitialOrbits(this IBuilder builder) => builder.WithOrbitDetails<InitialOrbitDetails>("initialOrbit", "initial-orbits");
 
-	private static DelegatingContractBuilder<T> WithOrbitDetails<T>(this IBuilder builder, string name, string endpoint) where T: OrbitDetails
+	private static DelegatingContractBuilder<T> WithOrbitDetails<T>(this IBuilder builder, string name, string endpoint) where T : OrbitDetails
 	{
-		const string orbitIdFieldName = nameof(OrbitDetails.Id);
-		string objectLinkTemplate = $"/api/{endpoint}/{orbitIdFieldName}/object";
+		const string orbitIdFieldName   = nameof(OrbitDetails.Id);
+		string       objectLinkTemplate = $"/api/{endpoint}/{orbitIdFieldName}/object";
 		object IdSelector(OrbitDetails orbit) => orbit.Id;
 
 		return builder.With<T>(name)

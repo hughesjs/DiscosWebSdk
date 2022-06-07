@@ -7,15 +7,15 @@ using Xunit;
 
 namespace DISCOSweb_Sdk.Tests.Mapping.JsonApi.Reentries;
 
-public class ReentryMapperTests: JsonApiMapperTestBase
+public class ReentryMapperTests : JsonApiMapperTestBase
 {
 	private readonly Reentry _reentry = new()
 										{
-											Id = "29338",
-											Epoch = new(2022,03,21),
+											Id      = "29338",
+											Epoch   = new(2022, 03, 21),
 											Objects = null!
 										};
-	
+
 	[Fact]
 	public override async Task CanGetSingleWithoutLinks()
 	{
@@ -28,7 +28,7 @@ public class ReentryMapperTests: JsonApiMapperTestBase
 	public override async Task CanGetSingleWithLinks()
 	{
 		const string queryString = "?include=objects";
-		Reentry reentry = await FetchSingle<Reentry>(_reentry.Id, queryString);
+		Reentry      reentry     = await FetchSingle<Reentry>(_reentry.Id, queryString);
 		reentry.Objects.Count.ShouldBe(1);
 		reentry.Objects.First().Name.ShouldBe("Vostok 8A92M-2 (Vostok SL-3 (A-1))");
 

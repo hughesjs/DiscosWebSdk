@@ -10,9 +10,9 @@ internal static class PropellantContractBuilder
 	internal static DelegatingContractBuilder<Propellant> WithPropellant(this IBuilder builder)
 	{
 		const string propellantIdFieldName = nameof(Propellant.Id);
-		const string stageLinkTemplate = $"/api/propellants/{propellantIdFieldName}/stages";
+		const string stageLinkTemplate     = $"/api/propellants/{propellantIdFieldName}/stages";
 		object IdSelector(Propellant propellant) => propellant.Id;
-		
+
 		return builder.With<Propellant>("propellant")
 					  .Id(nameof(Propellant.Id))
 					  .HasMany<LaunchVehicleStage>(AttributeUtilities.GetJsonPropertyName<Propellant>(nameof(Propellant.Stages)))

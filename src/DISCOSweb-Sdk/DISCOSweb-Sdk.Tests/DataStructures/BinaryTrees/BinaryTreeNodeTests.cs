@@ -14,15 +14,15 @@ public abstract class BinaryTreeNodeTests
 
 	[Fact]
 	public abstract void SettingRightChildSetsTreeRef();
-	
+
 	[Fact]
 	public abstract void SettingLeftChildSetsTreeRef();
 
 
 	public class GenericTests : BinaryTreeNodeTests
 	{
-		private BinaryTreeNode<string> _node;
-		private BinaryTree<BinaryTreeNode<string>> _tree;
+		private readonly BinaryTreeNode<string>             _node;
+		private readonly BinaryTree<BinaryTreeNode<string>> _tree;
 
 		public GenericTests()
 		{
@@ -65,8 +65,8 @@ public abstract class BinaryTreeNodeTests
 
 	public class NonGenericTests : BinaryTreeNodeTests
 	{
-		private BinaryTreeNode _node;
-		private BinaryTree _tree;
+		private readonly BinaryTreeNode _node;
+		private readonly BinaryTree     _tree;
 
 		public NonGenericTests()
 		{
@@ -74,6 +74,7 @@ public abstract class BinaryTreeNodeTests
 			_node = new();
 			_tree.SetRoot(_node);
 		}
+
 		public override void CanSetRightChild()
 		{
 			BinaryTreeNode newNode = new();
@@ -81,7 +82,7 @@ public abstract class BinaryTreeNodeTests
 			_node.RightChild.ShouldBe(newNode);
 			newNode.Parent.ShouldBe(_node);
 		}
-		
+
 		public override void CanSetLeftChild()
 		{
 			BinaryTreeNode newNode = new();

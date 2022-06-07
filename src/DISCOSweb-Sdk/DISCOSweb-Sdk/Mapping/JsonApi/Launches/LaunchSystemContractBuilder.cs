@@ -12,8 +12,8 @@ internal static class LaunchSystemContractBuilder
 	internal static DelegatingContractBuilder<LaunchSystem> WithLaunchSystem(this IBuilder builder)
 	{
 		const string launchSystemIdFieldName = nameof(LaunchSystem.Id);
-		const string entityLinkTemplate = $"/api/launch-systems/{launchSystemIdFieldName}/entities";
-		const string familyLinkTemplate = $"/api/launch-systems/{launchSystemIdFieldName}/families";
+		const string entityLinkTemplate      = $"/api/launch-systems/{launchSystemIdFieldName}/entities";
+		const string familyLinkTemplate      = $"/api/launch-systems/{launchSystemIdFieldName}/families";
 		object IdSelector(LaunchSystem system) => system.Id;
 
 		return builder.With<LaunchSystem>("launchSystem")

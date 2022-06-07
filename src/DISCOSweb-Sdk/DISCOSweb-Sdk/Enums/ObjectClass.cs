@@ -14,7 +14,7 @@ public enum ObjectClass
 	RocketFragmentationDebris,
 	[EnumMember(Value = "Rocket Mission Related Object")]
 	RocketMissionRelatedObject,
-	
+
 	[EnumMember(Value = "Payload")]
 	Payload,
 	[EnumMember(Value = "Payload Debris")]
@@ -23,12 +23,12 @@ public enum ObjectClass
 	PayloadFragmentationDebris,
 	[EnumMember(Value = "Payload Mission Related Object")]
 	PayloadMissionRelatedObject,
-	
+
 	[EnumMember(Value = "Other Debris")]
 	OtherDebris,
 	[EnumMember(Value = "Other Mission Related Object")]
 	OtherMissionRelatedObject,
-	
+
 	[EnumMember(Value = "Unknown")]
 	Unknown
 }

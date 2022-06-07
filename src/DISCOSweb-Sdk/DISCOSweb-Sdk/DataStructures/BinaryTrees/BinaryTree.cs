@@ -2,15 +2,15 @@ using DISCOSweb_Sdk.Exceptions.DataStructures.BinaryTree;
 
 namespace DISCOSweb_Sdk.DataStructures.BinaryTrees;
 
-internal class BinaryTree<TNodeType> : BinaryTree where TNodeType: BinaryTreeNode
+internal class BinaryTree<TNodeType> : BinaryTree where TNodeType : BinaryTreeNode
 {
+
+
+	public BinaryTree() { }
+	public BinaryTree(TNodeType rootNode) : base(rootNode) { }
 	public override TNodeType? Root => _root as TNodeType;
 	public override TNodeType? Head => _head as TNodeType;
-	
-	
-	public BinaryTree(){}
-	public BinaryTree(TNodeType rootNode): base(rootNode) { }
-	
+
 	public override TNodeType SetRoot(BinaryTreeNode newRootNode)
 	{
 		if (newRootNode is not TNodeType node)
@@ -25,10 +25,8 @@ internal class BinaryTree<TNodeType> : BinaryTree where TNodeType: BinaryTreeNod
 
 internal class BinaryTree
 {
-	protected BinaryTreeNode? _root;
 	protected BinaryTreeNode? _head;
-	public virtual BinaryTreeNode? Root => _root;
-	public virtual BinaryTreeNode? Head => _head;
+	protected BinaryTreeNode? _root;
 
 	public BinaryTree() { }
 
@@ -39,7 +37,11 @@ internal class BinaryTree
 		root.SetTree(this);
 	}
 
+	public virtual BinaryTreeNode? Root => _root;
+	public virtual BinaryTreeNode? Head => _head;
+
 	public bool IsEmpty => Root is null;
+
 	public BinaryTreeNode MoveHeadTo(BinaryTreeNode node)
 	{
 		EnsureNodeIsInTree(node);
@@ -51,7 +53,7 @@ internal class BinaryTree
 	{
 		if (node.Tree != this) // Hit root node in other tree
 		{
-			throw new NodeIsNotInBinaryTreeException(); 
+			throw new NodeIsNotInBinaryTreeException();
 		}
 	}
 
@@ -65,8 +67,8 @@ internal class BinaryTree
 	}
 
 	/// <summary>
-	/// Inserts new node at the head by making the head an orphan
-	/// And then having the new adopt it as the left child
+	///     Inserts new node at the head by making the head an orphan
+	///     And then having the new adopt it as the left child
 	/// </summary>
 	/// <param name="newNode">New node to be inserted</param>
 	/// <returns></returns>
@@ -81,8 +83,8 @@ internal class BinaryTree
 			throw new InvalidOperationException("Cannot replace root using this method");
 		}
 
-		BinaryTreeNode? headParent = Head.Parent;
-		bool isLeftChild = Head.Parent.LeftChild == Head;
+		BinaryTreeNode? headParent  = Head.Parent;
+		bool            isLeftChild = Head.Parent.LeftChild == Head;
 		Head.ChangeParent(newNode, true);
 		newNode.ChangeParent(headParent, isLeftChild);
 		MoveHeadTo(newNode);

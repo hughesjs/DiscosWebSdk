@@ -7,7 +7,7 @@ using Xunit;
 
 namespace DISCOSweb_Sdk.Tests.Mapping.JsonApi.DiscosObjects;
 
-public class DiscosObjectClassTests: JsonApiMapperTestBase
+public class DiscosObjectClassTests : JsonApiMapperTestBase
 {
 	[Fact]
 	public override async Task CanGetSingleWithoutLinks()
@@ -15,7 +15,7 @@ public class DiscosObjectClassTests: JsonApiMapperTestBase
 		DiscosObjectClass oc = await FetchSingle<DiscosObjectClass>("6a6527d6-efbb-5500-abe3-594ac23d04ed");
 		oc.Name.ShouldBe("Unknown");
 	}
-	
+
 	public override async Task CanGetSingleWithLinks() => await CanGetSingleWithoutLinks(); // No Links
 
 	[Fact]
@@ -26,5 +26,4 @@ public class DiscosObjectClassTests: JsonApiMapperTestBase
 		ocs.First().Name.ShouldBe("Unknown");
 		ocs.Last().Name.ShouldBe("Other Debris");
 	}
-	
 }

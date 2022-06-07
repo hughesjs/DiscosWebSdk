@@ -26,7 +26,7 @@ public record Propellant : DiscosModelBase
 	private string GenerateName()
 	{
 		IEnumerable<string> parts = new[] {Fuel, Oxidiser, SolidPropellant}.Where(p => !string.IsNullOrEmpty(p)).Cast<string>();
-		StringBuilder sb = new();
+		StringBuilder       sb    = new();
 		sb.AppendJoin('-', parts);
 		return sb.ToString();
 	}

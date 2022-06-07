@@ -47,22 +47,22 @@ public abstract class JsonApiMapperTestBase
 
 	protected async Task<T> FetchSingle<T>(string id, string queryString = "")
 	{
-		string endpoint = _endpoints[typeof(T)];
-		HttpResponseMessage res = await GetWithRateLimitRetry($"{_apiBase}{endpoint}/{id}{queryString}");
+		string              endpoint = _endpoints[typeof(T)];
+		HttpResponseMessage res      = await GetWithRateLimitRetry($"{_apiBase}{endpoint}/{id}{queryString}");
 		return await res.Content.ReadAsJsonApiAsync<T>(DiscosObjectResolver.CreateResolver());
 	}
 
 	protected async Task<IReadOnlyList<T>> FetchMultiple<T>(string queryString = "")
 	{
-		string endpoint = _endpoints[typeof(T)];
-		HttpResponseMessage res = await GetWithRateLimitRetry($"{_apiBase}{endpoint}{queryString}");
+		string              endpoint = _endpoints[typeof(T)];
+		HttpResponseMessage res      = await GetWithRateLimitRetry($"{_apiBase}{endpoint}{queryString}");
 		return await res.Content.ReadAsJsonApiManyAsync<T>(DiscosObjectResolver.CreateResolver());
 	}
 
 	private async Task<HttpResponseMessage> GetWithRateLimitRetry(string uri, int retries = 0)
 	{
-		const int maxAttempts = 5;
-		HttpClient client = new();
+		const int  maxAttempts = 5;
+		HttpClient client      = new();
 		client.DefaultRequestHeaders.Authorization = new("bearer", Environment.GetEnvironmentVariable("DISCOS_API_KEY"));
 		HttpResponseMessage res = await client.GetAsync(uri);
 		if (res.StatusCode == HttpStatusCode.TooManyRequests)

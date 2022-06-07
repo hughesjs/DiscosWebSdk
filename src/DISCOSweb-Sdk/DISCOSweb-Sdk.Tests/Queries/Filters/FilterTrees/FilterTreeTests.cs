@@ -13,10 +13,7 @@ public class FilterTreeTests
 {
 	private readonly FilterTree _tree;
 
-	public FilterTreeTests()
-	{
-		_tree = new();
-	}
+	public FilterTreeTests() => _tree = new();
 
 	[Fact]
 	public void CanAddDefinitionToEmptyTree()
@@ -41,8 +38,8 @@ public class FilterTreeTests
 		FilterDefinition f1 = new FilterDefinition<DiscosObject, string>(nameof(DiscosObject.Id), "123", DiscosFunction.Equal);
 		FilterDefinition f2 = new FilterDefinition<DiscosObject, string>(nameof(DiscosObject.Id), "321", DiscosFunction.Equal);
 
-		DefinitionNode leftOperand = _tree.AddDefinitionNode(f1);
-		OperationNode opNode = _tree.AddOperationNode(FilterOperation.And);
+		DefinitionNode leftOperand  = _tree.AddDefinitionNode(f1);
+		OperationNode  opNode       = _tree.AddOperationNode(FilterOperation.And);
 		DefinitionNode rightOperand = _tree.AddDefinitionNode(f2);
 
 		_tree.Root.ShouldBe(opNode);
@@ -61,21 +58,21 @@ public class FilterTreeTests
 		FilterDefinition fd4 = new FilterDefinition<DiscosObject, string>(nameof(DiscosObject.Id), "4", DiscosFunction.NotEqual);
 
 		FilterTreeNode f1 = _tree.AddDefinitionNode(fd1);
-		OperationNode a1 = _tree.AddOperationNode(FilterOperation.And);
+		OperationNode  a1 = _tree.AddOperationNode(FilterOperation.And);
 		FilterTreeNode f2 = _tree.AddDefinitionNode(fd2);
-		OperationNode a2 = _tree.AddOperationNode(FilterOperation.Or);
+		OperationNode  a2 = _tree.AddOperationNode(FilterOperation.Or);
 		FilterTreeNode f3 = _tree.AddDefinitionNode(fd3);
-		OperationNode a3 = _tree.AddOperationNode(FilterOperation.And);
+		OperationNode  a3 = _tree.AddOperationNode(FilterOperation.And);
 		FilterTreeNode f4 = _tree.AddDefinitionNode(fd4);
-		
+
 		_tree.Root.ShouldBe(a2);
-		
+
 		a2.LeftChild.ShouldBe(a1);
 		a2.RightChild.ShouldBe(a3);
-		
+
 		a1.LeftChild.ShouldBe(f1);
 		a1.RightChild.ShouldBe(f2);
-		
+
 		a3.LeftChild.ShouldBe(f3);
 		a3.RightChild.ShouldBe(f4);
 	}
@@ -102,7 +99,7 @@ public class FilterTreeTests
 		_tree.IsCompleteTree().ShouldBeFalse();
 		_tree.AddDefinitionNode(fd4);
 		_tree.IsCompleteTree().ShouldBeTrue();
-		
+
 		new FilterTree().IsCompleteTree().ShouldBeFalse();
 	}
 
@@ -122,7 +119,7 @@ public class FilterTreeTests
 		_tree.AddDefinitionNode(f1);
 		_tree.AddOperationNode(FilterOperation.And);
 		_tree.AddDefinitionNode(f2);
-		
+
 		_tree.ToString().ShouldBe($"and({f1},{f2})");
 	}
 
@@ -141,7 +138,7 @@ public class FilterTreeTests
 		_tree.AddDefinitionNode(fd3);
 		_tree.AddOperationNode(FilterOperation.And);
 		_tree.AddDefinitionNode(fd4);
-		
+
 		_tree.ToString().ShouldBe($"or(and({fd1},{fd2}),and({fd3},{fd4}))");
 	}
 
