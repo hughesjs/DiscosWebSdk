@@ -1,8 +1,11 @@
+using System;
 using DISCOSweb_Sdk.Enums;
 using DISCOSweb_Sdk.Exceptions.Queries.Filters.FilterDefinitions;
 using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
 using DISCOSweb_Sdk.Models.ResponseModels.Launches;
 using DISCOSweb_Sdk.Queries.Filters;
+using DISCOSweb_Sdk.Tests.TestCaseModels;
+using DISCOSweb_Sdk.Tests.TestDataGenerators;
 using Shouldly;
 using Xunit;
 
@@ -17,7 +20,7 @@ public class FilterDefinitionTests
 		FilterDefinition<DiscosObject, string> filter = new(nameof(DiscosObject.Id), "123", DiscosFunction.Equal);
 		// ReSharper disable once RedundantCast
 		filter.ToString().ShouldBe(((FilterDefinition)filter).ToString());
-		
+
 	}
 
 	[Fact]
@@ -55,7 +58,7 @@ public class FilterDefinitionTests
 	{
 		Should.Throw<DiscosFunctionDoesntSupportArraysException>(() => new FilterDefinition<DiscosObject, float[]>(nameof(DiscosObject.Height), new[] {0f, 0f}, function));
 	}
-	
+
 	[Fact]
 	public void GeneratesCorrectStringForNullValue()
 	{
@@ -84,5 +87,17 @@ public class FilterDefinitionTests
 	{
 		FilterDefinition<DiscosObject, float[]> filter = new(nameof(DiscosObject.Height), new[] {0f, 0f}, DiscosFunction.Contains);
 		filter.ToString().ShouldBe("contains(height,(0,0))");
+	}
+
+
+	[Theory]
+	[ClassData(typeof(SingleFilterTestDataGenerator))]
+	public void GeneratesCorrectStringForEveryPermutation(SingleFilterTestCase singleFilterTestCase)
+	{
+		Type unconstructedFilterType = typeof(FilterDefinition<,>);
+		Type constructedFilterType = unconstructedFilterType.MakeGenericType(singleFilterTestCase.ObjectType, singleFilterTestCase.ParamType);
+		FilterDefinition filter = (FilterDefinition)Activator.CreateInstance(constructedFilterType, singleFilterTestCase.ParamName, singleFilterTestCase.ParamValue, singleFilterTestCase.Func)! ?? throw new("Couldn't create filter");
+		
+		filter.ToString().ShouldBe(singleFilterTestCase.Expected);
 	}
 }

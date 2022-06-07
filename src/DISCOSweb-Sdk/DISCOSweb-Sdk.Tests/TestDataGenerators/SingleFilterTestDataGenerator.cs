@@ -19,7 +19,7 @@ namespace DISCOSweb_Sdk.Tests.TestDataGenerators;
 ///
 /// Some of these queries are invalid for type reasons... I *might* fix this later.
 /// </summary>
-internal class CanAddSingleFilterTestDataGenerator : IEnumerable<object[]>
+internal class SingleFilterTestDataGenerator : IEnumerable<object[]>
 {
 	private int _testNumber;
 
@@ -143,7 +143,7 @@ internal class CanAddSingleFilterTestDataGenerator : IEnumerable<object[]>
 
 		string propertyName = AttributeUtilities.GetJsonPropertyName(objectType.GetProperty(propName) ?? throw new("Test data generator issue"));
 
-		return $"?filter={func.GetEnumMemberValue()}({propertyName},{val})";
+		return $"{func.GetEnumMemberValue()}({propertyName},{val})";
 	}
 
 	private string GetStringRepresentation(object? fake)

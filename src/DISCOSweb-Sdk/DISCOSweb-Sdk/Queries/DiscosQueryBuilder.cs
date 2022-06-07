@@ -1,14 +1,17 @@
+using System.Reflection;
 using System.Text;
+using DISCOSweb_Sdk.Enums;
 using DISCOSweb_Sdk.Exceptions.Queries.Filters.FilterTree;
 using DISCOSweb_Sdk.Extensions;
-using DISCOSweb_Sdk.Interfaces;
 using DISCOSweb_Sdk.Interfaces.Queries;
+using DISCOSweb_Sdk.Misc;
+using DISCOSweb_Sdk.Models.ResponseModels;
 using DISCOSweb_Sdk.Queries.Filters;
 using DISCOSweb_Sdk.Queries.Filters.FilterTree;
 
 namespace DISCOSweb_Sdk.Queries;
 
-internal class DiscosQueryBuilder<TObject>: IDiscosQueryBuilder<TObject> where TObject : notnull
+internal class DiscosQueryBuilder<TObject> : IDiscosQueryBuilder<TObject> where TObject: DiscosModelBase
 {
 	private FilterTree _filterTree;
 	private List<string> _includes;
@@ -24,18 +27,42 @@ internal class DiscosQueryBuilder<TObject>: IDiscosQueryBuilder<TObject> where T
 
 	public IDiscosQueryBuilder<TObject> AddFilter(FilterDefinition filterDefinition)
 	{
+		if (filterDefinition.GetType().GetGenericArguments().First() != typeof(TObject))
+		{
+			throw new InvalidFilterTreeException("Filter object type must match query builder type");
+		}
 		_filterTree.AddDefinitionNode(filterDefinition);
+		return this;
+	}
+
+	public IDiscosQueryBuilder<TObject> And()
+	{
+		_filterTree.AddOperationNode(FilterOperation.And);
+		return this;
+	}
+
+
+	public IDiscosQueryBuilder<TObject> Or()
+	{
+		_filterTree.AddOperationNode(FilterOperation.Or);
 		return this;
 	}
 
 	public IDiscosQueryBuilder<TObject> AddInclude(string fieldName)
 	{
 		typeof(TObject).EnsureFieldExists(fieldName);
-		_includes.Add(fieldName);
+		_includes.Add(AttributeUtilities.GetJsonPropertyName<TObject>(fieldName));
 		return this;
 	}
 
-	public IDiscosQueryBuilder<TObject> AddAllIncludes() => throw new NotImplementedException();
+	public IDiscosQueryBuilder<TObject> AddAllIncludes()
+	{
+		IEnumerable<PropertyInfo> props = typeof(TObject).GetProperties()
+														 .Where(p => p.PropertyType.IsAssignableTo(typeof(DiscosModelBase)) ||
+																	 (p.PropertyType.GetGenericArguments().FirstOrDefault()?.IsAssignableTo(typeof(DiscosModelBase)) ?? false));
+		props.ToList().ForEach(p => AddInclude(p.Name));
+		return this;
+	}
 
 	public IDiscosQueryBuilder<TObject> AddPageSize(int numPages)
 	{
@@ -43,7 +70,7 @@ internal class DiscosQueryBuilder<TObject>: IDiscosQueryBuilder<TObject> where T
 		return this;
 	}
 
-	public IDiscosQueryBuilder<TObject> PageNum(int pageNum)
+	public IDiscosQueryBuilder<TObject> AddPageNum(int pageNum)
 	{
 		_pageNum = pageNum;
 		return this;
@@ -110,7 +137,7 @@ internal class DiscosQueryBuilder<TObject>: IDiscosQueryBuilder<TObject> where T
 	private void AddIncludeString(StringBuilder builder)
 	{
 		builder.Append("include=");
-		_includes.ForEach(i => builder.Append(i));
+		builder.Append(string.Join(',',_includes.Distinct()));
 	}
 
 	private void AddPageNumberString(StringBuilder builder)
