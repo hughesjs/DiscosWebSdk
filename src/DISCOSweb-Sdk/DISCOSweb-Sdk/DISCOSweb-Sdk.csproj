@@ -19,8 +19,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="EnumExtensions.System.Text.Json" Version="1.1.0"/>
-        <PackageReference Include="JetBrains.Annotations" Version="2020.3.0"/>
+        <PackageReference Include="EnumExtensions.System.Text.Json" Version="1.1.0" />
+        <PackageReference Include="JetBrains.Annotations" Version="2020.3.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
     </ItemGroup>
 
 
@@ -32,12 +37,12 @@
 
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\vendor\Hypermedia\Src\Hypermedia\Hypermedia.csproj"/>
+        <ProjectReference Include="..\..\..\vendor\Hypermedia\Src\Hypermedia\Hypermedia.csproj" />
     </ItemGroup>
 
 
     <ItemGroup>
-        <Folder Include="Exceptions\DataStructures"/>
+        <Folder Include="Exceptions\DataStructures" />
     </ItemGroup>
 
 </Project>
