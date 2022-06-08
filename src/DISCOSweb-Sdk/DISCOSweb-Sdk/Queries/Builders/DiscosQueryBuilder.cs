@@ -11,7 +11,7 @@ using DISCOSweb_Sdk.Queries.Filters.FilterTree;
 
 namespace DISCOSweb_Sdk.Queries;
 
-internal class DiscosQueryBuilder<TObject> : IDiscosQueryBuilder<TObject> where TObject : DiscosModelBase
+internal class DiscosQueryBuilder<TObject> : IDiscosQueryBuilder<TObject>
 {
 	private FilterTree   _filterTree;
 	private List<string> _includes;
