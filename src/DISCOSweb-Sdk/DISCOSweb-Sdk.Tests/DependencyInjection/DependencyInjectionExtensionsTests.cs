@@ -5,8 +5,9 @@ using System.Reflection;
 using DISCOSweb_Sdk.Clients;
 using DISCOSweb_Sdk.DependencyInjection;
 using DISCOSweb_Sdk.Interfaces.Queries;
-using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
 using DISCOSweb_Sdk.Options;
+using DISCOSweb_Sdk.Queries;
+using DISCOSweb_Sdk.Tests.TestDataGenerators;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -17,8 +18,8 @@ namespace DISCOSweb_Sdk.Tests.DependencyInjection;
 
 public class DependencyInjectionExtensionsTests
 {
-	private const    string             ApiKey = "1234";
-	private const    string             ApiUrl = "http://my.api.local/";
+	private const string ApiKey = "1234";
+	private const string ApiUrl = "http://my.api.local/";
 
 	private readonly Dictionary<string, string> _configDict = new()
 															  {
@@ -26,25 +27,29 @@ public class DependencyInjectionExtensionsTests
 																  {"DiscosOptions:DiscosApiUrl", ApiUrl}
 															  };
 	private readonly IServiceProvider _provider;
-	
+
 	public DependencyInjectionExtensionsTests()
 	{
-		ServiceCollection     services     = new();
+		ServiceCollection services = new();
 
 		ConfigurationBuilder builder = new();
 		IConfigurationRoot?  config  = builder.AddInMemoryCollection(_configDict).Build();
-		
+
 		services.AddDiscosServices(config);
-		
+
 		_provider = services.BuildServiceProvider();
 	}
-	
-	
-	[Fact]
-	public void CanGetQueryBuilderFromContainer()
+
+
+	[Theory]
+	[ClassData(typeof(DiscosModelTypesTestDataGenerator))]
+	public void CanGetQueryBuilderFromContainer(Type t, string _)
 	{
-		IDiscosQueryBuilder<DiscosObject>? builder = _provider.GetService<IDiscosQueryBuilder<DiscosObject>>();
-		builder.ShouldNotBeNull();
+		Type       builderIType = typeof(IDiscosQueryBuilder<>).MakeGenericType(t);
+		Type       builderCType = typeof(DiscosQueryBuilder<>).MakeGenericType(t);
+
+		object builder = _provider.GetService(builderIType)!;
+		builder.ShouldBeOfType(builderCType);
 	}
 
 	[Fact]
@@ -53,7 +58,7 @@ public class DependencyInjectionExtensionsTests
 		IDiscosClient? client = _provider.GetService<IDiscosClient>();
 		HttpClient internalClient = (HttpClient)typeof(DiscosClient).GetField("_client", BindingFlags.Instance | BindingFlags.NonPublic)!
 																	.GetValue(client)!;
-		
+
 		client.ShouldNotBeNull();
 		internalClient.BaseAddress.ShouldBe(new(ApiUrl));
 		internalClient.DefaultRequestHeaders.Authorization!.Scheme.ShouldBe("bearer");
@@ -68,4 +73,6 @@ public class DependencyInjectionExtensionsTests
 		options.Value.DiscosApiKey.ShouldBe(ApiKey);
 		options.Value.DiscosApiUrl.ShouldBe(ApiUrl);
 	}
+
+
 }
