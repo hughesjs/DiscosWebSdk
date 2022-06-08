@@ -15,7 +15,6 @@ using DISCOSweb_Sdk.Models.ResponseModels.LaunchVehicles;
 using DISCOSweb_Sdk.Models.ResponseModels.Orbits;
 using DISCOSweb_Sdk.Models.ResponseModels.Propellants;
 using DISCOSweb_Sdk.Models.ResponseModels.Reentries;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Shouldly;
 using Xunit;
 
@@ -76,21 +75,21 @@ public class DiscosModelTypesTestDataGenerator : IEnumerable<object[]>
 													 {
 														 {typeof(DiscosObject), "1"},
 														 {typeof(DiscosObjectClass), "6a6527d6-efbb-5500-abe3-594ac23d04ed"},
-														 {typeof(Country), "1"},
+														 {typeof(Country), "258"},
 														 {typeof(Organisation), "1699"},
 														 {typeof(Entity), "1"},
-														 {typeof(FragmentationEvent), "1"},
+														 {typeof(FragmentationEvent), "86"},
 														 {typeof(Launch), "1"},
-														 {typeof(LaunchSite), "1"},
-														 {typeof(LaunchSystem), "1"},
-														 {typeof(LaunchVehicle), "1"},
-														 {typeof(LaunchVehicleFamily), "1"},
-														 {typeof(LaunchVehicleEngine), "81568"},
-														 {typeof(LaunchVehicleStage), "311"},
-														 {typeof(InitialOrbitDetails), "1"},
-														 {typeof(DestinationOrbitDetails), "36231"},
+														 {typeof(LaunchSite), "14"},
+														 {typeof(LaunchSystem), "13"},
+														 {typeof(LaunchVehicle), "207"},
+														 {typeof(LaunchVehicleFamily), "50"},
+														 {typeof(LaunchVehicleEngine), "87381"},
+														 {typeof(LaunchVehicleStage), "328"},
+														 {typeof(InitialOrbitDetails), "1255"},
+														 {typeof(DestinationOrbitDetails), "36260"},
 														 {typeof(Propellant), "1"},
-														 {typeof(Reentry), "1"}
+														 {typeof(Reentry), "29338"}
 													 };
 
 	public IEnumerator<object[]> GetEnumerator()
