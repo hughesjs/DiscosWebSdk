@@ -23,11 +23,10 @@ public static class DependencyInjectionExtensions
 		
 		services.AddTransient(typeof(IDiscosQueryBuilder<>), typeof(DiscosQueryBuilder<>));
 
-		services.AddHttpClient<DiscosClient>(c =>
+		services.AddHttpClient<IDiscosClient, DiscosClient>(c =>
 											 {
 												 c.BaseAddress                         = new(opt.DiscosApiUrl);
 												 c.DefaultRequestHeaders.Authorization = new("bearer", opt.DiscosApiKey);
 											 });
-		
 	}
 }
