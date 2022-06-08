@@ -9,12 +9,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoFixture" Version="4.17.0"/>
-        <PackageReference Include="Faker.Net" Version="2.0.154"/>
-        <PackageReference Include="JetBrains.Annotations" Version="2020.3.0"/>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0"/>
-        <PackageReference Include="Shouldly" Version="4.0.3"/>
-        <PackageReference Include="xunit" Version="2.4.1"/>
+        <PackageReference Include="AutoFixture" Version="4.17.0" />
+        <PackageReference Include="Faker.Net" Version="2.0.154" />
+        <PackageReference Include="JetBrains.Annotations" Version="2020.3.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+        <PackageReference Include="Shouldly" Version="4.0.3" />
+        <PackageReference Include="xunit" Version="2.4.1" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
@@ -26,10 +26,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\vendor\Hypermedia\Src\Hypermedia.JsonApi.Client\Hypermedia.JsonApi.Client.csproj"/>
-        <ProjectReference Include="..\..\..\vendor\Hypermedia\Src\Hypermedia.JsonApi.Client\Hypermedia.JsonApi.Client.csproj"/>
-        <ProjectReference Include="..\..\..\vendor\Hypermedia\Src\Hypermedia\Hypermedia.csproj"/>
-        <ProjectReference Include="..\DISCOSweb-Sdk\DISCOSweb-Sdk.csproj"/>
+        <ProjectReference Include="..\..\..\vendor\Hypermedia\Src\Hypermedia.JsonApi.Client\Hypermedia.JsonApi.Client.csproj" />
+        <ProjectReference Include="..\..\..\vendor\Hypermedia\Src\Hypermedia.JsonApi.Client\Hypermedia.JsonApi.Client.csproj" />
+        <ProjectReference Include="..\..\..\vendor\Hypermedia\Src\Hypermedia\Hypermedia.csproj" />
+        <ProjectReference Include="..\DISCOSweb-Sdk\DISCOSweb-Sdk.csproj" />
     </ItemGroup>
 
 </Project>
