@@ -1,0 +1,12 @@
+﻿@using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects
+@using DISCOSweb_Sdk.Models.ResponseModels
+<MudNavMenu>
+    <MudNavGroup Icon="@Icons.Material.TwoTone.Download" Title="Simple Fetching">
+        <MudNavLink Href="simple-fetching/get-single" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Inventory">GetSingle()</MudNavLink>
+        <MudNavLink Href="simple-fetching/get-multiple" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Inventory2">GetMultiple()</MudNavLink>
+    </MudNavGroup>
+    <MudNavGroup Icon="@Icons.Material.TwoTone.QueryBuilder" Title="Query Building">
+        <MudNavLink Href="get-single-w-query" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Inventory">GetSingle()</MudNavLink>
+        <MudNavLink Href="get-multiple-w-query" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Inventory2">GetMultiple()</MudNavLink>
+    </MudNavGroup>
+</MudNavMenu>

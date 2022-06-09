@@ -1,0 +1,35 @@
+@page "/simple-fetching/get-multiple"
+@using DISCOSweb_Sdk.Models.ResponseModels.FragmentationEvent
+
+<MudButton OnClick="UpdateModel" Variant="Variant.Filled" Color="Color.Primary">
+    @if (_loading)
+    {
+        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true"/>
+        <MudText Class="ms-2">Processing</MudText>
+    }
+    else
+    {
+        <MudText>Load Fragmentation Events</MudText>
+    }
+</MudButton>
+
+<MudTable Items="FragmentationEvents" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info" FixedHeader="true">
+    <HeaderContent>
+        <MudTh>@nameof(FragmentationEvent.Id)</MudTh>
+        <MudTh>@nameof(FragmentationEvent.EventType)</MudTh>
+        <MudTh>@nameof(FragmentationEvent.Altitude)</MudTh>
+        <MudTh>@nameof(FragmentationEvent.LatitudeDegs)</MudTh>
+        <MudTh>@nameof(FragmentationEvent.LongitudeDegs)</MudTh>
+        <MudTh>@nameof(FragmentationEvent.Epoch)</MudTh>
+        <MudTh>@nameof(FragmentationEvent.Comment)</MudTh>
+    </HeaderContent>
+    <RowTemplate >
+        <MudTd DataLabel="@nameof(FragmentationEvent.Id)">@context.Id</MudTd>
+        <MudTd DataLabel="@nameof(FragmentationEvent.EventType)">@context.EventType</MudTd>
+        <MudTd DataLabel="@nameof(FragmentationEvent.Altitude)">@context.Altitude</MudTd>
+        <MudTd DataLabel="@nameof(FragmentationEvent.LatitudeDegs)">@context.LatitudeDegs</MudTd>
+        <MudTd DataLabel="@nameof(FragmentationEvent.LongitudeDegs)">@context.LongitudeDegs</MudTd>
+        <MudTd DataLabel="@nameof(FragmentationEvent.Epoch)">@context.Epoch</MudTd>
+        <MudTd DataLabel="@nameof(FragmentationEvent.Comment)">@context.Comment</MudTd>
+    </RowTemplate>
+</MudTable>

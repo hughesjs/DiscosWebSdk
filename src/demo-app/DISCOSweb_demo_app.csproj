@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+	  <TargetFramework>net6.0</TargetFramework>
+	  <Nullable>enable</Nullable>
+	  <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DISCOSweb-Sdk" Version="1.0.1-beta" />
+    <PackageReference Include="MudBlazor" Version="6.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Pages\SimpleFetching\GetMultiple.cs">
+      <DependentUpon>GetMultiple.razor</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>
