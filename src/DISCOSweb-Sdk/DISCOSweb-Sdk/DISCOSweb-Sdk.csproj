@@ -7,7 +7,7 @@
         <Nullable>enable</Nullable>
         <LangVersion>default</LangVersion>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>0.0.1</PackageVersion>
+        <PackageVersion>1.0.0</PackageVersion>
         <Title>DISCOSweb SDK</Title>
         <Authors>James Hughes</Authors>
         <Description>A C# SDK for the European Space Agency's DISCOSweb API</Description>
