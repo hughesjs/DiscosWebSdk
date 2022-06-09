@@ -1,8 +1,8 @@
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/hughesjs/DISOSweb-sdk/.NET?style=for-the-badge)
 ![GitHub top language](https://img.shields.io/github/languages/top/hughesjs/DISOSweb-sdk?style=for-the-badge)
 ![GitHub](https://img.shields.io/github/license/hughesjs/DISOSweb-sdk?style=for-the-badge)
-![Nuget](https://img.shields.io/nuget/dt/DISOSweb-Sdk?style=for-the-badge)
-![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/DISOSweb-Sdk?style=for-the-badge)
+![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/DISCOSweb-Sdk?style=for-the-badge)
+![Nuget](https://img.shields.io/nuget/dt/DISCOSweb-Sdk?style=for-the-badge)
 
 # DISCOSweb SDK
 
