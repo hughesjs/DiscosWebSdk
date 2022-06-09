@@ -1,9 +1,7 @@
-name: .NET Build and Test
+name: Publish to Nuget
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
     branches: [ master ]
 
 jobs:
@@ -28,3 +26,13 @@ jobs:
       run: dotnet build --no-restore src/DISCOSweb-Sdk/DISCOSweb-Sdk.sln
     - name: Test
       run: dotnet test --no-build --verbosity normal src/DISCOSweb-Sdk/DISCOSweb-Sdk.sln
+    - name: Publish
+      id: publish_nuget
+      uses: brandedoutcast/publish-nuget@v2
+      with:
+        PACKAGE_NAME: DISCOSweb-Sdk
+        PROJECT_FILE_PATH: "**/DISCOSweb-Sdk.csproj"
+        BUILD_CONFIGURATION: Release
+        NUGET_KEY: ${{secrets.NUGET_KEY}}
+        VERSION_STATIC: 1.0.0 # Replace with something better
+          
