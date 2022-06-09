@@ -2,6 +2,7 @@ using System.Reflection;
 using DISCOSweb_Sdk.Clients;
 using DISCOSweb_Sdk.Models.ResponseModels;
 using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
+using DISCOSweb_Sdk.Models.ResponseModels.FragmentationEvent;
 using Microsoft.AspNetCore.Components;
 
 namespace DISCOSweb_demo_app.Pages.SimpleFetching;
@@ -11,16 +12,14 @@ public partial class GetMultiple
 	[Inject]
 	private IDiscosClient DiscosClient { get; set; }
 
-	private Type TargetType { get; set; }
-	
-	private IReadOnlyList<DiscosModelBase> Elements { get; set; }
+	private IReadOnlyList<FragmentationEvent> FragmentationEvents { get; set; }
 	
 	private bool _loading { get; set; }
 
-
-	private async Task UpdateModel(Type t)
+	private async Task UpdateModel()
 	{
-		Elements = await DiscosClient.GetMultiple<DiscosObject>();
-		;
+		_loading            = true;
+		FragmentationEvents = await DiscosClient.GetMultiple<FragmentationEvent>();
+		_loading            = false;
 	}
 }

@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DISCOSweb-Sdk" Version="1.0.1-alpha" />
+    <PackageReference Include="DISCOSweb-Sdk" Version="1.0.1-beta" />
     <PackageReference Include="MudBlazor" Version="6.0.9" />
   </ItemGroup>
 
