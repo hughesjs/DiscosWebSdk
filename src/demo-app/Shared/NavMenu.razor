@@ -1,5 +1,8 @@
-﻿<MudNavMenu>
-    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
-    <MudNavLink Href="counter" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Counter</MudNavLink>
-    <MudNavLink Href="fetchdata" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Fetch data</MudNavLink>
+﻿@using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects
+@using DISCOSweb_Sdk.Models.ResponseModels
+<MudNavMenu>
+    <MudNavGroup Icon="@Icons.Material.TwoTone.Download" Title="Simple Fetching">
+        <MudNavLink Href="get-single" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Inventory">GetSingle()</MudNavLink>
+         <MudNavLink Href="get-multiple" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Inventory2">GetMultiple()</MudNavLink>
+    </MudNavGroup>
 </MudNavMenu>
