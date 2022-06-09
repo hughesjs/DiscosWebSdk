@@ -7,7 +7,7 @@
         <Nullable>enable</Nullable>
         <LangVersion>default</LangVersion>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>1.0.0</PackageVersion>
+        <PackageVersion>1.0.1-beta</PackageVersion>
         <Title>DISCOSweb SDK</Title>
         <Authors>James Hughes</Authors>
         <Description>A C# SDK for the European Space Agency's DISCOSweb API</Description>
@@ -20,6 +20,8 @@
 
     <ItemGroup>
         <PackageReference Include="EnumExtensions.System.Text.Json" Version="1.1.0" />
+        <PackageReference Include="Hughesjs.Hypermedia.Core" Version="3.1.2" />
+        <PackageReference Include="Hughesjs.Hypermedia.JsonApi.Client" Version="3.1.2" />
         <PackageReference Include="JetBrains.Annotations" Version="2020.3.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
@@ -37,13 +39,6 @@
             <_Parameter1>DISCOSweb-Sdk.Tests</_Parameter1>
         </AssemblyAttribute>
     </ItemGroup>
-
-
-    <ItemGroup>
-        <ProjectReference Include="..\..\..\vendor\Hypermedia\Src\Hypermedia.JsonApi.Client\Hypermedia.JsonApi.Client.csproj" />
-        <ProjectReference Include="..\..\..\vendor\Hypermedia\Src\Hypermedia\Hypermedia.csproj" />
-    </ItemGroup>
-
 
     <ItemGroup>
         <Folder Include="Exceptions\DataStructures" />
