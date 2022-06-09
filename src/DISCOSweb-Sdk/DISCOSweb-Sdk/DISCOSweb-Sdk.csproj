@@ -7,7 +7,7 @@
         <Nullable>enable</Nullable>
         <LangVersion>default</LangVersion>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>1.0.0</PackageVersion>
+        <PackageVersion>1.0.1-alpha</PackageVersion>
         <Title>DISCOSweb SDK</Title>
         <Authors>James Hughes</Authors>
         <Description>A C# SDK for the European Space Agency's DISCOSweb API</Description>
@@ -40,8 +40,12 @@
 
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\vendor\Hypermedia\Src\Hypermedia.JsonApi.Client\Hypermedia.JsonApi.Client.csproj" />
-        <ProjectReference Include="..\..\..\vendor\Hypermedia\Src\Hypermedia\Hypermedia.csproj" />
+        <ProjectReference Include="..\..\..\vendor\Hypermedia\Src\Hypermedia.JsonApi.Client\Hypermedia.JsonApi.Client.csproj">
+            <IncludeAssets>all</IncludeAssets>
+        </ProjectReference>
+        <ProjectReference Include="..\..\..\vendor\Hypermedia\Src\Hypermedia\Hypermedia.csproj">
+            <IncludeAssets>all</IncludeAssets>
+        </ProjectReference>
     </ItemGroup>
 
 

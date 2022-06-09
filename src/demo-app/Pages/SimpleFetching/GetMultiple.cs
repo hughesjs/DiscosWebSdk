@@ -13,13 +13,14 @@ public partial class GetMultiple
 
 	private Type TargetType { get; set; }
 	
-	private List<DiscosModelBase> Elements { get; set; }
+	private IReadOnlyList<DiscosModelBase> Elements { get; set; }
 	
 	private bool _loading { get; set; }
 
 
-	private Task UpdateModel(Type t)
+	private async Task UpdateModel(Type t)
 	{
-		
+		Elements = await DiscosClient.GetMultiple<DiscosObject>();
+		;
 	}
 }

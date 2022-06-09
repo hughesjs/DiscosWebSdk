@@ -3,7 +3,7 @@
 @using DISCOSweb_Sdk.Models.ResponseModels
 @using System.Reflection
 
-<MudSelect T="Type" @bind-Value="TargetType" ValueChanged="UpdateModel">
+<MudSelect T="Type" ValueChanged="UpdateModel">
     @foreach(Type t in typeof(DiscosObject).Assembly.GetTypes().Where(t => t.IsAssignableTo(typeof(DiscosModelBase)) && t != typeof(DiscosModelBase)))
     {
         <MudSelectItem Value="t" ></MudSelectItem>
