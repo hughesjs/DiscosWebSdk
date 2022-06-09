@@ -1,4 +1,4 @@
-name: .NET Build and Test
+name: .NET Build, Test and Publish
 
 on:
   push:
@@ -29,11 +29,9 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal src/DISCOSweb-Sdk/DISCOSweb-Sdk.sln
   publish:
-    on: 
-      push:
-      branches: [ master ]
+    if: github.event.pull_request.merged == 'true'
     needs: build
-    runs_on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Publish
         id: publish_nuget
