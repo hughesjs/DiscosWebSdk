@@ -15,6 +15,9 @@
     <Compile Update="Pages\SimpleFetching\GetMultiple.cs">
       <DependentUpon>GetMultiple.razor</DependentUpon>
     </Compile>
+    <Compile Update="Pages\SimpleFetching\GetSingle.cs">
+      <DependentUpon>GetSingle.razor</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

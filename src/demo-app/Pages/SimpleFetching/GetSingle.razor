@@ -1,2 +1,49 @@
 @page "/simple-fetching/get-single"
-<h1>AGH!</h1>
+@using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects
+@using System.Reflection
+
+
+<MudTextField Label="Object ID" Variant="Variant.Filled" @bind-Value="_id"></MudTextField>
+
+<MudButton OnClick="UpdateModel" Variant="Variant.Filled" Color="Color.Primary" Disabled="_id is null">
+    @if (_loading)
+    {
+        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true"/>
+        <MudText Class="ms-2">Processing</MudText>
+    }
+    else
+    {
+        <MudText>Load DISCOS Object</MudText>
+    }
+</MudButton>
+
+@if(_discosObject is not null)
+{
+<MudCard Elevation="25" Class="rounded-lg pb-4">
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudText Typo="Typo.h5" Align="Align.Center">@_discosObject.Name</MudText>
+            </CardHeaderContent>
+        </MudCardHeader>
+        <MudCardContent>
+            <MudGrid>
+                <MudItem xs="12" sm="6" md="4">
+                    <RenderFragment>
+                        @GetImage()
+                    </RenderFragment>
+                    <!--<MudImage Src=@GetImage() Fluid="true" Class="rounded-lg" Elevation="25" ObjectPosition="ObjectPosition.Center"/>-->
+                </MudItem>
+                <MudItem xs="12" sm="6" md="8">
+                    @foreach (PropertyInfo prop in typeof(DiscosObject).GetProperties())
+                    {
+                        if (prop.GetValue(_discosObject) is null)
+                        {
+                            continue;
+                        }
+                        <MudText>@GetPropLine(prop)</MudText>
+                    }
+                </MudItem>
+            </MudGrid>
+        </MudCardContent>
+</MudCard>
+}
