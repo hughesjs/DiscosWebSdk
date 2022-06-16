@@ -1,5 +1,6 @@
 version: 2
 updates: 
   — package-ecosystem: “nuget”
-  directory: “./src/DISCOSweb-Sdk/” 
-  interval: “daily"
+  directory: “./src/DISCOSweb-Sdk/"
+  schedule: 
+    interval: “daily"
