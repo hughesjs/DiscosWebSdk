@@ -1,0 +1,46 @@
+name: .NET Continuous Integration
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    name: Build Project
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore src/DISCOSweb-Sdk/DISCOSweb-Sdk.sln
+    - name: Build
+      run: dotnet build --no-restore src/DISCOSweb-Sdk/DISCOSweb-Sdk.sln
+    - name: Upload built project for testing
+      uses: actions/upload-artifact@v3
+      with:
+        name: BuiltLib
+        path: ./src/DISCOSweb-Sdk
+
+  test:
+    name: Test Project (Mock API)
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      DISCOS_API_KEY: ${{ secrets.DISCOS_API_KEY }}
+      DISCOS_API_URL: http://localhost:3000/api/
+    steps:
+    - name: Download built project  
+      uses: actions/download-artifact@v3
+      with:
+        name: BuiltLib
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Build docker stack
+      run: docker-compose -f ./DISCOSweb-Sdk.Tests/docker-compose.yml up -d --force-recreate --build
+    - name: Run tests against mock API
+      run: dotnet test --no-build --verbosity normal ./DISCOSweb-Sdk.sln
