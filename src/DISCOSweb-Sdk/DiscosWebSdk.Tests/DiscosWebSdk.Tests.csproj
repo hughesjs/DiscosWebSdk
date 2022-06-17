@@ -34,7 +34,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\DISCOSweb-Sdk\DISCOSweb-Sdk.csproj" />
+        <ProjectReference Include="..\DiscosWebSdk\DiscosWebSdk.csproj" />
     </ItemGroup>
 
 </Project>

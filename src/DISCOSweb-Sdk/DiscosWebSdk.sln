@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DISCOSweb-Sdk", "DISCOSweb-Sdk\DISCOSweb-Sdk.csproj", "{10D85A3E-CA45-44F5-BFE2-40DB018C32B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscosWebSdk", "DiscosWebSdk\DiscosWebSdk.csproj", "{10D85A3E-CA45-44F5-BFE2-40DB018C32B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DISCOSweb-Sdk.Tests", "DISCOSweb-Sdk.Tests\DISCOSweb-Sdk.Tests.csproj", "{E86505A3-9E88-481D-AE16-E09E6F206ECC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscosWebSdk.Tests", "DiscosWebSdk.Tests\DiscosWebSdk.Tests.csproj", "{E86505A3-9E88-481D-AE16-E09E6F206ECC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
