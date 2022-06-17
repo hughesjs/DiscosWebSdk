@@ -22,7 +22,7 @@ jobs:
     - name: Upload built project for testing
       uses: actions/upload-artifact@v3
       with:
-        name: BuiltApplication
+        name: BuiltLib
         path: ./src/DISCOSweb-Sdk
 
 
