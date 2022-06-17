@@ -1,7 +1,7 @@
 services:
   mockoon:
     build:
-      context: ../DISCOSweb-Sdk.MockApi
+      context: ../DiscosWebSdk.MockApi
       dockerfile: ./Dockerfile
     ports:
       - 3000:3000
@@ -15,7 +15,7 @@ services:
 #  test-runner:
 #    build:
 #      context: ../../../
-#      dockerfile: ./src/DISCOSweb-Sdk/DISCOSweb-Sdk.Tests/Dockerfile      
+#      dockerfile: ./src/DiscosWebSdk/DiscosWebSdk.Tests/Dockerfile      
 #      args:
 #        DISCOS_API_URL: "http://mockoon:3000/api/"
 #    networks:
