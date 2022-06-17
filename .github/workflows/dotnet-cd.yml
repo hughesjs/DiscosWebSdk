@@ -52,10 +52,7 @@ jobs:
     name: Create a Package Release
     runs-on: ubuntu-latest
     steps:
-    - name: Download built project  
-      uses: actions/download-artifact@v3
-      with:
-        name: BuiltLib
+    - uses: actions/checkout@v2 # Need the full commit history for conventional commit
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
@@ -72,7 +69,7 @@ jobs:
         name: Release ${{ steps.tag_version.outputs.new_tag }}
         body: ${{ steps.tag_version.outputs.changelog }}
     - name: Create Nuget Package
-      run: dotnet pack -c Release -p:PackageVersion=${{ steps.tag_version.outputs.new_tag }} -o . ./DISCOSweb-Sdk/DISCOSweb-Sdk.csproj
+      run: dotnet pack -c Release -p:PackageVersion=${{ steps.tag_version.outputs.new_tag }} -o . .src/DISCOSweb-Sdk/DISCOSweb-Sdk/DISCOSweb-Sdk.csproj
     - name: Upload Package for Publishing
       uses: actions/upload-artifact@v3
       with:
