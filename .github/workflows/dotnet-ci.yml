@@ -6,6 +6,7 @@ on:
 
 jobs:
   build:
+    name: Build Project
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -20,6 +21,7 @@ jobs:
         path: ./src/DISCOSweb-Sdk
 
   test:
+    name: Test Project
     needs: build
     runs-on: ubuntu-latest
     env:
@@ -30,16 +32,14 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: BuiltApplicationForTest
-    - name: Show structure of downloaded article
-      run: ls -R
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
     - name: Build docker stack
-      run: docker-compose -f src/DISCOSweb-Sdk/DISCOSweb-Sdk.Tests/docker-compose.yml up -d --force-recreate --build
+      run: docker-compose -f ./DISCOSweb-Sdk.Tests/docker-compose.yml up -d --force-recreate --build
     - name: Run tests against mock API
-      run: dotnet test --no-build --verbosity normal src/DISCOSweb-Sdk/DISCOSweb-Sdk.sln
+      run: dotnet test --no-build --verbosity normal ./DISCOSweb-Sdk.sln
 
   
   # publish:
