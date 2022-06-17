@@ -20,6 +20,7 @@ jobs:
         path: ./src/DISCOSweb-Sdk
 
   test:
+    needs: build
     runs-on: ubuntu-latest
     env:
       DISCOS_API_KEY: ${{ secrets.DISCOS_API_KEY }}
