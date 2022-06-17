@@ -42,6 +42,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
+    - name: Test against real API
       run: dotnet test --no-build --verbosity normal ./DISCOSweb-Sdk.sln
 
 
