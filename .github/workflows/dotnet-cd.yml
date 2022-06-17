@@ -59,10 +59,8 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Create the Semantic Release Version
-    #TODO - Make this dynamic
-      run: |
-        SEM_VER=1.0.1-gamma
-        echo "::set-env name=SEM_VER::$SEM_VER"     
+      #TODO - Make this dynamic
+      run: SEM_VER=1.0.1-gamma && echo "::set-env name=SEM_VER::$SEM_VER"     
     - name: Create Nuget Package
       run: dotnet pack -c Release -p:PackageVersion=$SEM_VER -o . ./DISCOSweb-Sdk/DISCOSweb-Sdk.csproj
     #TODO - name: Update ChangeLog
