@@ -9,3 +9,8 @@ updates:
     directory: "/src/DISCOSweb-Sdk/" # Location of package manifests
     schedule:
       interval: "daily"
+
+  - package-ecosystem: "actions"
+    directory: "/"
+    schedule:
+      interval: "daily"

@@ -8,50 +8,20 @@ on:
   workflow_dispatch:
 jobs:
 
-
-  build:
-
-    name: Build Project
-    if: ${{ github.repository == 'hughesjs/DISCOSweb-sdk' }} # Don't run on forks
-    runs-on: ubuntu-latest
-    steps:
-    - run: echo ${{ github.repository }}
-    - uses: actions/checkout@v2
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 6.0.x
-    - name: Restore dependencies
-      run: dotnet restore src/DISCOSweb-Sdk/DISCOSweb-Sdk.sln
-    - name: Build
-      run: dotnet build --no-restore -c Release src/DISCOSweb-Sdk/DISCOSweb-Sdk.sln
-    - name: Upload built project for testing
-      uses: actions/upload-artifact@v3
-      with:
-        name: BuiltLib
-        path: ./src/DISCOSweb-Sdk
-
-
   test:
     name: Test Project (Real API)
-    needs: build
     runs-on: ubuntu-latest
     env:
       DISCOS_API_KEY: ${{ secrets.DISCOS_API_KEY }}
       DISCOS_API_URL: https://discosweb.esoc.esa.int/api/
     steps:
-    - name: Download built project  
-      uses: actions/download-artifact@v3
-      with:
-        name: BuiltLib
+    - uses: actions/checkout@v2
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
     - name: Test against real API
-      run: dotnet test --no-build --verbosity normal ./DISCOSweb-Sdk.sln
-
-
+      run: dotnet test --verbosity normal --loger GitHubActions ./src/DISCOSweb-Sdk/DISCOSweb-Sdk.sln
 
   semantic-release:
     needs: test
