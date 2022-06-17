@@ -42,9 +42,6 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
-    - name: Build docker stack
-      run: docker-compose -f ./DISCOSweb-Sdk.Tests/docker-compose.yml up -d --force-recreate --build
-    - name: Run tests against real API
       run: dotnet test --no-build --verbosity normal ./DISCOSweb-Sdk.sln
 
 
@@ -62,7 +59,10 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Create the Semantic Release Version
-      run: SEM_VER=1.0.1-gamma #TODO - Make this dynamic
+    #TODO - Make this dynamic
+      run: |
+        SEM_VER=1.0.1-gamma
+        echo "::set-env name=SEM_VER::$SEM_VER"     
     - name: Create Nuget Package
       run: dotnet pack -c Release -p:PackageVersion=$SEM_VER -o . ./DISCOSweb-Sdk/DISCOSweb-Sdk.csproj
     #TODO - name: Update ChangeLog
