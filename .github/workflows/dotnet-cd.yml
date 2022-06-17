@@ -18,7 +18,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore src/DISCOSweb-Sdk/DISCOSweb-Sdk.sln
     - name: Build
-      run: dotnet build --no-restore src/DISCOSweb-Sdk/DISCOSweb-Sdk.sln
+      run: dotnet build --no-restore -c Release src/DISCOSweb-Sdk/DISCOSweb-Sdk.sln
     - name: Upload built project for testing
       uses: actions/upload-artifact@v3
       with:
