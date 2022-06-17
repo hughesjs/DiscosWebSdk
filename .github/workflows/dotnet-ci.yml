@@ -40,19 +40,3 @@ jobs:
       run: docker-compose -f ./DISCOSweb-Sdk.Tests/docker-compose.yml up -d --force-recreate --build
     - name: Run tests against mock API
       run: dotnet test --no-build --verbosity normal ./DISCOSweb-Sdk.sln
-
-  
-  # publish:
-  #   if: github.event.pull_request.merged == 'true'
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Publish
-  #       id: publish_nuget
-  #       uses: brandedoutcast/publish-nuget@v2
-  #       with:
-  #         PACKAGE_NAME: DISCOSweb-Sdk
-  #         PROJECT_FILE_PATH: "**/DISCOSweb-Sdk.csproj"
-  #         BUILD_CONFIGURATION: Release
-  #         NUGET_KEY: ${{secrets.NUGET_KEY}}
-  #         VERSION_STATIC: 1.0.0 # Replace with something better
