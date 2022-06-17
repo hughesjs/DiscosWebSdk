@@ -18,6 +18,6 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Build docker stack
-      run: docker-compose -f ./DISCOSweb-Sdk.Tests/docker-compose.yml up -d --force-recreate --build
+      run: docker-compose -f ./src/DISCOSweb-Sdk/DISCOSweb-Sdk.Tests/docker-compose.yml up -d --force-recreate --build
     - name: Run tests against mock API
       run: dotnet test --verbosity normal --logger GitHubActions ./src/DISCOSweb-Sdk/DISCOSweb-Sdk.sln
