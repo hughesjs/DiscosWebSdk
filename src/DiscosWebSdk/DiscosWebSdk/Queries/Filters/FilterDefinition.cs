@@ -1,11 +1,11 @@
 using System.Collections;
-using DISCOSweb_Sdk.Enums;
-using DISCOSweb_Sdk.Exceptions;
-using DISCOSweb_Sdk.Exceptions.Queries.Filters.FilterDefinitions;
-using DISCOSweb_Sdk.Extensions;
-using DISCOSweb_Sdk.Misc;
+using DiscosWebSdk.Enums;
+using DiscosWebSdk.Exceptions;
+using DiscosWebSdk.Exceptions.Queries.Filters.FilterDefinitions;
+using DiscosWebSdk.Extensions;
+using DiscosWebSdk.Misc;
 
-namespace DISCOSweb_Sdk.Queries.Filters;
+namespace DiscosWebSdk.Queries.Filters;
 
 public abstract record FilterDefinition
 {

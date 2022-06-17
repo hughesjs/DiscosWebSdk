@@ -1,10 +1,10 @@
-using DISCOSweb_Sdk.Misc;
-using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
-using DISCOSweb_Sdk.Models.ResponseModels.Entities;
-using DISCOSweb_Sdk.Models.ResponseModels.Launches;
+using DiscosWebSdk.Misc;
+using DiscosWebSdk.Models.ResponseModels.DiscosObjects;
+using DiscosWebSdk.Models.ResponseModels.Entities;
+using DiscosWebSdk.Models.ResponseModels.Launches;
 using Hypermedia.Configuration;
 
-namespace DISCOSweb_Sdk.Mapping.JsonApi.Entities;
+namespace DiscosWebSdk.Mapping.JsonApi.Entities;
 
 internal static class CountryContractBuilder
 {

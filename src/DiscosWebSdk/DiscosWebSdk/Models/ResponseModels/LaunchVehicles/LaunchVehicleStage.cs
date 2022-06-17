@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
-using DISCOSweb_Sdk.Models.ResponseModels.Propellants;
+using DiscosWebSdk.Models.ResponseModels.Propellants;
 
-namespace DISCOSweb_Sdk.Models.ResponseModels.LaunchVehicles;
+namespace DiscosWebSdk.Models.ResponseModels.LaunchVehicles;
 
 public record LaunchVehicleStage : DiscosModelBase
 {

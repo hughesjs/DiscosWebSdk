@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using System.Text.Json.Serialization;
-using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
+using DiscosWebSdk.Models.ResponseModels.DiscosObjects;
 using JetBrains.Annotations;
 
-namespace DISCOSweb_Sdk.Models.ResponseModels.FragmentationEvent;
+namespace DiscosWebSdk.Models.ResponseModels.FragmentationEvent;
 
 [DebuggerDisplay("{Epoch} -- {EventType}")]
 public record FragmentationEvent : DiscosModelBase

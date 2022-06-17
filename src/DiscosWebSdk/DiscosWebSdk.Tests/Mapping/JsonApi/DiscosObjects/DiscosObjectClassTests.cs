@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
+using DiscosWebSdk.Models.ResponseModels.DiscosObjects;
 using Shouldly;
 using Xunit;
 
-namespace DISCOSweb_Sdk.Tests.Mapping.JsonApi.DiscosObjects;
+namespace DiscosWebSdk.Tests.Mapping.JsonApi.DiscosObjects;
 
 public class DiscosObjectClassTests : JsonApiMapperTestBase
 {

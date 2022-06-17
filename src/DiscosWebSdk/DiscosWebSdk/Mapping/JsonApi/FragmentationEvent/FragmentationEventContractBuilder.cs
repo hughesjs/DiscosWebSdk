@@ -1,8 +1,8 @@
-using DISCOSweb_Sdk.Misc;
-using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
+using DiscosWebSdk.Misc;
+using DiscosWebSdk.Models.ResponseModels.DiscosObjects;
 using Hypermedia.Configuration;
 
-namespace DISCOSweb_Sdk.Mapping.JsonApi.FragmentationEvent;
+namespace DiscosWebSdk.Mapping.JsonApi.FragmentationEvent;
 
 internal static class FragmentationEventContractBuilder
 {

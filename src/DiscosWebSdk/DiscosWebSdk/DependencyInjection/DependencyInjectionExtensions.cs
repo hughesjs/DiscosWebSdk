@@ -1,11 +1,12 @@
-using DISCOSweb_Sdk.Clients;
-using DISCOSweb_Sdk.Exceptions.DependencyInjection;
-using DISCOSweb_Sdk.Interfaces.Queries;
-using DISCOSweb_Sdk.Options;
-using DISCOSweb_Sdk.Queries;
+using DiscosWebSdk.Clients;
+using DiscosWebSdk.Exceptions.DependencyInjection;
+using DiscosWebSdk.Interfaces.Queries;
+using DiscosWebSdk.Options;
+using DiscosWebSdk.Queries.Builders;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-namespace DISCOSweb_Sdk.DependencyInjection;
+
+namespace DiscosWebSdk.DependencyInjection;
 
 public static class DependencyInjectionExtensions
 {

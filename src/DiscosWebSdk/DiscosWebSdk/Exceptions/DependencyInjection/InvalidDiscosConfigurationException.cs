@@ -1,4 +1,4 @@
-namespace DISCOSweb_Sdk.Exceptions.DependencyInjection;
+namespace DiscosWebSdk.Exceptions.DependencyInjection;
 
 public class InvalidDiscosConfigurationException: Exception
 {

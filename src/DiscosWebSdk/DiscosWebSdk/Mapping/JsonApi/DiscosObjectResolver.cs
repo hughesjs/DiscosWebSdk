@@ -1,17 +1,17 @@
-using DISCOSweb_Sdk.Mapping.JsonApi.DiscosObjects;
-using DISCOSweb_Sdk.Mapping.JsonApi.Entities;
-using DISCOSweb_Sdk.Mapping.JsonApi.FragmentationEvent;
-using DISCOSweb_Sdk.Mapping.JsonApi.Generic;
-using DISCOSweb_Sdk.Mapping.JsonApi.Launches;
-using DISCOSweb_Sdk.Mapping.JsonApi.LaunchVehicles;
-using DISCOSweb_Sdk.Mapping.JsonApi.Orbits;
-using DISCOSweb_Sdk.Mapping.JsonApi.Propellants;
-using DISCOSweb_Sdk.Mapping.JsonApi.Reentries;
-using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
+using DiscosWebSdk.Mapping.JsonApi.DiscosObjects;
+using DiscosWebSdk.Mapping.JsonApi.Entities;
+using DiscosWebSdk.Mapping.JsonApi.FragmentationEvent;
+using DiscosWebSdk.Mapping.JsonApi.Generic;
+using DiscosWebSdk.Mapping.JsonApi.Launches;
+using DiscosWebSdk.Mapping.JsonApi.LaunchVehicles;
+using DiscosWebSdk.Mapping.JsonApi.Orbits;
+using DiscosWebSdk.Mapping.JsonApi.Propellants;
+using DiscosWebSdk.Mapping.JsonApi.Reentries;
+using DiscosWebSdk.Models.ResponseModels.DiscosObjects;
 using Hypermedia.Configuration;
 using Hypermedia.Metadata;
 
-namespace DISCOSweb_Sdk.Mapping.JsonApi;
+namespace DiscosWebSdk.Mapping.JsonApi;
 
 internal static class DiscosObjectResolver
 {

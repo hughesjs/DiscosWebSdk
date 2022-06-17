@@ -1,6 +1,6 @@
-using DISCOSweb_Sdk.Enums;
+using DiscosWebSdk.Enums;
 
-namespace DISCOSweb_Sdk.Exceptions.Queries.Filters.FilterDefinitions;
+namespace DiscosWebSdk.Exceptions.Queries.Filters.FilterDefinitions;
 
 public class DiscosFunctionDoesntSupportArraysException : Exception
 {

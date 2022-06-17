@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace DISCOSweb_Sdk.Models.ResponseModels.LaunchVehicles;
+namespace DiscosWebSdk.Models.ResponseModels.LaunchVehicles;
 
 public record LaunchVehicleEngine : DiscosModelBase
 {

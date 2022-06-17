@@ -3,17 +3,17 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Security.Authentication.ExtendedProtection;
-using DISCOSweb_Sdk.Enums;
-using DISCOSweb_Sdk.Exceptions;
-using DISCOSweb_Sdk.Extensions;
-using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
-using DISCOSweb_Sdk.Models.ResponseModels.Launches;
-using DISCOSweb_Sdk.Models.ResponseModels.Propellants;
-using DISCOSweb_Sdk.Models.ResponseModels.Reentries;
+using DiscosWebSdk.Enums;
+using DiscosWebSdk.Exceptions;
+using DiscosWebSdk.Extensions;
+using DiscosWebSdk.Models.ResponseModels.DiscosObjects;
+using DiscosWebSdk.Models.ResponseModels.Launches;
+using DiscosWebSdk.Models.ResponseModels.Propellants;
+using DiscosWebSdk.Models.ResponseModels.Reentries;
 using Shouldly;
 using Xunit;
 
-namespace DISCOSweb_Sdk.Tests.Extensions;
+namespace DiscosWebSdk.Tests.Extensions;
 
 public class TypeExtensionsTests
 {

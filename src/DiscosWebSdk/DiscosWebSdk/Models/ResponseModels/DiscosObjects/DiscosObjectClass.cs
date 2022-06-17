@@ -1,3 +1,3 @@
-namespace DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
+namespace DiscosWebSdk.Models.ResponseModels.DiscosObjects;
 
 public record DiscosObjectClass : DiscosModelBase { }

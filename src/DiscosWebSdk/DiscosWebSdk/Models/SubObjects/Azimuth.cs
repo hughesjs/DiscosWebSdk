@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 
-namespace DISCOSweb_Sdk.Models.SubObjects;
+namespace DiscosWebSdk.Models.SubObjects;
 
 [DebuggerDisplay("{Display}")]
 public record Azimuth

@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace DISCOSweb_Sdk.Models.ResponseModels.Entities;
+namespace DiscosWebSdk.Models.ResponseModels.Entities;
 
 public record Organisation : Entity
 {

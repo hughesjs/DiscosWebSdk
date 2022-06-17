@@ -1,15 +1,15 @@
 using System.Reflection;
 using System.Text;
-using DISCOSweb_Sdk.Enums;
-using DISCOSweb_Sdk.Exceptions.Queries.Filters.FilterTree;
-using DISCOSweb_Sdk.Extensions;
-using DISCOSweb_Sdk.Interfaces.Queries;
-using DISCOSweb_Sdk.Misc;
-using DISCOSweb_Sdk.Models.ResponseModels;
-using DISCOSweb_Sdk.Queries.Filters;
-using DISCOSweb_Sdk.Queries.Filters.FilterTree;
+using DiscosWebSdk.Enums;
+using DiscosWebSdk.Exceptions.Queries.Filters.FilterTree;
+using DiscosWebSdk.Extensions;
+using DiscosWebSdk.Interfaces.Queries;
+using DiscosWebSdk.Misc;
+using DiscosWebSdk.Models.ResponseModels;
+using DiscosWebSdk.Queries.Filters;
+using DiscosWebSdk.Queries.Filters.FilterTree;
 
-namespace DISCOSweb_Sdk.Queries;
+namespace DiscosWebSdk.Queries.Builders;
 
 internal class DiscosQueryBuilder<TObject> : IDiscosQueryBuilder<TObject>
 {

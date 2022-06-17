@@ -1,3 +1,3 @@
-namespace DISCOSweb_Sdk.Models.ResponseModels.Orbits;
+namespace DiscosWebSdk.Models.ResponseModels.Orbits;
 
 public record InitialOrbitDetails : OrbitDetails { }

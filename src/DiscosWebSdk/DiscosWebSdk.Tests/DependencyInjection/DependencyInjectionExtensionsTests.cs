@@ -2,19 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Reflection;
-using DISCOSweb_Sdk.Clients;
-using DISCOSweb_Sdk.DependencyInjection;
-using DISCOSweb_Sdk.Interfaces.Queries;
-using DISCOSweb_Sdk.Options;
-using DISCOSweb_Sdk.Queries;
-using DISCOSweb_Sdk.Tests.TestDataGenerators;
+using DiscosWebSdk.Clients;
+using DiscosWebSdk.DependencyInjection;
+using DiscosWebSdk.Interfaces.Queries;
+using DiscosWebSdk.Options;
+using DiscosWebSdk.Queries.Builders;
+using DiscosWebSdk.Tests.TestDataGenerators;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Shouldly;
 using Xunit;
 
-namespace DISCOSweb_Sdk.Tests.DependencyInjection;
+namespace DiscosWebSdk.Tests.DependencyInjection;
 
 public class DependencyInjectionExtensionsTests
 {

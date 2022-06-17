@@ -1,11 +1,11 @@
 using System;
-using DISCOSweb_Sdk.DataStructures.BinaryTrees;
-using DISCOSweb_Sdk.Exceptions.DataStructures.BinaryTree;
+using DiscosWebSdk.DataStructures.BinaryTrees;
+using DiscosWebSdk.Exceptions.DataStructures.BinaryTree;
 using JetBrains.Annotations;
 using Shouldly;
 using Xunit;
 
-namespace DISCOSweb_Sdk.Tests.DataStructures.BinaryTrees;
+namespace DiscosWebSdk.Tests.DataStructures.BinaryTrees;
 
 public abstract class BinaryTreeTests
 {

@@ -1,12 +1,12 @@
 using System.Diagnostics;
 using System.Text.Json.Serialization;
-using DISCOSweb_Sdk.Enums;
-using DISCOSweb_Sdk.Models.ResponseModels.Entities;
-using DISCOSweb_Sdk.Models.ResponseModels.Launches;
-using DISCOSweb_Sdk.Models.ResponseModels.Orbits;
-using DISCOSweb_Sdk.Models.ResponseModels.Reentries;
+using DiscosWebSdk.Enums;
+using DiscosWebSdk.Models.ResponseModels.Entities;
+using DiscosWebSdk.Models.ResponseModels.Launches;
+using DiscosWebSdk.Models.ResponseModels.Orbits;
+using DiscosWebSdk.Models.ResponseModels.Reentries;
 
-namespace DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
+namespace DiscosWebSdk.Models.ResponseModels.DiscosObjects;
 
 /// <summary>
 ///     This is actually just an Object in DISCOS but for all that is unholy I'm not calling it that

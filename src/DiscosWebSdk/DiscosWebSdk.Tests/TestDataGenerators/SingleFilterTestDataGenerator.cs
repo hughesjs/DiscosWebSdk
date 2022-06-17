@@ -3,16 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using DISCOSweb_Sdk.Enums;
-using DISCOSweb_Sdk.Extensions;
-using DISCOSweb_Sdk.Misc;
-using DISCOSweb_Sdk.Models.ResponseModels;
-using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
-using DISCOSweb_Sdk.Tests.TestCaseModels;
+using DiscosWebSdk.Enums;
+using DiscosWebSdk.Extensions;
+using DiscosWebSdk.Misc;
+using DiscosWebSdk.Models.ResponseModels;
+using DiscosWebSdk.Models.ResponseModels.DiscosObjects;
+using DiscosWebSdk.Tests.TestCaseModels;
 using Faker;
 using Boolean = Faker.Boolean;
 
-namespace DISCOSweb_Sdk.Tests.TestDataGenerators;
+namespace DiscosWebSdk.Tests.TestDataGenerators;
 
 /// <summary>
 ///     Frankly ridiculous test data generator that should probably not exist.

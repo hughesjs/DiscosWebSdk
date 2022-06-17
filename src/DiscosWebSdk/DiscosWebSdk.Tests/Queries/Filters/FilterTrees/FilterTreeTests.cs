@@ -1,13 +1,13 @@
-using DISCOSweb_Sdk.Enums;
-using DISCOSweb_Sdk.Exceptions.Queries.Filters.FilterTree;
-using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
-using DISCOSweb_Sdk.Queries.Filters;
-using DISCOSweb_Sdk.Queries.Filters.FilterTree;
-using DISCOSweb_Sdk.Queries.Filters.FilterTree.Nodes;
+using DiscosWebSdk.Enums;
+using DiscosWebSdk.Exceptions.Queries.Filters.FilterTree;
+using DiscosWebSdk.Models.ResponseModels.DiscosObjects;
+using DiscosWebSdk.Queries.Filters;
+using DiscosWebSdk.Queries.Filters.FilterTree;
+using DiscosWebSdk.Queries.Filters.FilterTree.Nodes;
 using Shouldly;
 using Xunit;
 
-namespace DISCOSweb_Sdk.Tests.Queries.Filters.FilterTrees;
+namespace DiscosWebSdk.Tests.Queries.Filters.FilterTrees;
 
 public class FilterTreeTests
 {

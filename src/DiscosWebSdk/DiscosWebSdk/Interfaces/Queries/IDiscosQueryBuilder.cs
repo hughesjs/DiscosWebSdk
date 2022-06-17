@@ -1,6 +1,6 @@
-using DISCOSweb_Sdk.Queries.Filters;
+using DiscosWebSdk.Queries.Filters;
 
-namespace DISCOSweb_Sdk.Interfaces.Queries;
+namespace DiscosWebSdk.Interfaces.Queries;
 
 public interface IDiscosQueryBuilder<TObject> where TObject : notnull
 {

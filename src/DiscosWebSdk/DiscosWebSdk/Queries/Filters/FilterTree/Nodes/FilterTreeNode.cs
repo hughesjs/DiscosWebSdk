@@ -1,7 +1,7 @@
-using DISCOSweb_Sdk.DataStructures.BinaryTrees;
-using DISCOSweb_Sdk.Queries.Filters.FilterTree.Data;
+using DiscosWebSdk.DataStructures.BinaryTrees;
+using DiscosWebSdk.Queries.Filters.FilterTree.Data;
 
-namespace DISCOSweb_Sdk.Queries.Filters.FilterTree.Nodes;
+namespace DiscosWebSdk.Queries.Filters.FilterTree.Nodes;
 
 internal abstract class FilterTreeNode : BinaryTreeNode<FilterTreeNodeData>
 {

@@ -1,4 +1,4 @@
-namespace DISCOSweb_Sdk.Exceptions.DataStructures.BinaryTree;
+namespace DiscosWebSdk.Exceptions.DataStructures.BinaryTree;
 
 public class NodeIsNotInBinaryTreeException : Exception
 {

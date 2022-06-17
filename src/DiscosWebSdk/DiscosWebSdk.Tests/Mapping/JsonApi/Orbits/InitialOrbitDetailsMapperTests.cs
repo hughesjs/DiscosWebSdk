@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DISCOSweb_Sdk.Enums;
-using DISCOSweb_Sdk.Models.ResponseModels.Orbits;
+using DiscosWebSdk.Enums;
+using DiscosWebSdk.Models.ResponseModels.Orbits;
 using Shouldly;
 using Xunit;
 
-namespace DISCOSweb_Sdk.Tests.Mapping.JsonApi.Orbits;
+namespace DiscosWebSdk.Tests.Mapping.JsonApi.Orbits;
 
 public class InitialOrbitDetailsMapperTests : JsonApiMapperTestBase
 {

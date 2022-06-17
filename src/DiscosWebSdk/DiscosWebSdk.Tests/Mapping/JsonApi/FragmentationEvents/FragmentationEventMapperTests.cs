@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DISCOSweb_Sdk.Models.ResponseModels.FragmentationEvent;
+using DiscosWebSdk.Models.ResponseModels.FragmentationEvent;
 using Shouldly;
 using Xunit;
 
-namespace DISCOSweb_Sdk.Tests.Mapping.JsonApi.FragmentationEvents;
+namespace DiscosWebSdk.Tests.Mapping.JsonApi.FragmentationEvents;
 
 public class FragmentationEventMapperTests : JsonApiMapperTestBase
 {

@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DISCOSweb_Sdk.Models.ResponseModels.Entities;
+using DiscosWebSdk.Models.ResponseModels.Entities;
 using Shouldly;
 using Xunit;
 
-namespace DISCOSweb_Sdk.Tests.Mapping.JsonApi.Entities;
+namespace DiscosWebSdk.Tests.Mapping.JsonApi.Entities;
 
 public class EntityMapperTests : JsonApiMapperTestBase
 {

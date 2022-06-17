@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DISCOSweb_Sdk.Models.ResponseModels.Propellants;
+using DiscosWebSdk.Models.ResponseModels.Propellants;
 using Shouldly;
 using Xunit;
 
-namespace DISCOSweb_Sdk.Tests.Mapping.JsonApi.Propellants;
+namespace DiscosWebSdk.Tests.Mapping.JsonApi.Propellants;
 
 public class PropellantMapperTests : JsonApiMapperTestBase
 {

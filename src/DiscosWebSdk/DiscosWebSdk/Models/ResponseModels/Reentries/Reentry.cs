@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
-using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
+using DiscosWebSdk.Models.ResponseModels.DiscosObjects;
 
-namespace DISCOSweb_Sdk.Models.ResponseModels.Reentries;
+namespace DiscosWebSdk.Models.ResponseModels.Reentries;
 
 public record Reentry : DiscosModelBase
 {

@@ -1,9 +1,9 @@
 using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
-using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
-using DISCOSweb_Sdk.Models.ResponseModels.Launches;
+using DiscosWebSdk.Models.ResponseModels.DiscosObjects;
+using DiscosWebSdk.Models.ResponseModels.Launches;
 
-namespace DISCOSweb_Sdk.Models.ResponseModels.Entities;
+namespace DiscosWebSdk.Models.ResponseModels.Entities;
 
 public record Entity : DiscosModelBase
 {

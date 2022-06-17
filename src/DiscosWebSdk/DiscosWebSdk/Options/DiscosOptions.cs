@@ -1,4 +1,4 @@
-namespace DISCOSweb_Sdk.Options;
+namespace DiscosWebSdk.Options;
 
 public class DiscosOptions
 {

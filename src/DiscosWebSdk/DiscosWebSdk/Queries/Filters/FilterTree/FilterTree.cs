@@ -1,10 +1,10 @@
-using DISCOSweb_Sdk.DataStructures.BinaryTrees;
-using DISCOSweb_Sdk.Enums;
-using DISCOSweb_Sdk.Exceptions.Queries.Filters.FilterTree;
-using DISCOSweb_Sdk.Misc;
-using DISCOSweb_Sdk.Queries.Filters.FilterTree.Nodes;
+using DiscosWebSdk.DataStructures.BinaryTrees;
+using DiscosWebSdk.Enums;
+using DiscosWebSdk.Exceptions.Queries.Filters.FilterTree;
+using DiscosWebSdk.Misc;
+using DiscosWebSdk.Queries.Filters.FilterTree.Nodes;
 
-namespace DISCOSweb_Sdk.Queries.Filters.FilterTree;
+namespace DiscosWebSdk.Queries.Filters.FilterTree;
 
 internal class FilterTree : BinaryTree<FilterTreeNode>
 {

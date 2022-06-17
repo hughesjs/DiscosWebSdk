@@ -1,9 +1,9 @@
-using DISCOSweb_Sdk.Misc;
-using DISCOSweb_Sdk.Models.ResponseModels.LaunchVehicles;
-using DISCOSweb_Sdk.Models.ResponseModels.Propellants;
+using DiscosWebSdk.Misc;
+using DiscosWebSdk.Models.ResponseModels.LaunchVehicles;
+using DiscosWebSdk.Models.ResponseModels.Propellants;
 using Hypermedia.Configuration;
 
-namespace DISCOSweb_Sdk.Mapping.JsonApi.Propellants;
+namespace DiscosWebSdk.Mapping.JsonApi.Propellants;
 
 internal static class PropellantContractBuilder
 {

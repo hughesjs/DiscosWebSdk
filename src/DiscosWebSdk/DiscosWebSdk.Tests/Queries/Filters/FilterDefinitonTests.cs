@@ -1,15 +1,15 @@
 using System;
-using DISCOSweb_Sdk.Enums;
-using DISCOSweb_Sdk.Exceptions.Queries.Filters.FilterDefinitions;
-using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
-using DISCOSweb_Sdk.Models.ResponseModels.Launches;
-using DISCOSweb_Sdk.Queries.Filters;
-using DISCOSweb_Sdk.Tests.TestCaseModels;
-using DISCOSweb_Sdk.Tests.TestDataGenerators;
+using DiscosWebSdk.Enums;
+using DiscosWebSdk.Exceptions.Queries.Filters.FilterDefinitions;
+using DiscosWebSdk.Models.ResponseModels.DiscosObjects;
+using DiscosWebSdk.Models.ResponseModels.Launches;
+using DiscosWebSdk.Queries.Filters;
+using DiscosWebSdk.Tests.TestCaseModels;
+using DiscosWebSdk.Tests.TestDataGenerators;
 using Shouldly;
 using Xunit;
 
-namespace DISCOSweb_Sdk.Tests.Queries.Filters;
+namespace DiscosWebSdk.Tests.Queries.Filters;
 
 public class FilterDefinitionTests
 {

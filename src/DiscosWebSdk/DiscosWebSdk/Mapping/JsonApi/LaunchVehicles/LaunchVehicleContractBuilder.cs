@@ -1,9 +1,9 @@
-using DISCOSweb_Sdk.Misc;
-using DISCOSweb_Sdk.Models.ResponseModels.Launches;
-using DISCOSweb_Sdk.Models.ResponseModels.LaunchVehicles;
+using DiscosWebSdk.Misc;
+using DiscosWebSdk.Models.ResponseModels.Launches;
+using DiscosWebSdk.Models.ResponseModels.LaunchVehicles;
 using Hypermedia.Configuration;
 
-namespace DISCOSweb_Sdk.Mapping.JsonApi.LaunchVehicles;
+namespace DiscosWebSdk.Mapping.JsonApi.LaunchVehicles;
 
 internal static class LaunchVehicleContractBuilder
 {

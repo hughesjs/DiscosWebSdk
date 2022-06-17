@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DISCOSweb_Sdk.Models.ResponseModels.LaunchVehicles;
+using DiscosWebSdk.Models.ResponseModels.LaunchVehicles;
 using Shouldly;
 using Xunit;
 
-namespace DISCOSweb_Sdk.Tests.Mapping.JsonApi.LaunchVehicles;
+namespace DiscosWebSdk.Tests.Mapping.JsonApi.LaunchVehicles;
 
 public class LaunchVehicleEngineMapperTests : JsonApiMapperTestBase
 {

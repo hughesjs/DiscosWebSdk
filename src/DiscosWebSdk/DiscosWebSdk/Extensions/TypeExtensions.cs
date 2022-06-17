@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Reflection;
-using DISCOSweb_Sdk.Exceptions;
+using DiscosWebSdk.Exceptions;
 
-namespace DISCOSweb_Sdk.Extensions;
+namespace DiscosWebSdk.Extensions;
 
 internal static class TypeExtensions
 {

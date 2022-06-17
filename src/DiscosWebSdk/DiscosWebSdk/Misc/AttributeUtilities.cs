@@ -2,7 +2,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
-namespace DISCOSweb_Sdk.Misc;
+namespace DiscosWebSdk.Misc;
 
 internal static class AttributeUtilities
 {

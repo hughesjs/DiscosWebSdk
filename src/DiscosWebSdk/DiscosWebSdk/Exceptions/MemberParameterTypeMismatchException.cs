@@ -1,4 +1,4 @@
-namespace DISCOSweb_Sdk.Exceptions;
+namespace DiscosWebSdk.Exceptions;
 
 public class MemberParameterTypeMismatchException : Exception
 {

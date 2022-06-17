@@ -1,11 +1,11 @@
-using DISCOSweb_Sdk.Misc;
-using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
-using DISCOSweb_Sdk.Models.ResponseModels.Entities;
-using DISCOSweb_Sdk.Models.ResponseModels.Launches;
-using DISCOSweb_Sdk.Models.ResponseModels.Orbits;
+using DiscosWebSdk.Misc;
+using DiscosWebSdk.Models.ResponseModels.DiscosObjects;
+using DiscosWebSdk.Models.ResponseModels.Entities;
+using DiscosWebSdk.Models.ResponseModels.Launches;
+using DiscosWebSdk.Models.ResponseModels.Orbits;
 using Hypermedia.Configuration;
 
-namespace DISCOSweb_Sdk.Mapping.JsonApi.DiscosObjects;
+namespace DiscosWebSdk.Mapping.JsonApi.DiscosObjects;
 
 internal static class DiscosObjectContractBuilder
 {

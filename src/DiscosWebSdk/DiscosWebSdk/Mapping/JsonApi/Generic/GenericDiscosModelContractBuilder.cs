@@ -1,7 +1,7 @@
-using DISCOSweb_Sdk.Models.ResponseModels;
+using DiscosWebSdk.Models.ResponseModels;
 using Hypermedia.Configuration;
 
-namespace DISCOSweb_Sdk.Mapping.JsonApi.Generic;
+namespace DiscosWebSdk.Mapping.JsonApi.Generic;
 
 internal static class GenericDiscosModelContractBuilder
 {

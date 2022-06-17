@@ -1,16 +1,16 @@
 using System;
 using System.Linq;
-using DISCOSweb_Sdk.Enums;
-using DISCOSweb_Sdk.Exceptions.Queries.Filters.FilterTree;
-using DISCOSweb_Sdk.Interfaces.Queries;
-using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
-using DISCOSweb_Sdk.Models.ResponseModels.Propellants;
-using DISCOSweb_Sdk.Queries;
-using DISCOSweb_Sdk.Queries.Filters;
+using DiscosWebSdk.Enums;
+using DiscosWebSdk.Exceptions.Queries.Filters.FilterTree;
+using DiscosWebSdk.Interfaces.Queries;
+using DiscosWebSdk.Models.ResponseModels.DiscosObjects;
+using DiscosWebSdk.Models.ResponseModels.Propellants;
+using DiscosWebSdk.Queries.Builders;
+using DiscosWebSdk.Queries.Filters;
 using Shouldly;
 using Xunit;
 
-namespace DISCOSweb_Sdk.Tests.Queries;
+namespace DiscosWebSdk.Tests.Queries;
 
 public class DiscosQueryBuilderTests
 {

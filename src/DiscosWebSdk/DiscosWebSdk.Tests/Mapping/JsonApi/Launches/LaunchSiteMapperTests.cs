@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DISCOSweb_Sdk.Models.ResponseModels.Launches;
+using DiscosWebSdk.Models.ResponseModels.Launches;
 using Shouldly;
 using Xunit;
 
-namespace DISCOSweb_Sdk.Tests.Mapping.JsonApi.Launches;
+namespace DiscosWebSdk.Tests.Mapping.JsonApi.Launches;
 
 public class LaunchSiteMapperTests : JsonApiMapperTestBase
 {

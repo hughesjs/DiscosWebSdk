@@ -1,4 +1,4 @@
-namespace DISCOSweb_Sdk.DataStructures.BinaryTrees;
+namespace DiscosWebSdk.DataStructures.BinaryTrees;
 
 internal class BinaryTreeNode<T> : BinaryTreeNode where T : class
 {

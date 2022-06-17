@@ -6,12 +6,12 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using DISCOSweb_Sdk.Enums;
+using DiscosWebSdk.Enums;
 using JetBrains.Annotations;
 using Shouldly;
 using Xunit;
 
-namespace DISCOSweb_Sdk.Tests.Serialisation;
+namespace DiscosWebSdk.Tests.Serialisation;
 
 public class EnumDeserialisationTests
 {

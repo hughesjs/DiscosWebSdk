@@ -4,13 +4,13 @@ using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
-using DISCOSweb_Sdk.Clients;
-using DISCOSweb_Sdk.Models.ResponseModels.Entities;
-using DISCOSweb_Sdk.Tests.TestDataGenerators;
+using DiscosWebSdk.Clients;
+using DiscosWebSdk.Models.ResponseModels.Entities;
+using DiscosWebSdk.Tests.TestDataGenerators;
 using Shouldly;
 using Xunit;
 
-namespace DISCOSweb_Sdk.Tests.Clients;
+namespace DiscosWebSdk.Tests.Clients;
 
 public class DiscosClientTests
 {

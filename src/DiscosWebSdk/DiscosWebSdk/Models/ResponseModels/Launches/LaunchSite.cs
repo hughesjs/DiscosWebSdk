@@ -1,9 +1,9 @@
 using System.Text.Json.Serialization;
-using DISCOSweb_Sdk.Models.ResponseModels.Entities;
-using DISCOSweb_Sdk.Models.SubObjects;
+using DiscosWebSdk.Models.ResponseModels.Entities;
+using DiscosWebSdk.Models.SubObjects;
 using JetBrains.Annotations;
 
-namespace DISCOSweb_Sdk.Models.ResponseModels.Launches;
+namespace DiscosWebSdk.Models.ResponseModels.Launches;
 
 public record LaunchSite : DiscosModelBase
 {

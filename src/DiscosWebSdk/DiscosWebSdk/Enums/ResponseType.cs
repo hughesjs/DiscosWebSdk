@@ -1,7 +1,7 @@
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
-namespace DISCOSweb_Sdk.Enums;
+namespace DiscosWebSdk.Enums;
 
 [JsonConverter(typeof(JsonStringEnumConverterWithAttributeSupport))]
 public enum ResponseType

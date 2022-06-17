@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using System.Text;
 using System.Text.Json.Serialization;
-using DISCOSweb_Sdk.Models.ResponseModels.LaunchVehicles;
+using DiscosWebSdk.Models.ResponseModels.LaunchVehicles;
 
-namespace DISCOSweb_Sdk.Models.ResponseModels.Propellants;
+namespace DiscosWebSdk.Models.ResponseModels.Propellants;
 
 [DebuggerDisplay("{Name}")]
 public record Propellant : DiscosModelBase

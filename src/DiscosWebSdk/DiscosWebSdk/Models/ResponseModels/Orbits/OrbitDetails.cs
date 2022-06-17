@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
-using DISCOSweb_Sdk.Enums;
-using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
+using DiscosWebSdk.Enums;
+using DiscosWebSdk.Models.ResponseModels.DiscosObjects;
 
-namespace DISCOSweb_Sdk.Models.ResponseModels.Orbits;
+namespace DiscosWebSdk.Models.ResponseModels.Orbits;
 
 public record OrbitDetails : DiscosModelBase
 {

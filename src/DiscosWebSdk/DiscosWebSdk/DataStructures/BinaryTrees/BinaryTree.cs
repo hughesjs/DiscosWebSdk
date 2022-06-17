@@ -1,6 +1,6 @@
-using DISCOSweb_Sdk.Exceptions.DataStructures.BinaryTree;
+using DiscosWebSdk.Exceptions.DataStructures.BinaryTree;
 
-namespace DISCOSweb_Sdk.DataStructures.BinaryTrees;
+namespace DiscosWebSdk.DataStructures.BinaryTrees;
 
 internal class BinaryTree<TNodeType> : BinaryTree where TNodeType : BinaryTreeNode
 {

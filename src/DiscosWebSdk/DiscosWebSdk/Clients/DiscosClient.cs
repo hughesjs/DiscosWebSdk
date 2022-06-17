@@ -1,19 +1,17 @@
 using System.Net;
 using System.Net.Http.Headers;
-using DISCOSweb_Sdk.Mapping.JsonApi;
-using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
-using DISCOSweb_Sdk.Models.ResponseModels.Entities;
-using DISCOSweb_Sdk.Models.ResponseModels.FragmentationEvent;
-using DISCOSweb_Sdk.Models.ResponseModels.Launches;
-using DISCOSweb_Sdk.Models.ResponseModels.LaunchVehicles;
-using DISCOSweb_Sdk.Models.ResponseModels.Orbits;
-using DISCOSweb_Sdk.Models.ResponseModels.Propellants;
-using DISCOSweb_Sdk.Models.ResponseModels.Reentries;
-using DISCOSweb_Sdk.Options;
+using DiscosWebSdk.Mapping.JsonApi;
+using DiscosWebSdk.Models.ResponseModels.DiscosObjects;
+using DiscosWebSdk.Models.ResponseModels.Entities;
+using DiscosWebSdk.Models.ResponseModels.FragmentationEvent;
+using DiscosWebSdk.Models.ResponseModels.Launches;
+using DiscosWebSdk.Models.ResponseModels.LaunchVehicles;
+using DiscosWebSdk.Models.ResponseModels.Orbits;
+using DiscosWebSdk.Models.ResponseModels.Propellants;
+using DiscosWebSdk.Models.ResponseModels.Reentries;
 using Hypermedia.JsonApi.Client;
-using Microsoft.Extensions.Options;
 
-namespace DISCOSweb_Sdk.Clients;
+namespace DiscosWebSdk.Clients;
 
 public class DiscosClient : IDiscosClient
 {

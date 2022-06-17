@@ -1,7 +1,7 @@
 using System;
-using DISCOSweb_Sdk.Enums;
+using DiscosWebSdk.Enums;
 
-namespace DISCOSweb_Sdk.Tests.TestCaseModels;
+namespace DiscosWebSdk.Tests.TestCaseModels;
 
 public struct SingleFilterTestCase
 {

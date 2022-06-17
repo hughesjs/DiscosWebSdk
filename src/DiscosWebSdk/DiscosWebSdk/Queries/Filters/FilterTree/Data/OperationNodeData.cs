@@ -1,6 +1,6 @@
-using DISCOSweb_Sdk.Enums;
+using DiscosWebSdk.Enums;
 
-namespace DISCOSweb_Sdk.Queries.Filters.FilterTree.Data;
+namespace DiscosWebSdk.Queries.Filters.FilterTree.Data;
 
 internal class OperationNodeData : FilterTreeNodeData<FilterOperation>
 {

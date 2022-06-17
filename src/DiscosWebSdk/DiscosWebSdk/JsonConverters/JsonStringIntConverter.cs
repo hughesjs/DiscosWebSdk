@@ -3,7 +3,7 @@ using System.Buffers.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace DISCOSweb_Sdk.JsonConverters;
+namespace DiscosWebSdk.JsonConverters;
 
 public class JsonStringIntConverter : JsonConverter<int>
 {

@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DISCOSweb_Sdk.Models.ResponseModels.Reentries;
+using DiscosWebSdk.Models.ResponseModels.Reentries;
 using Shouldly;
 using Xunit;
 
-namespace DISCOSweb_Sdk.Tests.Mapping.JsonApi.Reentries;
+namespace DiscosWebSdk.Tests.Mapping.JsonApi.Reentries;
 
 public class ReentryMapperTests : JsonApiMapperTestBase
 {

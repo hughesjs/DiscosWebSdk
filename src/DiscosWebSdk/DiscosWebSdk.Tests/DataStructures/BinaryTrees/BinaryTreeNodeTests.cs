@@ -1,8 +1,8 @@
-using DISCOSweb_Sdk.DataStructures.BinaryTrees;
+using DiscosWebSdk.DataStructures.BinaryTrees;
 using Shouldly;
 using Xunit;
 
-namespace DISCOSweb_Sdk.Tests.DataStructures.BinaryTrees;
+namespace DiscosWebSdk.Tests.DataStructures.BinaryTrees;
 
 public abstract class BinaryTreeNodeTests
 {

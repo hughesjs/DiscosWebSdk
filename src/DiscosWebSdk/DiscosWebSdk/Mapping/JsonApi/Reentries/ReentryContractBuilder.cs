@@ -1,9 +1,9 @@
-using DISCOSweb_Sdk.Misc;
-using DISCOSweb_Sdk.Models.ResponseModels.DiscosObjects;
-using DISCOSweb_Sdk.Models.ResponseModels.Reentries;
+using DiscosWebSdk.Misc;
+using DiscosWebSdk.Models.ResponseModels.DiscosObjects;
+using DiscosWebSdk.Models.ResponseModels.Reentries;
 using Hypermedia.Configuration;
 
-namespace DISCOSweb_Sdk.Mapping.JsonApi.Reentries;
+namespace DiscosWebSdk.Mapping.JsonApi.Reentries;
 
 internal static class ReentryContractBuilder
 {
