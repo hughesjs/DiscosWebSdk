@@ -46,6 +46,7 @@ jobs:
       run: dotnet test --no-build --verbosity normal ./DISCOSweb-Sdk.sln
 
 
+
   semantic-release:
     needs: test
     name: Create a Package Release
@@ -59,13 +60,19 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
-    - name: Create the Semantic Release Version
-      #TODO - Make this dynamic
-      run: echo 1.0.1-gamma > ./SEM_VER     
+    - name: Bump version and push tag
+      id: tag_version
+      uses: mathieudutour/github-tag-action@v6.0
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Create a GitHub release
+      uses: ncipollo/release-action@v1
+      with:
+        tag: ${{ steps.tag_version.outputs.new_tag }}
+        name: Release ${{ steps.tag_version.outputs.new_tag }}
+        body: ${{ steps.tag_version.outputs.changelog }}
     - name: Create Nuget Package
-      run: dotnet pack -c Release -p:PackageVersion=$(<./SEM_VER) -o . ./DISCOSweb-Sdk/DISCOSweb-Sdk.csproj
-    #TODO - name: Update ChangeLog
-    #TODO - name: Commit ChangeLog
+      run: dotnet pack -c Release -p:PackageVersion=${{ steps.tag_version.outputs.new_tag }} -o . ./DISCOSweb-Sdk/DISCOSweb-Sdk.csproj
     - name: Upload Package for Publishing
       uses: actions/upload-artifact@v3
       with:
