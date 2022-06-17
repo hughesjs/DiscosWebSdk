@@ -7,14 +7,15 @@
         <Nullable>enable</Nullable>
         <LangVersion>default</LangVersion>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Title>DISCOSweb SDK</Title>
+        <Title>DiscosWebSdk</Title>
         <Authors>James Hughes</Authors>
         <Description>A C# SDK for the European Space Agency's DISCOSweb API</Description>
         <Copyright>James Hughes 2021</Copyright>
-        <PackageProjectUrl>https://github.com/hughesjs/DISCOSweb-sdk</PackageProjectUrl>
-        <PackageLicenseUrl>https://github.com/hughesjs/DISCOSweb-sdk/blob/master/LICENSE</PackageLicenseUrl>
-        <RepositoryUrl>https://github.com/hughesjs/DISCOSweb-sdk</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/hughesjs/DiscosWebSdk</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/hughesjs/DiscosWebSdk/blob/master/LICENSE</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/hughesjs/DiscosWebSdk</RepositoryUrl>
         <RepositoryType>Git</RepositoryType>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     </PropertyGroup>
 
     <ItemGroup>
