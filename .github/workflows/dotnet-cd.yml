@@ -44,7 +44,7 @@ jobs:
         dotnet-version: 6.0.x
     - name: Build docker stack
       run: docker-compose -f ./DISCOSweb-Sdk.Tests/docker-compose.yml up -d --force-recreate --build
-    - name: Run tests against mock API
+    - name: Run tests against real API
       run: dotnet test --no-build --verbosity normal ./DISCOSweb-Sdk.sln
 
 
@@ -64,7 +64,7 @@ jobs:
     - name: Create the Semantic Release Version
       run: SEM_VER=1.0.1-gamma #TODO - Make this dynamic
     - name: Create Nuget Package
-      run: dotnet pack --no-restore --no-build -c Release -p:PackageVersion=$SEM_VER -o . ./DISCOSweb-Sdk/DISCOSweb-Sdk.csproj
+      run: dotnet pack --no-build -c Release -p:PackageVersion=$SEM_VER -o . ./DISCOSweb-Sdk/DISCOSweb-Sdk.csproj
     #TODO - name: Update ChangeLog
     #TODO - name: Commit ChangeLog
     - name: Upload Package for Publishing
