@@ -21,7 +21,7 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Test against real API
-      run: dotnet test --verbosity normal --loger GitHubActions ./src/DISCOSweb-Sdk/DISCOSweb-Sdk.sln
+      run: dotnet test --logger GitHubActions ./src/DISCOSweb-Sdk/DISCOSweb-Sdk.sln
 
   semantic-release:
     needs: test
