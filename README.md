@@ -1,8 +1,8 @@
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/hughesjs/DISCOSweb-sdk/.NET?style=for-the-badge)
-![GitHub top language](https://img.shields.io/github/languages/top/hughesjs/DISCOSweb-sdk?style=for-the-badge)
-![GitHub](https://img.shields.io/github/license/hughesjs/DISCOSweb-sdk?style=for-the-badge)
-![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/DISCOSweb-Sdk?style=for-the-badge)
-![Nuget](https://img.shields.io/nuget/dt/DISCOSweb-Sdk?style=for-the-badge)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/hughesjs/DiscosWebSdk/.NET?style=for-the-badge)
+![GitHub top language](https://img.shields.io/github/languages/top/hughesjs/DiscosWebSdk?style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/hughesjs/DiscosWebSdk?style=for-the-badge)
+![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/DiscosWebSdk?style=for-the-badge)
+![Nuget](https://img.shields.io/nuget/dt/DiscosWebSdk?style=for-the-badge)
 
 # DISCOSweb SDK
 
@@ -13,7 +13,7 @@ This is C# library for interfacing with the European Space Agency's DISCOSweb AP
 You can either use your IDE's package manager, or the Nuget CLI.
 
 ```bash
-dotnet add package DISCOSweb-Sdk
+dotnet add package DiscosWebSdk
 ```
 
 Then add this to your `IServiceCollection` setup (this could be in `startup.cs` or `program.cs` depending on which style of startup you're using).

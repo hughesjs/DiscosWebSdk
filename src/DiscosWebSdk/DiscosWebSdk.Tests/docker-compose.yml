@@ -1,0 +1,31 @@
+services:
+  mockoon:
+    build:
+      context: ../DiscosWebSdk.MockApi
+      dockerfile: ./Dockerfile
+    ports:
+      - 3000:3000
+        
+        # Uncomment below if you want to run tests within the compose stack
+
+#    networks: 
+#      - internal-net
+#      - host
+#  
+#  test-runner:
+#    build:
+#      context: ../../../
+#      dockerfile: ./src/DiscosWebSdk/DiscosWebSdk.Tests/Dockerfile      
+#      args:
+#        DISCOS_API_URL: "http://mockoon:3000/api/"
+#    networks:
+#      - internal-net
+#      - host
+#    depends_on: 
+#      - mockoon
+#
+#networks:
+#  internal-net:
+#    internal: true
+#  host:
+#    internal: false
