@@ -69,7 +69,7 @@ jobs:
         name: Release ${{ steps.tag_version.outputs.new_tag }}
         body: ${{ steps.tag_version.outputs.changelog }}
     - name: Create Nuget Package
-      run: ls -R && dotnet pack -c Release -p:PackageVersion=${{ steps.tag_version.outputs.new_tag }} -o . .src/DISCOSweb-Sdk/DISCOSweb-Sdk/DISCOSweb-Sdk.csproj
+      run: dotnet pack -c Release -p:PackageVersion=${{ steps.tag_version.outputs.new_tag }} -o . ./src/DISCOSweb-Sdk/DISCOSweb-Sdk/DISCOSweb-Sdk.csproj
     - name: Upload Package for Publishing
       uses: actions/upload-artifact@v3
       with:
@@ -90,8 +90,6 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
-    # - name: Authenticate with Github Package Repo
-    #   run: dotnet nuget add source --username hughesjs --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/hughesjs/index.json"
     - name: Push Package to GitHub
       run: dotnet nuget push --api-key ${{secrets.GITHUB_TOKEN}} --source "https://nuget.pkg.github.com/hughesjs/index.json" *.nupkg
 
