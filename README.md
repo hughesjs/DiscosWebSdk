@@ -35,7 +35,7 @@ Your configuration should contain the following:
 
 ## Usage
 
-There is a demo app located in [`src/demo-app`](https://github.com/hughesjs/DISOSweb-sdk/tree/master/src/demo-app).
+There is a demo app located [here](https://github.com/hughesjs/DISOSweb-Sdk.Demo).
 
 ### Models
 
