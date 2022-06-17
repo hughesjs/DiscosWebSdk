@@ -1,0 +1,110 @@
+name: .NET Continuous Deployment
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+
+  build:
+    name: Build Project
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore src/DISCOSweb-Sdk/DISCOSweb-Sdk.sln
+    - name: Build
+      run: dotnet build --no-restore src/DISCOSweb-Sdk/DISCOSweb-Sdk.sln
+    - name: Upload built project for testing
+      uses: actions/upload-artifact@v3
+      with:
+        name: BuiltApplication
+        path: ./src/DISCOSweb-Sdk
+
+
+  test:
+    name: Test Project (Real API)
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      DISCOS_API_KEY: ${{ secrets.DISCOS_API_KEY }}
+      DISCOS_API_URL: https://discosweb.esoc.esa.int/api/
+    steps:
+    - name: Download built project  
+      uses: actions/download-artifact@v3
+      with:
+        name: BuiltLib
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Build docker stack
+      run: docker-compose -f ./DISCOSweb-Sdk.Tests/docker-compose.yml up -d --force-recreate --build
+    - name: Run tests against mock API
+      run: dotnet test --no-build --verbosity normal ./DISCOSweb-Sdk.sln
+
+
+  semantic-release:
+    needs: test
+    name: Create a Package Release
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download built project  
+      uses: actions/download-artifact@v3
+      with:
+        name: BuiltLib
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Create the Semantic Release Version
+      run: SEM_VER=1.0.1-gamma #TODO - Make this dynamic
+    - name: Create Nuget Package
+      run: dotnet pack --no-restore --no-build -c Release -p:PackageVersion=$SEM_VER -o . ./DISCOSweb-Sdk/DISCOSweb-Sdk.csproj
+    #TODO - name: Update ChangeLog
+    #TODO - name: Commit ChangeLog
+    - name: Upload Package for Publishing
+      uses: actions/upload-artifact@v3
+      with:
+        name: PackedLib
+        path: ./*.nupkg
+
+
+  github-publish:
+    needs: semantic-release
+    name: Publish to Github
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download built project  
+      uses: actions/download-artifact@v3
+      with:
+        name: PackedLib
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    # - name: Authenticate with Github Package Repo
+    #   run: dotnet nuget add source --username hughesjs --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/hughesjs/index.json"
+    - name: Push Package to GitHub
+      run: dotnet nuget push --api-key ${{secrets.GITHUB_TOKEN}} --source "https://nuget.pkg.github.com/hughesjs/index.json" *.nupkg
+
+
+  nuget-publish:
+    needs: semantic-release
+    name: Publish to Nuget
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download built project  
+      uses: actions/download-artifact@v3
+      with:
+        name: PackedLib
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Push Package to Nuget
+      run: dotnet nuget push --api-key ${{secrets.NUGET_KEY}} --source "https://api.nuget.org/v3/index.json" *.nupkg
