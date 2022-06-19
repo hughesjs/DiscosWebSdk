@@ -6,8 +6,12 @@ using System.Security.Authentication.ExtendedProtection;
 using DiscosWebSdk.Enums;
 using DiscosWebSdk.Exceptions;
 using DiscosWebSdk.Extensions;
+using DiscosWebSdk.Models.ResponseModels;
 using DiscosWebSdk.Models.ResponseModels.DiscosObjects;
+using DiscosWebSdk.Models.ResponseModels.Entities;
 using DiscosWebSdk.Models.ResponseModels.Launches;
+using DiscosWebSdk.Models.ResponseModels.LaunchVehicles;
+using DiscosWebSdk.Models.ResponseModels.Orbits;
 using DiscosWebSdk.Models.ResponseModels.Propellants;
 using DiscosWebSdk.Models.ResponseModels.Reentries;
 using Shouldly;
@@ -127,6 +131,60 @@ public class TypeExtensionsTests
 	{
 		bool res = t.IsCollectionType();
 		if (isNumeric)
+		{
+			res.ShouldBeTrue();
+		}
+		else
+		{
+			res.ShouldBeFalse();
+		}
+	}
+
+	[Theory]
+	[InlineData(typeof(DiscosObject),                           true)]
+	[InlineData(typeof(DiscosObjectClass),                      true)]
+	[InlineData(typeof(Launch),                                 true)]
+	[InlineData(typeof(LaunchSite),                             true)]
+	[InlineData(typeof(LaunchVehicle),                          true)]
+	[InlineData(typeof(LaunchVehicleFamily),                    true)]
+	[InlineData(typeof(Propellant),                             true)]
+	[InlineData(typeof(Entity),                                 true)]
+	[InlineData(typeof(Country),                                true)]
+	[InlineData(typeof(Organisation),                           true)]
+	[InlineData(typeof(LaunchVehicleEngine),                    true)]
+	[InlineData(typeof(InitialOrbitDetails),                    true)]
+	[InlineData(typeof(DestinationOrbitDetails),                true)]
+	[InlineData(typeof(IReadOnlyList<DiscosObject>),            true)]
+	[InlineData(typeof(IReadOnlyList<DiscosObjectClass>),       true)]
+	[InlineData(typeof(IReadOnlyList<Launch>),                  true)]
+	[InlineData(typeof(IReadOnlyList<LaunchSite>),              true)]
+	[InlineData(typeof(IReadOnlyList<LaunchVehicle>),           true)]
+	[InlineData(typeof(IReadOnlyList<LaunchVehicleFamily>),     true)]
+	[InlineData(typeof(IReadOnlyList<Propellant>),              true)]
+	[InlineData(typeof(IReadOnlyList<Entity>),                  true)]
+	[InlineData(typeof(IReadOnlyList<Country>),                 true)]
+	[InlineData(typeof(IReadOnlyList<Organisation>),            true)]
+	[InlineData(typeof(IReadOnlyList<LaunchVehicleEngine>),     true)]
+	[InlineData(typeof(IReadOnlyList<InitialOrbitDetails>),     true)]
+	[InlineData(typeof(IReadOnlyList<DestinationOrbitDetails>), true)]
+	[InlineData(typeof(string),                                 false)]
+	[InlineData(typeof(object),                                 false)]
+	[InlineData(typeof(bool),                                   false)]
+	[InlineData(typeof(int),                                    false)]
+	[InlineData(typeof(float),                                  false)]
+	[InlineData(typeof(decimal),                                false)]
+	[InlineData(typeof(double),                                 false)]
+	[InlineData(typeof(IReadOnlyList<string>),                  false)]
+	[InlineData(typeof(IReadOnlyList<object>),                  false)]
+	[InlineData(typeof(IReadOnlyList<bool>),                    false)]
+	[InlineData(typeof(IReadOnlyList<int>),                     false)]
+	[InlineData(typeof(IReadOnlyList<float>),                   false)]
+	[InlineData(typeof(IReadOnlyList<decimal>),                 false)]
+	[InlineData(typeof(IReadOnlyList<double>),                  false)]
+	public void CanDetermineWhetherDiscosModel(Type t, bool isDiscosModel)
+	{
+		bool res = t.IsDiscosModel();
+		if (isDiscosModel)
 		{
 			res.ShouldBeTrue();
 		}
