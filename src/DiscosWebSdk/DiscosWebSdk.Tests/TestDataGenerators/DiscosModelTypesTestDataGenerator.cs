@@ -14,7 +14,7 @@ using DiscosWebSdk.Models.ResponseModels.Reentries;
 
 namespace DiscosWebSdk.Tests.TestDataGenerators;
 
-public class DiscosModelTypesTestDataGenerator : IEnumerable<object[]>
+public class    DiscosModelTypesTestDataGenerator : IEnumerable<object[]>
 {
 	private readonly Dictionary<Type, string> _ids = new()
 													 {
