@@ -4,8 +4,26 @@ namespace DiscosWebSdk.Extensions;
 
 public static class TypeExtensions
 {
-	public static bool IsDiscosModel(this Type t) =>
-		t.IsAssignableTo(typeof(DiscosModelBase))                                           ||
-		t.HasElementType     && t.GetElementType()!.IsAssignableTo(typeof(DiscosModelBase)) ||
-		t.IsCollectionType() && t.IsGenericType && t.GetGenericArguments().Single().IsAssignableTo(typeof(DiscosModelBase));
+	public static bool IsDiscosModel(this Type t, bool includeBase = false)
+	{
+		if (t == typeof(DiscosModelBase)) return includeBase;
+
+		if (t.IsAssignableTo(typeof(DiscosModelBase))) return true;
+
+		if (t.HasElementType)
+		{
+			Type elementType = t.GetElementType()!;
+			if (elementType == typeof(DiscosModelBase)) return includeBase;
+			if (elementType.IsAssignableTo(typeof(DiscosModelBase))) return true;
+		}
+
+		if (t.IsCollectionType() && t.IsGenericType)
+		{
+			Type genericArg = t.GetGenericArguments().Single();
+			if (genericArg == typeof(DiscosModelBase)) return includeBase;
+			if (genericArg.IsAssignableTo(typeof(DiscosModelBase))) return true;
+		}
+
+		return false;
+	}
 }

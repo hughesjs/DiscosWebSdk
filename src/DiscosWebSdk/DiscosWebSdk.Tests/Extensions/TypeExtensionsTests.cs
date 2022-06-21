@@ -174,6 +174,7 @@ public class TypeExtensionsTests
 	[InlineData(typeof(float),                                  false)]
 	[InlineData(typeof(decimal),                                false)]
 	[InlineData(typeof(double),                                 false)]
+	[InlineData(typeof(DiscosModelBase),                        false)]
 	[InlineData(typeof(IReadOnlyList<string>),                  false)]
 	[InlineData(typeof(IReadOnlyList<object>),                  false)]
 	[InlineData(typeof(IReadOnlyList<bool>),                    false)]
@@ -181,6 +182,7 @@ public class TypeExtensionsTests
 	[InlineData(typeof(IReadOnlyList<float>),                   false)]
 	[InlineData(typeof(IReadOnlyList<decimal>),                 false)]
 	[InlineData(typeof(IReadOnlyList<double>),                  false)]
+	[InlineData(typeof(IReadOnlyList<DiscosModelBase>),         false)]
 	public void CanDetermineWhetherDiscosModel(Type t, bool isDiscosModel)
 	{
 		bool res = t.IsDiscosModel();
