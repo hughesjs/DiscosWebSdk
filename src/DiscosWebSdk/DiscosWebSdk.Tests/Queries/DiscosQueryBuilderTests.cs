@@ -71,7 +71,10 @@ public class DiscosQueryBuilderTests
 	public void CanAddAllIncludes()
 	{
 		_builder.AddAllIncludes();
-		_builder.Build().ShouldBe("?include=reentry,states,destinationOrbits,initialOrbits,operators,launch");
+		string query = _builder.Build();
+		query.StartsWith("?include=").ShouldBeTrue();
+		query = query.Replace("?include=","");
+		query.Split(',').ToList().ForEach(i => new [] {"states", "reentry","destinationOrbits","initialOrbits","operators","launch"}.ShouldContain(i));
 	}
 
 	[Fact]
