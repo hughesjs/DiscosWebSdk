@@ -43,7 +43,7 @@ public class DiscosClientTests
 	[ClassData(typeof(DiscosModelTypesTestDataGenerator))]
 	public async Task CanGetSingleOfEveryTypeWithoutQueryParamsNonGeneric(Type objectType, string id)
 	{
-		object? res = await _discosClient.GetSingle(objectType, id);
+		DiscosModelBase? res = await _discosClient.GetSingle(objectType, id);
 		res.ShouldNotBeNull();
 	}
 
@@ -54,14 +54,14 @@ public class DiscosClientTests
 		MethodInfo unconstructedGetSingle = typeof(DiscosClient).GetMethods().Single(m => m.Name == nameof(DiscosClient.GetMultiple) && m.IsGenericMethod);
 		MethodInfo getSingle              = unconstructedGetSingle.MakeGenericMethod(objectType);
 
-		IReadOnlyList<object?>? result;
+		IReadOnlyList<DiscosModelBase?>? result;
 		if (objectType == typeof(Country)) // No countries on first page of entities...
 		{
-			result = (IReadOnlyList<object?>?)await getSingle.InvokeAsync(_discosClient, "?filter=contains(name,'United')");
+			result = (IReadOnlyList<DiscosModelBase?>?)await getSingle.InvokeAsync(_discosClient, "?filter=contains(name,'United')");
 		}
 		else 
 		{
-			result = (IReadOnlyList<object?>?)await getSingle.InvokeAsync(_discosClient, string.Empty);
+			result = (IReadOnlyList<DiscosModelBase?>?)await getSingle.InvokeAsync(_discosClient, string.Empty);
 		}
 		result.ShouldNotBeNull();
 		result.Count.ShouldBeGreaterThan(1);
@@ -72,7 +72,7 @@ public class DiscosClientTests
 	[ClassData(typeof(DiscosModelTypesTestDataGenerator))]
 	public async Task CanGetMultipleOfEveryTypeWithoutQueryParamsNonGeneric(Type objectType, string _)
 	{
-		IReadOnlyList<object?>? res; 
+		IReadOnlyList<DiscosModelBase?>? res; 
 		if (objectType == typeof(Country)) // No countries on first page of entities...
 		{
 			res    = await _discosClient.GetMultiple(objectType, "?filter=contains(name,'United')");

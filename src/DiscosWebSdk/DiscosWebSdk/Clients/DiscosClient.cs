@@ -11,6 +11,7 @@ using DiscosWebSdk.Models.ResponseModels.Propellants;
 using DiscosWebSdk.Models.ResponseModels.Reentries;
 using Hypermedia.JsonApi.Client;
 using DiscosWebSdk.Extensions;
+using DiscosWebSdk.Models.ResponseModels;
 using JetBrains.Annotations;
 
 namespace DiscosWebSdk.Clients;
@@ -46,11 +47,11 @@ public class DiscosClient : IDiscosClient
 															   {typeof(Reentry), "reentries"}
 														   };
 
-	public async Task<object?> GetSingle(Type t, string id, string queryString = "")
+	public async Task<DiscosModelBase?> GetSingle(Type t, string id, string queryString = "")
 	{
 		string              endpoint = _endpoints[t];
 		HttpResponseMessage res      = await GetWithRateLimitRetry($"{endpoint}/{id}{queryString}");
-		return res.Content.ReadAsJsonApiAsync(t, DiscosObjectResolver.CreateResolver());
+		return await res.Content.ReadAsJsonApiAsync(t, DiscosObjectResolver.CreateResolver());
 	}
 
 
@@ -68,7 +69,7 @@ public class DiscosClient : IDiscosClient
 		return await res.Content.ReadAsJsonApiManyAsync<T>(DiscosObjectResolver.CreateResolver());
 	}
 
-	public async Task<IReadOnlyList<object?>?> GetMultiple(Type t, string queryString = "")
+	public async Task<IReadOnlyList<DiscosModelBase?>?> GetMultiple(Type t, string queryString = "")
 	{
 		string              endpoint = _endpoints[t];
 		HttpResponseMessage res      = await GetWithRateLimitRetry($"{endpoint}{queryString}");
@@ -103,13 +104,13 @@ public class DiscosClient : IDiscosClient
 public interface IDiscosClient
 {
 	[UsedImplicitly]
-	public Task<object?>                 GetSingle(Type      t,  string id, string queryString = "");
+	public Task<DiscosModelBase?>                 GetSingle(Type      t,  string id, string queryString = "");
 	
 	[UsedImplicitly]
 	public Task<T>                       GetSingle<T>(string id, string queryString = "");
 	
 	[UsedImplicitly]
-	public Task<IReadOnlyList<object?>?> GetMultiple(Type    t,  string queryString = "");
+	public Task<IReadOnlyList<DiscosModelBase?>?> GetMultiple(Type t, string queryString = "");
 	
 	[UsedImplicitly]
 	public Task<IReadOnlyList<T>>        GetMultiple<T>(string queryString = "");
