@@ -6,7 +6,7 @@
 version: 2
 updates:
   - package-ecosystem: "nuget" # See documentation for possible values
-    directory: "/src/DISCOSweb-Sdk/" # Location of package manifests
+    directory: "/src/DiscosWebSdk/" # Location of package manifests
     schedule:
       interval: "daily"
 
