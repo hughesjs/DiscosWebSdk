@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using DiscosWebSdk.Clients;
+using DiscosWebSdk.Extensions;
 using DiscosWebSdk.Models.ResponseModels.Entities;
 using DiscosWebSdk.Tests.TestDataGenerators;
 using Shouldly;
@@ -33,6 +34,14 @@ public class DiscosClientTests
 		MethodInfo getSingle              = unconstructedGetSingle.MakeGenericMethod(objectType);
 		object? res = await getSingle.InvokeAsync(_discosClient, id, string.Empty);
 
+		res.ShouldNotBeNull();
+	}
+	
+	[Theory]
+	[ClassData(typeof(DiscosModelTypesTestDataGenerator))]
+	public async Task CanGetSingleOfEveryTypeWithoutQueryParamsNonGeneric(Type objectType, string id)
+	{
+		object? res = await _discosClient.GetSingle(objectType, id);
 		res.ShouldNotBeNull();
 	}
 

@@ -10,6 +10,7 @@ using DiscosWebSdk.Models.ResponseModels.Orbits;
 using DiscosWebSdk.Models.ResponseModels.Propellants;
 using DiscosWebSdk.Models.ResponseModels.Reentries;
 using Hypermedia.JsonApi.Client;
+using DiscosWebSdk.Extensions;
 
 namespace DiscosWebSdk.Clients;
 
@@ -43,6 +44,14 @@ public class DiscosClient : IDiscosClient
 															   {typeof(Propellant), "propellants"},
 															   {typeof(Reentry), "reentries"}
 														   };
+
+	public async Task<object?> GetSingle(Type t, string id, string queryString = "")
+	{
+		string              endpoint = _endpoints[t];
+		HttpResponseMessage res      = await GetWithRateLimitRetry($"{endpoint}/{id}{queryString}");
+		return res.Content.ReadAsJsonApiAsync(t);
+	}
+
 
 	public async Task<T> GetSingle<T>(string id, string queryString = "")
 	{
