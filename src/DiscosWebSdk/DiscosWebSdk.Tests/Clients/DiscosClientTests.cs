@@ -27,35 +27,32 @@ public class DiscosClientTests
 
 	[Theory]
 	[ClassData(typeof(DiscosModelTypesTestDataGenerator))]
-	public void CanGetSingleOfEveryTypeWithoutQueryParams(Type objectType, string id)
+	public async Task CanGetSingleOfEveryTypeWithoutQueryParamsGeneric(Type objectType, string id)
 	{
-		MethodInfo unconstructedGetSingle = typeof(DiscosClient).GetMethod(nameof(DiscosClient.GetSingle))!;
+		MethodInfo unconstructedGetSingle = typeof(DiscosClient).GetMethods().Single(m => m.Name == nameof(DiscosClient.GetSingle) && m.IsGenericMethod);
 		MethodInfo getSingle              = unconstructedGetSingle.MakeGenericMethod(objectType);
+		object? res = await getSingle.InvokeAsync(_discosClient, id, string.Empty);
 
-		Task          resTask     = (Task)getSingle.Invoke(_discosClient, new[] {id, string.Empty});
-		PropertyInfo? resProperty = resTask.GetType().GetProperty("Result");
-
-		resProperty.GetValue(resTask).ShouldNotBeNull();
+		res.ShouldNotBeNull();
 	}
 
 	[Theory]
 	[ClassData(typeof(DiscosModelTypesTestDataGenerator))]
-	public void CanGetMultipleOfEveryTypeWithoutQueryParams(Type objectType, string _)
+	public async Task CanGetMultipleOfEveryTypeWithoutQueryParams(Type objectType, string _)
 	{
 		MethodInfo unconstructedGetSingle = typeof(DiscosClient).GetMethod(nameof(DiscosClient.GetMultiple))!;
 		MethodInfo getSingle              = unconstructedGetSingle.MakeGenericMethod(objectType);
 
-		Task resTask;
+		object? result;
 		if (objectType == typeof(Country)) // No countries on first page of entities...
 		{
-			resTask = (Task)getSingle.Invoke(_discosClient, new[] {"?filter=contains(name,'United')"});
+			result = await getSingle.InvokeAsync(_discosClient, "?filter=contains(name,'United')");
 		}
-		else {
-			resTask = (Task)getSingle.Invoke(_discosClient, new[] {string.Empty});
+		else 
+		{
+			result = await getSingle.InvokeAsync(_discosClient, string.Empty);
 		}
-		
-		PropertyInfo? resProperty = resTask!.GetType().GetProperty("Result");
-
-		((IEnumerable)resProperty!.GetValue(resTask)!).Cast<object>().Count().ShouldBeGreaterThan(1);
+		result.ShouldNotBeNull();
+		((IEnumerable)result).Cast<object>().Count().ShouldBeGreaterThan(1);
 	}
 }
