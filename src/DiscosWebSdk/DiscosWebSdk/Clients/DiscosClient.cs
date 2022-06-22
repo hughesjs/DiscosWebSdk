@@ -49,7 +49,7 @@ public class DiscosClient : IDiscosClient
 	{
 		string              endpoint = _endpoints[t];
 		HttpResponseMessage res      = await GetWithRateLimitRetry($"{endpoint}/{id}{queryString}");
-		return res.Content.ReadAsJsonApiAsync(t);
+		return res.Content.ReadAsJsonApiAsync(t, DiscosObjectResolver.CreateResolver());
 	}
 
 
@@ -65,6 +65,13 @@ public class DiscosClient : IDiscosClient
 		string              endpoint = _endpoints[typeof(T)];
 		HttpResponseMessage res      = await GetWithRateLimitRetry($"{endpoint}{queryString}");
 		return await res.Content.ReadAsJsonApiManyAsync<T>(DiscosObjectResolver.CreateResolver());
+	}
+	
+	public async Task<IReadOnlyList<object?>?> GetMultiple(Type t, string queryString = "")
+	{
+		string              endpoint = _endpoints[t];
+		HttpResponseMessage res      = await GetWithRateLimitRetry($"{endpoint}{queryString}");
+		return await res.Content.ReadAsJsonApiManyAsync(t, DiscosObjectResolver.CreateResolver());
 	}
 
 	private async Task<HttpResponseMessage> GetWithRateLimitRetry(string uri, int retries = 0)

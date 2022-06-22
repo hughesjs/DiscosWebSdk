@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using DiscosWebSdk.Clients;
 using DiscosWebSdk.Extensions;
+using DiscosWebSdk.Models.ResponseModels;
 using DiscosWebSdk.Models.ResponseModels.Entities;
 using DiscosWebSdk.Tests.TestDataGenerators;
 using Shouldly;
@@ -47,21 +49,40 @@ public class DiscosClientTests
 
 	[Theory]
 	[ClassData(typeof(DiscosModelTypesTestDataGenerator))]
-	public async Task CanGetMultipleOfEveryTypeWithoutQueryParams(Type objectType, string _)
+	public async Task CanGetMultipleOfEveryTypeWithoutQueryParamsGeneric(Type objectType, string _)
 	{
-		MethodInfo unconstructedGetSingle = typeof(DiscosClient).GetMethod(nameof(DiscosClient.GetMultiple))!;
+		MethodInfo unconstructedGetSingle = typeof(DiscosClient).GetMethods().Single(m => m.Name == nameof(DiscosClient.GetMultiple) && m.IsGenericMethod);
 		MethodInfo getSingle              = unconstructedGetSingle.MakeGenericMethod(objectType);
 
-		object? result;
+		IReadOnlyList<object?>? result;
 		if (objectType == typeof(Country)) // No countries on first page of entities...
 		{
-			result = await getSingle.InvokeAsync(_discosClient, "?filter=contains(name,'United')");
+			result = (IReadOnlyList<object?>?)await getSingle.InvokeAsync(_discosClient, "?filter=contains(name,'United')");
 		}
 		else 
 		{
-			result = await getSingle.InvokeAsync(_discosClient, string.Empty);
+			result = (IReadOnlyList<object?>?)await getSingle.InvokeAsync(_discosClient, string.Empty);
 		}
 		result.ShouldNotBeNull();
-		((IEnumerable)result).Cast<object>().Count().ShouldBeGreaterThan(1);
+		result.Count.ShouldBeGreaterThan(1);
+		result.ShouldAllBe(r => r.GetType().IsAssignableTo(typeof(DiscosModelBase)));
+	}
+	
+	[Theory]
+	[ClassData(typeof(DiscosModelTypesTestDataGenerator))]
+	public async Task CanGetMultipleOfEveryTypeWithoutQueryParamsNonGeneric(Type objectType, string _)
+	{
+		IReadOnlyList<object?>? res; 
+		if (objectType == typeof(Country)) // No countries on first page of entities...
+		{
+			res    = await _discosClient.GetMultiple(objectType, "?filter=contains(name,'United')");
+		}
+		else 
+		{
+			res = await _discosClient.GetMultiple(objectType);
+		}
+		res.ShouldNotBeNull();
+		res.Count.ShouldBeGreaterThan(1);
+		res.ShouldAllBe(r => r.GetType().IsAssignableTo(typeof(DiscosModelBase)));
 	}
 }
