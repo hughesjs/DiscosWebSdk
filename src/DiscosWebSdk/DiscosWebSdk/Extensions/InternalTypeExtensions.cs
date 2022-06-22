@@ -70,6 +70,29 @@ internal static class InternalTypeExtensions
 	}
 
 	internal static bool IsCollectionType(this Type t) => t != typeof(string) && t.GetInterface(nameof(IEnumerable)) is not null;
+
+	internal static MethodInfo? GetDisambiguatedMethodInfo(this Type t, string name, Type[]? parameterTypes = null, int numGenericArgs = 0)
+	{
+		MethodInfo[] methods = t.GetMethods();
+		if (methods.Length == 0) return null;
+		if (methods.Length == 1) return methods[0];
+
+		foreach (MethodInfo method in methods)
+		{
+			if (method.Name != name) continue;
+			ParameterInfo[] parameters = method.GetParameters();
+			if (parameters.Length != parameterTypes?.Length) continue;
+			for (int i = 0; i < parameters.Length; i++)
+			{
+				if (parameters[i].ParameterType != parameterTypes[i]) goto innerContinue;
+			}
+			if (numGenericArgs == 0 && method.IsGenericMethod) continue;
+			if (numGenericArgs == method.GetGenericArguments().Length) return method;
+			innerContinue:;
+		}
+
+		return null;
+	}
 }
 
 
