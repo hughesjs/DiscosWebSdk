@@ -18,14 +18,14 @@ namespace DiscosWebSdk.Tests.Clients;
 public class DiscosClientTests
 {
 	private readonly string       _apiBase = Environment.GetEnvironmentVariable("DISCOS_API_URL") ?? "https://discosweb.esoc.esa.int/api/";
-	private readonly DiscosClient _discosClient;
+	private readonly IDiscosClient _discosClient;
 
 	public DiscosClientTests()
 	{
 		HttpClient innerClient = new();
 		innerClient.BaseAddress                         = new(_apiBase);
 		innerClient.DefaultRequestHeaders.Authorization = new("bearer", Environment.GetEnvironmentVariable("DISCOS_API_KEY"));
-		_discosClient                                   = new(innerClient);
+		_discosClient                                   = new DiscosClient(innerClient);
 	}
 
 	[Theory]

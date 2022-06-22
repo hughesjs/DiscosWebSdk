@@ -11,6 +11,7 @@ using DiscosWebSdk.Models.ResponseModels.Propellants;
 using DiscosWebSdk.Models.ResponseModels.Reentries;
 using Hypermedia.JsonApi.Client;
 using DiscosWebSdk.Extensions;
+using JetBrains.Annotations;
 
 namespace DiscosWebSdk.Clients;
 
@@ -101,8 +102,15 @@ public class DiscosClient : IDiscosClient
 
 public interface IDiscosClient
 {
+	[UsedImplicitly]
 	public Task<object?>                 GetSingle(Type      t,  string id, string queryString = "");
+	
+	[UsedImplicitly]
 	public Task<T>                       GetSingle<T>(string id, string queryString = "");
+	
+	[UsedImplicitly]
 	public Task<IReadOnlyList<object?>?> GetMultiple(Type    t,  string queryString = "");
+	
+	[UsedImplicitly]
 	public Task<IReadOnlyList<T>>        GetMultiple<T>(string queryString = "");
 }
