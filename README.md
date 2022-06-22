@@ -3,6 +3,7 @@
 [![GitHub](https://img.shields.io/github/license/hughesjs/DiscosWebSdk?style=for-the-badge)](LICENSE)
 [![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/DiscosWebSdk?style=for-the-badge)](https://nuget.org/packages/DiscosWebSdk/)
 [![Nuget](https://img.shields.io/nuget/dt/DiscosWebSdk?style=for-the-badge)](https://nuget.org/packages/DiscosWebSdk/)
+![FTB](https://raw.githubusercontent.com/hughesjs/custom-badges/master/made-in/made-in-scotland.svg)
 
 # DISCOSweb SDK
 
