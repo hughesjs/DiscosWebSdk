@@ -36,7 +36,7 @@ Your configuration should contain the following:
 
 ## Usage
 
-There is a demo app located [here](https://github.com/hughesjs/DiscosWebSdk.Demo).
+There is a demo app located [here](https://github.com/hughesjs/DiscosWebSdk.Demo), although this is not yet finished.
 
 ### Models
 
