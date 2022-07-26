@@ -129,3 +129,9 @@ The DISCOS API returns data in pages. These can be manipulated using the `.AddPa
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
+
+## Downstream Projects
+
+If you use this SDK, we'd love to shout about it! Please add your project and a very short description to this list:
+
+- [DISCOS GROOVE (Data Analysis and Graphing)](https://github.com/hughesjs/DiscosGroove)
