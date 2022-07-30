@@ -1,5 +1,6 @@
 using DiscosWebSdk.Clients;
 using DiscosWebSdk.Exceptions.DependencyInjection;
+using DiscosWebSdk.Interfaces.Clients;
 using DiscosWebSdk.Interfaces.Queries;
 using DiscosWebSdk.Options;
 using DiscosWebSdk.Queries.Builders;

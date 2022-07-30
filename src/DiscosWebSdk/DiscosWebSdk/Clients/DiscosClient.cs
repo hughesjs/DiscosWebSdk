@@ -11,14 +11,18 @@ using DiscosWebSdk.Models.ResponseModels.Propellants;
 using DiscosWebSdk.Models.ResponseModels.Reentries;
 using Hypermedia.JsonApi.Client;
 using DiscosWebSdk.Extensions;
+using DiscosWebSdk.Interfaces.Clients;
+using DiscosWebSdk.Models.EventPayloads;
 using DiscosWebSdk.Models.ResponseModels;
-using JetBrains.Annotations;
 
 namespace DiscosWebSdk.Clients;
 
 public class DiscosClient : IDiscosClient
 {
 	private readonly HttpClient _client;
+
+	private const string SingleFetchTemplate = "{0}/{1}{2}";
+	private const string MultipleFetchTemplate = "{0}{1}";
 
 	public DiscosClient(HttpClient client)
 	{
@@ -47,35 +51,60 @@ public class DiscosClient : IDiscosClient
 															   {typeof(Reentry), "reentries"}
 														   };
 
+	private string GetSingleFetchUrl(string endpoint, string  id, string queryString) => string.Format(SingleFetchTemplate, endpoint, id, queryString);
+	private string GetMultipleFetchUrl(string endpoint, string queryString) => string.Format(MultipleFetchTemplate, endpoint, queryString);
+	
 	public async Task<DiscosModelBase?> GetSingle(Type t, string id, string queryString = "")
 	{
 		string              endpoint = _endpoints[t];
-		HttpResponseMessage res      = await GetWithRateLimitRetry($"{endpoint}/{id}{queryString}");
+		HttpResponseMessage res      = await GetWithRateLimitRetry(GetSingleFetchUrl(endpoint, id, queryString));
 		return await res.Content.ReadAsJsonApiAsync(t, DiscosObjectResolver.CreateResolver());
+	}
+
+	public Task<(DiscosModelBase? Model, DownloadStatus Status)> GetSingleWithDownloadState(Type t, string id, string queryString = "")
+	{
+		throw new NotImplementedException();
 	}
 
 
 	public async Task<T> GetSingle<T>(string id, string queryString = "")
 	{
 		string              endpoint = _endpoints[typeof(T)];
-		HttpResponseMessage res      = await GetWithRateLimitRetry($"{endpoint}/{id}{queryString}");
+		HttpResponseMessage res      = await GetWithRateLimitRetry(GetSingleFetchUrl(endpoint, id, queryString));
 		return await res.Content.ReadAsJsonApiAsync<T>(DiscosObjectResolver.CreateResolver());
+	}
+
+	public Task<(T Model, DownloadStatus Status)> GetSingleWithDownloadState<T>(string id, string queryString = "")
+	{
+		throw new NotImplementedException();
+	}
+
+	public Task<(IReadOnlyList<DiscosModelBase?>? Models, DownloadStatus Status)> GetMultipleWithDownloadState(Type t, string queryString = "")
+	{
+		throw new NotImplementedException();
 	}
 
 	public async Task<IReadOnlyList<T>> GetMultiple<T>(string queryString = "")
 	{
 		string              endpoint = _endpoints[typeof(T)];
-		HttpResponseMessage res      = await GetWithRateLimitRetry($"{endpoint}{queryString}");
+		HttpResponseMessage res      = await GetWithRateLimitRetry(GetMultipleFetchUrl(endpoint, queryString));
 		return await res.Content.ReadAsJsonApiManyAsync<T>(DiscosObjectResolver.CreateResolver());
+	}
+
+	public Task<(IReadOnlyList<T> Models, DownloadStatus Status)> GetMultipleWithDownloadState<T>(string queryString = "")
+	{
+		throw new NotImplementedException();
 	}
 
 	public async Task<IReadOnlyList<DiscosModelBase?>?> GetMultiple(Type t, string queryString = "")
 	{
 		string              endpoint = _endpoints[t];
-		HttpResponseMessage res      = await GetWithRateLimitRetry($"{endpoint}{queryString}");
+		HttpResponseMessage res      = await GetWithRateLimitRetry(GetMultipleFetchUrl(endpoint, queryString));
 		return await res.Content.ReadAsJsonApiManyAsync(t, DiscosObjectResolver.CreateResolver());
 	}
 
+	
+	//TODO - This is crap, replaced it with Polly
 	private async Task<HttpResponseMessage> GetWithRateLimitRetry(string uri, int retries = 0)
 	{
 		const int           maxAttempts = 5;
@@ -98,20 +127,4 @@ public class DiscosClient : IDiscosClient
 		res.EnsureSuccessStatusCode();
 		return res;
 	}
-}
-
-
-public interface IDiscosClient
-{
-	[UsedImplicitly]
-	public Task<DiscosModelBase?>                 GetSingle(Type      t,  string id, string queryString = "");
-	
-	[UsedImplicitly]
-	public Task<T>                       GetSingle<T>(string id, string queryString = "");
-	
-	[UsedImplicitly]
-	public Task<IReadOnlyList<DiscosModelBase?>?> GetMultiple(Type t, string queryString = "");
-	
-	[UsedImplicitly]
-	public Task<IReadOnlyList<T>>        GetMultiple<T>(string queryString = "");
 }

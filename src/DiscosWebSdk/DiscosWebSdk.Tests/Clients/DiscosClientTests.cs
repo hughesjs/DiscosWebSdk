@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using DiscosWebSdk.Clients;
 using DiscosWebSdk.Extensions;
+using DiscosWebSdk.Interfaces.Clients;
 using DiscosWebSdk.Models.ResponseModels;
 using DiscosWebSdk.Models.ResponseModels.Entities;
 using DiscosWebSdk.Tests.TestDataGenerators;

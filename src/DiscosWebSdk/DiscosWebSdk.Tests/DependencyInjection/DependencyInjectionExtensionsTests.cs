@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Reflection;
 using DiscosWebSdk.Clients;
 using DiscosWebSdk.DependencyInjection;
+using DiscosWebSdk.Interfaces.Clients;
 using DiscosWebSdk.Interfaces.Queries;
 using DiscosWebSdk.Options;
 using DiscosWebSdk.Queries.Builders;
