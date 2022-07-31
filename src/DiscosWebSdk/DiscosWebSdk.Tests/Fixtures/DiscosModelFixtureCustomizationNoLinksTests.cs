@@ -2,8 +2,6 @@ using System;
 using System.Linq;
 using AutoFixture;
 using AutoFixture.Kernel;
-using DiscosWebSdk.Fixtures;
-using DiscosWebSdk.Fixtures.AutoFixture;
 using DiscosWebSdk.Fixtures.AutoFixture.Customizations;
 using DiscosWebSdk.Models.ResponseModels;
 using DiscosWebSdk.Tests.TestDataGenerators;
