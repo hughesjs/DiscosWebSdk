@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using DiscosWebSdk.Clients;
 using DiscosWebSdk.Extensions;
 using DiscosWebSdk.Interfaces.Clients;
+using DiscosWebSdk.Models.Misc;
 using DiscosWebSdk.Models.ResponseModels;
 using DiscosWebSdk.Models.ResponseModels.Entities;
 using DiscosWebSdk.Tests.TestDataGenerators;
@@ -48,6 +49,7 @@ public class DiscosClientTests
 		res.ShouldNotBeNull();
 	}
 
+
 	[Theory]
 	[ClassData(typeof(DiscosModelTypesTestDataGenerator))]
 	public async Task CanGetMultipleOfEveryTypeWithoutQueryParamsGeneric(Type objectType, string _)
@@ -69,6 +71,34 @@ public class DiscosClientTests
 		result.ShouldAllBe(r => r.GetType().IsAssignableTo(typeof(DiscosModelBase)));
 	}
 	
+	
+	[Theory]
+	[ClassData(typeof(DiscosModelTypesTestDataGenerator))]
+	public async Task CanGetMultipleOfEveryTypeWithPaginationWithoutQueryParamsGeneric(Type objectType, string _)
+	{
+		MethodInfo unconstructedGetSingle = typeof(DiscosClient).GetMethods().Single(m => m.Name == nameof(DiscosClient.GetMultipleWithPaginationState) && m.IsGenericMethod);
+		MethodInfo getMultiple              = unconstructedGetSingle.MakeGenericMethod(objectType);
+
+		ModelsWithPagination result;
+		if (objectType == typeof(Country)) // No countries on first page of entities...
+		{
+			result = (ModelsWithPagination)(await getMultiple.InvokeAsync(_discosClient, "?filter=contains(name,'United')"))!;
+		}
+		else 
+		{
+			result = (ModelsWithPagination)(await getMultiple.InvokeAsync(_discosClient, string.Empty))!;
+		}
+		
+		result.Models.ShouldNotBeNull();
+		result.Models.Count.ShouldBeGreaterThan(1);
+		result.Models.ShouldAllBe(r => r.GetType().IsAssignableTo(typeof(DiscosModelBase)));
+		
+		result.PaginationDetails.CurrentPage.ShouldBe(1);
+		result.PaginationDetails.PageSize.ShouldBeGreaterThan(1
+															  );
+		result.PaginationDetails.TotalPages.ShouldBeGreaterThan(0);
+	}
+	
 	[Theory]
 	[ClassData(typeof(DiscosModelTypesTestDataGenerator))]
 	public async Task CanGetMultipleOfEveryTypeWithoutQueryParamsNonGeneric(Type objectType, string _)
@@ -85,5 +115,27 @@ public class DiscosClientTests
 		res.ShouldNotBeNull();
 		res.Count.ShouldBeGreaterThan(1);
 		res.ShouldAllBe(r => r.GetType().IsAssignableTo(typeof(DiscosModelBase)));
+	}
+	
+	[Theory]
+	[ClassData(typeof(DiscosModelTypesTestDataGenerator))]
+	public async Task CanGetMultipleOfEveryTypeWithPaginationWithoutQueryParamsNonGeneric(Type objectType, string _)
+	{
+		ModelsWithPagination res; 
+		if (objectType == typeof(Country)) // No countries on first page of entities...
+		{
+			res = await _discosClient.GetMultipleWithPaginationState(objectType, "?filter=contains(name,'United')");
+		}
+		else 
+		{
+			res = await _discosClient.GetMultipleWithPaginationState(objectType);
+		}
+		res.Models.ShouldNotBeNull();
+		res.Models.Count.ShouldBeGreaterThan(1);
+		res.Models.ShouldAllBe(r => r.GetType().IsAssignableTo(typeof(DiscosModelBase)));
+		
+		res.PaginationDetails.CurrentPage.ShouldBe(1);
+		res.PaginationDetails.PageSize.ShouldBeGreaterThan(1);
+		res.PaginationDetails.TotalPages.ShouldBeGreaterThan(0);
 	}
 }
