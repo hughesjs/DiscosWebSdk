@@ -11,17 +11,14 @@ using DiscosWebSdk.Queries.Filters.FilterTree;
 
 namespace DiscosWebSdk.Queries.Builders;
 
-internal class DiscosQueryBuilder<TObject> : IDiscosQueryBuilder<TObject>
+internal class DiscosQueryBuilder<TObject> : DiscosQueryBuilder, IDiscosQueryBuilder<TObject>
 {
-	private FilterTree   _filterTree;
-	private List<string> _includes;
-	private int?         _numPages;
-	private int?         _pageNum;
+
 
 	public DiscosQueryBuilder()
 	{
-		_filterTree = new();
-		_includes   = new();
+		FilterTree = new();
+		Includes   = new();
 		Reset();
 	}
 
@@ -31,27 +28,27 @@ internal class DiscosQueryBuilder<TObject> : IDiscosQueryBuilder<TObject>
 		{
 			throw new InvalidFilterTreeException("Filter object type must match query builder type");
 		}
-		_filterTree.AddDefinitionNode(filterDefinition);
+		FilterTree.AddDefinitionNode(filterDefinition);
 		return this;
 	}
 
 	public IDiscosQueryBuilder<TObject> And()
 	{
-		_filterTree.AddOperationNode(FilterOperation.And);
+		FilterTree.AddOperationNode(FilterOperation.And);
 		return this;
 	}
 
 
 	public IDiscosQueryBuilder<TObject> Or()
 	{
-		_filterTree.AddOperationNode(FilterOperation.Or);
+		FilterTree.AddOperationNode(FilterOperation.Or);
 		return this;
 	}
 
 	public IDiscosQueryBuilder<TObject> AddInclude(string fieldName)
 	{
 		typeof(TObject).EnsureFieldExists(fieldName);
-		_includes.Add(AttributeUtilities.GetJsonPropertyName<TObject>(fieldName));
+		Includes.Add(AttributeUtilities.GetJsonPropertyName<TObject>(fieldName));
 		return this;
 	}
 
@@ -64,28 +61,27 @@ internal class DiscosQueryBuilder<TObject> : IDiscosQueryBuilder<TObject>
 		return this;
 	}
 
-	public IDiscosQueryBuilder<TObject> AddPageSize(int numPages)
+	public new IDiscosQueryBuilder<TObject> AddPageSize(int numPages)
 	{
-		_numPages = numPages;
+		base.AddPageSize(numPages);
 		return this;
 	}
 
-	public IDiscosQueryBuilder<TObject> AddPageNum(int pageNum)
+	public new IDiscosQueryBuilder<TObject> AddPageNum(int pageNum)
 	{
-		_pageNum = pageNum;
+		base.AddPageNum(pageNum);
 		return this;
 	}
 
-	public IDiscosQueryBuilder<TObject> Reset()
+	public new IDiscosQueryBuilder<TObject> Reset()
 	{
-		_filterTree = new();
-		_includes   = new();
-		_numPages   = null;
-		_pageNum    = null;
+		base.Reset();
 		return this;
 	}
+	
+	
 
-	public string Build()
+	public override string Build()
 	{
 		bool firstDone = false;
 
@@ -103,22 +99,22 @@ internal class DiscosQueryBuilder<TObject> : IDiscosQueryBuilder<TObject>
 		}
 
 		StringBuilder builder = new();
-		if (!_filterTree.IsEmpty)
+		if (!FilterTree.IsEmpty)
 		{
 			AddJoiningChar(builder);
 			AddFilterString(builder);
 		}
-		if (_includes.Count > 0)
+		if (Includes.Count > 0)
 		{
 			AddJoiningChar(builder);
 			AddIncludeString(builder);
 		}
-		if (_numPages is not null)
+		if (NumPages is not null)
 		{
 			AddJoiningChar(builder);
 			AddNumPagesString(builder);
 		}
-		if (_pageNum is not null)
+		if (PageNum is not null)
 		{
 			AddJoiningChar(builder);
 			AddPageNumberString(builder);
@@ -128,27 +124,102 @@ internal class DiscosQueryBuilder<TObject> : IDiscosQueryBuilder<TObject>
 
 	private void AddFilterString(StringBuilder builder)
 	{
-		if (!_filterTree.IsCompleteTree())
+		if (!FilterTree.IsCompleteTree())
 		{
 			throw new InvalidFilterTreeException("Filter tree is not complete");
 		}
 		builder.Append("filter=");
-		builder.Append(_filterTree);
+		builder.Append(FilterTree);
 	}
 
 	private void AddIncludeString(StringBuilder builder)
 	{
 		builder.Append("include=");
-		builder.Append(string.Join(',', _includes.Distinct()));
+		builder.Append(string.Join(',', Includes.Distinct()));
 	}
 
 	private void AddPageNumberString(StringBuilder builder)
 	{
-		builder.Append($"page[number]={_pageNum}");
+		builder.Append($"page[number]={PageNum}");
 	}
 
 	private void AddNumPagesString(StringBuilder builder)
 	{
-		builder.Append($"page[size]={_numPages}");
+		builder.Append($"page[size]={NumPages}");
+	}
+}
+
+
+internal class DiscosQueryBuilder : IDiscosQueryBuilder
+{
+	protected FilterTree   FilterTree;
+	protected List<string> Includes;
+	protected int?         NumPages;
+	protected int?         PageNum;
+
+	private void AddPageNumberString(StringBuilder builder)
+	{
+		builder.Append($"page[number]={PageNum}");
+	}
+
+	private void AddNumPagesString(StringBuilder builder)
+	{
+		builder.Append($"page[size]={NumPages}");
+	}
+	
+	
+	public IDiscosQueryBuilder AddPageSize(int numPages)
+	{
+		NumPages = numPages;
+		return this;
+	}
+	
+	public IDiscosQueryBuilder AddPageNum(int pageNum)
+	{
+		PageNum = pageNum;
+		return this;
+	}
+
+	public IDiscosQueryBuilder Reset()
+	{
+		FilterTree = new();
+		Includes   = new();
+		NumPages   = null;
+		PageNum    = null;
+		return this;
+	}
+
+	public virtual string Build()
+	{
+		bool firstDone = false;
+
+		void AddJoiningChar(StringBuilder builder)
+		{
+			if (firstDone)
+			{
+				builder.Append('&');
+			}
+			else
+			{
+				firstDone = true;
+				builder.Append('?');
+			}
+		}
+
+		StringBuilder builder = new();
+		
+		if (NumPages is not null)
+		{
+			AddJoiningChar(builder);
+			AddNumPagesString(builder);
+		}
+		
+		if (PageNum is not null)
+		{
+			AddJoiningChar(builder);
+			AddPageNumberString(builder);
+		}
+
+		return builder.ToString();
 	}
 }
