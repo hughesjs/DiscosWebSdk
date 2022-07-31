@@ -81,7 +81,7 @@ public class DiscosClient : IDiscosClient
 	{
 		string              endpoint = _endpoints[typeof(T)];
 		HttpResponseMessage res      = await _client.GetAsync(GetMultipleFetchUrl(endpoint, queryString));
-		List<T>           model    = await res.Content.ReadAsJsonApiManyAsync<T>(DiscosObjectResolver.CreateResolver());
+		List<T>             model    = await res.Content.ReadAsJsonApiManyAsync<T>(DiscosObjectResolver.CreateResolver()) ?? new List<T>();
 		
 		PaginationDetails pagDetails = await GetPaginationDetails(res) ?? new()
 																		  {
@@ -106,7 +106,7 @@ public class DiscosClient : IDiscosClient
 		string                           endpoint = _endpoints[t];
 		HttpResponseMessage              res      = await _client.GetAsync(GetMultipleFetchUrl(endpoint, queryString));
 		
-		IReadOnlyList<DiscosModelBase?> model =  await res.Content.ReadAsJsonApiManyAsync(t, DiscosObjectResolver.CreateResolver()) ?? Array.Empty<DiscosModelBase?>();
+		IReadOnlyList<DiscosModelBase?> model =  await res.Content.ReadAsJsonApiManyAsync(t, DiscosObjectResolver.CreateResolver()) ?? ArraySegment<DiscosModelBase?>.Empty;
 		
 		PaginationDetails pagDetails = await GetPaginationDetails(res) ?? new()
 																		  {

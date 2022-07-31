@@ -4,13 +4,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using DiscosWebSdk.Clients;
 using DiscosWebSdk.Extensions;
 using DiscosWebSdk.Interfaces.Clients;
 using DiscosWebSdk.Models.ResponseModels;
 using DiscosWebSdk.Models.ResponseModels.Entities;
+using DiscosWebSdk.Tests.Misc;
 using DiscosWebSdk.Tests.TestDataGenerators;
 using Polly;
 using Polly.Extensions.Http;
@@ -31,7 +31,7 @@ public class DiscosClientTests
 	public DiscosClientTests()
 	{
 		HttpClient innerClient = new(new PollyRetryHandler(RetryPolicy, new HttpClientHandler()));
-		
+		innerClient.Timeout = TimeSpan.FromMinutes(20);
 		
 		innerClient.BaseAddress                         = new(_apiBase);
 		innerClient.DefaultRequestHeaders.Authorization = new("bearer", Environment.GetEnvironmentVariable("DISCOS_API_KEY"));
@@ -147,17 +147,4 @@ public class DiscosClientTests
 		res.PaginationDetails.TotalPages.ShouldBeGreaterThan(0);
 	}
 
-
-	private class PollyRetryHandler : DelegatingHandler
-	{
-		private readonly AsyncRetryPolicy<HttpResponseMessage> _policy;
-
-		public PollyRetryHandler(AsyncRetryPolicy<HttpResponseMessage> policy, HttpMessageHandler innerHandler)
-			: base(innerHandler)
-		{
-			_policy = policy;
-		}
-
-		protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) => await _policy.ExecuteAsync(() => base.SendAsync(request, cancellationToken));
-	}
 }

@@ -1,5 +1,3 @@
-using DiscosWebSdk.Models.EventPayloads;
-using DiscosWebSdk.Models.Misc;
 using DiscosWebSdk.Models.ResponseModels;
 using JetBrains.Annotations;
 

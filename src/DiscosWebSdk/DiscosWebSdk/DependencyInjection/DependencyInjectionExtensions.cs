@@ -1,10 +1,12 @@
 using System.Net;
 using DiscosWebSdk.Clients;
 using DiscosWebSdk.Exceptions.DependencyInjection;
+using DiscosWebSdk.Interfaces.BulkFetching;
 using DiscosWebSdk.Interfaces.Clients;
 using DiscosWebSdk.Interfaces.Queries;
 using DiscosWebSdk.Options;
 using DiscosWebSdk.Queries.Builders;
+using DiscosWebSdk.Services.BulkFetching;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
@@ -29,10 +31,24 @@ public static class DependencyInjectionExtensions
 
 		services.AddTransient(typeof(IDiscosQueryBuilder<>), typeof(DiscosQueryBuilder<>));
 
-		services.AddHttpClient<IDiscosClient, DiscosClient>(c =>
-															{
-																c.BaseAddress                         = new(opt.DiscosApiUrl);
-																c.DefaultRequestHeaders.Authorization = new("bearer", opt.DiscosApiKey);
-															}).AddTransientHttpErrorPolicy(c => c.OrResult(res => res.StatusCode is HttpStatusCode.TooManyRequests).WaitAndRetryAsync(retrySpans ?? DefaultRetrySpans));
+		if (usePolly)
+		{
+			services.AddHttpClient<IDiscosClient, DiscosClient>(c =>
+																{
+																	c.BaseAddress                         = new(opt.DiscosApiUrl);
+																	c.DefaultRequestHeaders.Authorization = new("bearer", opt.DiscosApiKey);
+																}).AddTransientHttpErrorPolicy(c => c.OrResult(res => res.StatusCode is HttpStatusCode.TooManyRequests).WaitAndRetryAsync(retrySpans ?? DefaultRetrySpans));
+		}
+		else
+		{
+			services.AddHttpClient<IDiscosClient, DiscosClient>(c =>
+																{
+																	c.BaseAddress                         = new(opt.DiscosApiUrl);
+																	c.DefaultRequestHeaders.Authorization = new("bearer", opt.DiscosApiKey);
+																});
+		}
+
+		services.AddTransient(typeof(IBulkFetchService<>), typeof(ImmediateBulkFetchService<>));
+
 	}
 }
