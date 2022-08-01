@@ -30,6 +30,10 @@ public static class DependencyInjectionExtensions
 		services.Configure<DiscosOptions>(configSection);
 
 		services.AddTransient(typeof(IDiscosQueryBuilder<>), typeof(DiscosQueryBuilder<>));
+		services.AddTransient(typeof(IBulkFetchService<>),   typeof(ImmediateBulkFetchService<>));
+
+		services.AddTransient<IDiscosQueryBuilder, DiscosQueryBuilder>();
+		services.AddTransient<IBulkFetchService, ImmediateBulkFetchService>();
 
 		if (usePolly)
 		{
@@ -48,7 +52,7 @@ public static class DependencyInjectionExtensions
 																});
 		}
 
-		services.AddTransient(typeof(IBulkFetchService<>), typeof(ImmediateBulkFetchService<>));
+		
 
 	}
 }
