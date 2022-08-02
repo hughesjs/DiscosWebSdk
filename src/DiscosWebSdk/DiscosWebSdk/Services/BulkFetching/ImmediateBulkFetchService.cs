@@ -48,6 +48,7 @@ internal class ImmediateBulkFetchService : IBulkFetchService
 		ModelsWithPagination<DiscosModelBase> res;
 		while ((res = await _discosClient.GetMultipleWithPaginationState(_t, GetQueryString(pageNum++))).Models.Count > 0)
 		{
+			Console.WriteLine($"Received: {res.Models.Count}"); // TODO - Remove
 			allResults.AddRange(res.Models);
 			DownloadStatusChanged?.Invoke(this, new()
 												{
@@ -62,6 +63,7 @@ internal class ImmediateBulkFetchService : IBulkFetchService
 	{
 		QueryBuilder.AddPageNum(pageNum);
 		QueryBuilder.AddPageSize(MaxPageSize);
+		Console.WriteLine(QueryBuilder.Build()); // TODO - Remove
 		return QueryBuilder.Build();
 	}
 }
