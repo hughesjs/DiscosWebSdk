@@ -51,7 +51,7 @@ internal class ImmediateBulkFetchService : IBulkFetchService
 			allResults.AddRange(res.Models);
 			DownloadStatusChanged?.Invoke(this, new()
 												{
-													Downloaded = res.PaginationDetails.CurrentPage - 1* res.PaginationDetails.PageSize,
+													Downloaded = (res.PaginationDetails.CurrentPage - 1) * res.PaginationDetails.PageSize,
 													Total      = res.PaginationDetails.TotalPages* res.PaginationDetails.PageSize
 												});
 		}
