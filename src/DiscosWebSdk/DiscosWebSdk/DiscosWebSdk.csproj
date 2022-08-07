@@ -18,6 +18,14 @@
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     </PropertyGroup>
 
+    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    </PropertyGroup>
+
     <ItemGroup>
         <PackageReference Include="AutoFixture" Version="4.17.0"/>
         <PackageReference Include="EnumExtensions.System.Text.Json" Version="1.1.0"/>
@@ -36,7 +44,6 @@
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-            <EmbedUntrackedSources>true</EmbedUntrackedSources>
         </PackageReference>
         <PackageReference Include="Polly.Extensions.Http" Version="3.0.0"/>
     </ItemGroup>
