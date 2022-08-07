@@ -18,13 +18,13 @@ public static class DependencyInjectionExtensions
 {
 	private static readonly List<TimeSpan> DefaultRetrySpans = new[] {1, 2, 5, 10, 30, 60, 60, 60}.Select(i => TimeSpan.FromSeconds(i)).ToList();
 	
-	public static void AddDiscosServices(this IServiceCollection services, IConfiguration configuration, bool usePolly = false, IEnumerable<TimeSpan>? retrySpans = null) => services.RegisterEverything(configuration, usePolly, retrySpans);
+	public static void AddDiscosServices(this IServiceCollection services, IConfiguration configuration, bool usePolly = false, bool logToConsole = false, IEnumerable<TimeSpan>? retrySpans = null) => services.RegisterEverything(configuration, usePolly, logToConsole, retrySpans);
 	
 	[UsedImplicitly]
-	public static void AddDiscosServices(this IServiceCollection services, string apiUrl, string apiKey, bool usePolly = false, IEnumerable<TimeSpan>? retrySpans = null) => services.RegisterEverything(BuildConfiguration(apiUrl, apiKey), usePolly, retrySpans);
+	public static void AddDiscosServices(this IServiceCollection services, string apiUrl, string apiKey, bool usePolly = false, bool logToConsole = false, IEnumerable<TimeSpan>? retrySpans = null) => services.RegisterEverything(BuildConfiguration(apiUrl, apiKey), usePolly, logToConsole, retrySpans);
 
 	[UsedImplicitly]
-	private static IServiceCollection RegisterEverything(this IServiceCollection services, IConfiguration configuration, bool usePolly = false, IEnumerable<TimeSpan>? retrySpans = null)
+	private static IServiceCollection RegisterEverything(this IServiceCollection services, IConfiguration configuration, bool usePolly = false, bool logToConsole = false, IEnumerable<TimeSpan>? retrySpans = null)
 	{
 		IConfigurationSection configSection = configuration.GetSection(nameof(DiscosOptions));
 		DiscosOptions         opt           = configSection.Get<DiscosOptions>();
@@ -44,11 +44,21 @@ public static class DependencyInjectionExtensions
 
 		if (usePolly)
 		{
+			IEnumerable<TimeSpan> spans = retrySpans ?? DefaultRetrySpans;
 			services.AddHttpClient<IDiscosClient, DiscosClient>(c =>
 																{
 																	c.BaseAddress                         = new(opt.DiscosApiUrl);
 																	c.DefaultRequestHeaders.Authorization = new("bearer", opt.DiscosApiKey);
-																}).AddTransientHttpErrorPolicy(c => c.OrResult(res => res.StatusCode is HttpStatusCode.TooManyRequests).WaitAndRetryAsync(retrySpans ?? DefaultRetrySpans));
+																	c.Timeout = TimeSpan.FromSeconds(spans.Sum(s => s.TotalSeconds));
+																}).AddTransientHttpErrorPolicy(c => 
+																								   c.OrResult(res => res.StatusCode is HttpStatusCode.TooManyRequests)
+																									.WaitAndRetryAsync(spans, (result, span, i, _) =>
+																															  {
+																																  if (logToConsole) //TODO - Replace with proper ILogger support
+																																  {
+																																	  Console.WriteLine($"Will retry in {span.TotalSeconds}s due to {result.Result.ReasonPhrase}. Retry count: {i}");
+																																  }
+																															  }));
 		}
 		else
 		{
