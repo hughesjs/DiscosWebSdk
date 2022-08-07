@@ -31,13 +31,13 @@ internal class ImmediateBulkFetchService : IBulkFetchService
 
 
 	private readonly IDiscosClient       _discosClient;
-	private readonly IDiscosQueryBuilder QueryBuilder;
+	private readonly IDiscosQueryBuilder _queryBuilder;
 	private readonly Type                _t;
 
 	public ImmediateBulkFetchService(IDiscosClient discosClient, IDiscosQueryBuilder queryBuilder, Type t)
 	{
 		_discosClient = discosClient;
-		QueryBuilder = queryBuilder;
+		_queryBuilder = queryBuilder;
 		_t      = t;
 	}
 
@@ -48,7 +48,6 @@ internal class ImmediateBulkFetchService : IBulkFetchService
 		ModelsWithPagination<DiscosModelBase> res;
 		while ((res = await _discosClient.GetMultipleWithPaginationState(_t, GetQueryString(pageNum++))).Models.Count > 0)
 		{
-			Console.WriteLine($"Received: {res.Models.Count}"); // TODO - Remove
 			allResults.AddRange(res.Models);
 			DownloadStatusChanged?.Invoke(this, new()
 												{
@@ -61,9 +60,8 @@ internal class ImmediateBulkFetchService : IBulkFetchService
 	
 	private string GetQueryString(int pageNum)
 	{
-		QueryBuilder.AddPageNum(pageNum);
-		QueryBuilder.AddPageSize(MaxPageSize);
-		Console.WriteLine(QueryBuilder.Build()); // TODO - Remove
-		return QueryBuilder.Build();
+		_queryBuilder.AddPageNum(pageNum);
+		_queryBuilder.AddPageSize(MaxPageSize);
+		return _queryBuilder.Build();
 	}
 }
