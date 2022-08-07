@@ -71,8 +71,8 @@ public static class DependencyInjectionExtensions
 		IConfigurationBuilder builder = new ConfigurationBuilder()
 		   .AddInMemoryCollection(new Dictionary<string, string>
 								  {
-									  { "DiscosOptions:DiscosApiKey", apiUrl},
-									  { "DiscosOptions:DiscosApiUrl", apiKey}
+									  { "DiscosOptions:DiscosApiKey", apiKey},
+									  { "DiscosOptions:DiscosApiUrl", apiUrl}
 								  });
 
 		return builder.Build();
