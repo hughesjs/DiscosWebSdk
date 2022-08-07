@@ -50,9 +50,15 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: PackedLib
-        path: ./*.nupkg
-
-
+        path: ./*.nupkg    
+    - name: Create Debug Symbols Package
+      run: dotnet build ./src/DiscosWebSdk/DiscosWebSdk/DiscosWebSdk.csproj && dotnet pack -p:PackageVersion=${{ steps.tag_version.outputs.new_version }} -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg -o . ./src/DiscosWebSdk/DiscosWebSdk/DiscosWebSdk.csproj
+    - name: Upload Debug Symbols for Publishing
+      uses: actions/upload-artifact@v3
+      with:
+        name: PackedSymbols
+        path: ./*.snupkg
+        
   github-publish:
     needs: semantic-release
     name: Publish to Github
@@ -69,7 +75,6 @@ jobs:
     - name: Push Package to GitHub
       run: dotnet nuget push --api-key ${{secrets.GITHUB_TOKEN}} --source "https://nuget.pkg.github.com/hughesjs/index.json" *.nupkg
 
-
   nuget-publish:
     needs: semantic-release
     name: Publish to Nuget
@@ -85,3 +90,36 @@ jobs:
         dotnet-version: 6.0.x
     - name: Push Package to Nuget
       run: dotnet nuget push --api-key ${{secrets.NUGET_KEY}} --source "https://api.nuget.org/v3/index.json" *.nupkg
+      
+  nuget-publish-symbols:
+    needs: semantic-release
+    name: Publish Debug Symbols to Nuget
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download built project
+        uses: actions/download-artifact@v3
+        with:
+          name: PackedSymbols
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.x
+      - name: Push Symbols to Nuget
+        run: dotnet nuget push --api-key ${{secrets.NUGET_KEY}} --source "https://api.nuget.org/v3/index.json" *.snupkg
+        
+  github-publish-symbols:
+    needs: semantic-release
+    name: Publish Debug Symbols to Github
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download built project
+        uses: actions/download-artifact@v3
+        with:
+          name: PackedSymbols
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.x
+      - name: Push Package to GitHub
+        run: dotnet nuget push --api-key ${{secrets.GITHUB_TOKEN}} --source "https://nuget.pkg.github.com/hughesjs/index.json" *.snupkg
+
