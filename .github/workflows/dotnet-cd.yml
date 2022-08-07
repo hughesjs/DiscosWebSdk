@@ -50,8 +50,13 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: PackedLib
-        path: ./*.nupkg    
-        
+        path: ./*.nupkg
+    - name: Upload Symbols for Publishing
+      uses: actions/upload-artifact@v3
+      with:
+        name: PackedSymbols
+        path: ./*.snupkg
+  
   github-publish:
     needs: semantic-release
     name: Publish to Github
@@ -61,6 +66,10 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: PackedLib
+    - name: Download packed Symbols
+      uses: actions/download-artifact@v3
+      with:
+        name: PackedSymbols
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
@@ -77,6 +86,10 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: PackedLib
+    - name: Download packed Symbols
+      uses: actions/download-artifact@v3
+      with:
+        name: PackedSymbols
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
