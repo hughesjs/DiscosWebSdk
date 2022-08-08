@@ -10,14 +10,11 @@ namespace DiscosWebSdk.Services.BulkFetching;
 // The recommended way to do this is with Polly (see the DI Extensions)
 internal class ImmediateBulkFetchService<T>: ImmediateBulkFetchService, IBulkFetchService<T> where T: DiscosModelBase
 {
-	public ImmediateBulkFetchService(IDiscosClient discosClient, IDiscosQueryBuilder queryBuilder): base(discosClient, queryBuilder, typeof(T))
-	{
+	public ImmediateBulkFetchService(IDiscosClient discosClient, IDiscosQueryBuilder queryBuilder): base(discosClient, queryBuilder) { }
 
-	}
-
-	public new async Task<List<T>> GetAll()
+	public async Task<List<T>> GetAll()
 	{
-		List<DiscosModelBase> res = await base.GetAll();
+		List<DiscosModelBase> res = await base.GetAll(typeof(T));
 		return res.Cast<T>().ToList();
 	}
 }
@@ -32,21 +29,19 @@ internal class ImmediateBulkFetchService : IBulkFetchService
 
 	private readonly IDiscosClient       _discosClient;
 	private readonly IDiscosQueryBuilder _queryBuilder;
-	private readonly Type                _t;
 
-	public ImmediateBulkFetchService(IDiscosClient discosClient, IDiscosQueryBuilder queryBuilder, Type t)
+	public ImmediateBulkFetchService(IDiscosClient discosClient, IDiscosQueryBuilder queryBuilder)
 	{
 		_discosClient = discosClient;
 		_queryBuilder = queryBuilder;
-		_t      = t;
 	}
 
-	public async Task<List<DiscosModelBase>> GetAll()
+	public async Task<List<DiscosModelBase>> GetAll(Type t)
 	{
 		List<DiscosModelBase>                 allResults = new();
 		int                                   pageNum    = 1;
 		ModelsWithPagination<DiscosModelBase> res;
-		while ((res = await _discosClient.GetMultipleWithPaginationState(_t, GetQueryString(pageNum++))).Models.Count > 0)
+		while ((res = await _discosClient.GetMultipleWithPaginationState(t, GetQueryString(pageNum++))).Models.Count > 0)
 		{
 			allResults.AddRange(res.Models);
 			DownloadStatusChanged?.Invoke(this, new()

@@ -47,11 +47,11 @@ public class ImmediateBulkFetchServiceTests
 	public async Task CanGetAllOfEverything(Type objectType, string _)
 	{
 		int                       pagesFetched = 0;
-		ImmediateBulkFetchService service      = new(_discosClient, new DiscosQueryBuilder(), objectType);
+		ImmediateBulkFetchService service      = new(_discosClient, new DiscosQueryBuilder());
 		service.DownloadStatusChanged += (_, _) => pagesFetched++;
 		
 
-		List<DiscosModelBase> res = await service.GetAll();
+		List<DiscosModelBase> res = await service.GetAll(objectType);
 
 		// TODO - Fill this out
 		int pagesLowerBound = Activator.CreateInstance(objectType) switch
