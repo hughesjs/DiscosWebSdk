@@ -174,6 +174,7 @@ public class TypeExtensionsTests
 	[InlineData(typeof(float),                                  false)]
 	[InlineData(typeof(decimal),                                false)]
 	[InlineData(typeof(double),                                 false)]
+	[InlineData(typeof(OrbitDetails),                           false)]
 	[InlineData(typeof(DiscosModelBase),                        false)]
 	[InlineData(typeof(IReadOnlyList<string>),                  false)]
 	[InlineData(typeof(IReadOnlyList<object>),                  false)]
