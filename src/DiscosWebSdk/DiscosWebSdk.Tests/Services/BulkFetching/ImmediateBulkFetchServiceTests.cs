@@ -27,7 +27,7 @@ public class ImmediateBulkFetchServiceTests
 	private readonly string        _apiBase = Environment.GetEnvironmentVariable("DISCOS_API_URL") ?? "https://discosweb.esoc.esa.int/api/";
 	private readonly IDiscosClient _discosClient;
 
-	private static readonly List<TimeSpan>                        RetrySpans  = new[] {1, 2, 5, 10, 30, 60, 60, 60}.Select(i => TimeSpan.FromSeconds(i)).ToList();
+	private static readonly List<TimeSpan>                        RetrySpans  = new[] {1, 2, 5, 10, 30, 60, 60, 60, 60, 60, 60, 60, 60, 60}.Select(i => TimeSpan.FromSeconds(i)).ToList();
 	private static readonly AsyncRetryPolicy<HttpResponseMessage> RetryPolicy = HttpPolicyExtensions.HandleTransientHttpError().OrResult(res => res.StatusCode is HttpStatusCode.TooManyRequests).WaitAndRetryAsync(RetrySpans);
 
 	public ImmediateBulkFetchServiceTests()
@@ -47,11 +47,11 @@ public class ImmediateBulkFetchServiceTests
 	public async Task CanGetAllOfEverything(Type objectType, string _)
 	{
 		int                       pagesFetched = 0;
-		ImmediateBulkFetchService service      = new(_discosClient, new DiscosQueryBuilder(), objectType);
+		ImmediateBulkFetchService service      = new(_discosClient, new DiscosQueryBuilder());
 		service.DownloadStatusChanged += (_, _) => pagesFetched++;
 		
 
-		List<DiscosModelBase> res = await service.GetAll();
+		List<DiscosModelBase> res = await service.GetAll(objectType);
 
 		// TODO - Fill this out
 		int pagesLowerBound = Activator.CreateInstance(objectType) switch

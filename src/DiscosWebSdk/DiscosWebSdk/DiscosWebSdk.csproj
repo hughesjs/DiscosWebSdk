@@ -18,12 +18,21 @@
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     </PropertyGroup>
 
+    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    </PropertyGroup>
+
     <ItemGroup>
         <PackageReference Include="AutoFixture" Version="4.17.0" />
         <PackageReference Include="EnumExtensions.System.Text.Json" Version="1.1.0" />
         <PackageReference Include="Hughesjs.Hypermedia.Core" Version="3.1.2" />
         <PackageReference Include="Hughesjs.Hypermedia.JsonApi.Client" Version="3.1.2" />
         <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
@@ -33,6 +42,10 @@
         <PackageReference Include="EnumExtensions.System.Text.Json" Version="1.1.0" />
         <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
         <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="Polly.Extensions.Http" Version="3.0.0" />
     </ItemGroup>
 
@@ -44,6 +57,7 @@
     </ItemGroup>
 
     <ItemGroup>
+
         <Folder Include="Exceptions\DataStructures" />
     </ItemGroup>
 

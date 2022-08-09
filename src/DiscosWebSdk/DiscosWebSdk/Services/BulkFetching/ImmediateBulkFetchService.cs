@@ -10,14 +10,11 @@ namespace DiscosWebSdk.Services.BulkFetching;
 // The recommended way to do this is with Polly (see the DI Extensions)
 internal class ImmediateBulkFetchService<T>: ImmediateBulkFetchService, IBulkFetchService<T> where T: DiscosModelBase
 {
-	public ImmediateBulkFetchService(IDiscosClient discosClient, IDiscosQueryBuilder queryBuilder): base(discosClient, queryBuilder, typeof(T))
-	{
+	public ImmediateBulkFetchService(IDiscosClient discosClient, IDiscosQueryBuilder queryBuilder): base(discosClient, queryBuilder) { }
 
-	}
-
-	public new async Task<List<T>> GetAll()
+	public async Task<List<T>> GetAll()
 	{
-		List<DiscosModelBase> res = await base.GetAll();
+		List<DiscosModelBase> res = await base.GetAll(typeof(T));
 		return res.Cast<T>().ToList();
 	}
 }
@@ -31,24 +28,21 @@ internal class ImmediateBulkFetchService : IBulkFetchService
 
 
 	private readonly IDiscosClient       _discosClient;
-	private readonly IDiscosQueryBuilder QueryBuilder;
-	private readonly Type                _t;
+	private readonly IDiscosQueryBuilder _queryBuilder;
 
-	public ImmediateBulkFetchService(IDiscosClient discosClient, IDiscosQueryBuilder queryBuilder, Type t)
+	public ImmediateBulkFetchService(IDiscosClient discosClient, IDiscosQueryBuilder queryBuilder)
 	{
 		_discosClient = discosClient;
-		QueryBuilder = queryBuilder;
-		_t      = t;
+		_queryBuilder = queryBuilder;
 	}
 
-	public async Task<List<DiscosModelBase>> GetAll()
+	public async Task<List<DiscosModelBase>> GetAll(Type t)
 	{
 		List<DiscosModelBase>                 allResults = new();
 		int                                   pageNum    = 1;
 		ModelsWithPagination<DiscosModelBase> res;
-		while ((res = await _discosClient.GetMultipleWithPaginationState(_t, GetQueryString(pageNum++))).Models.Count > 0)
+		while ((res = await _discosClient.GetMultipleWithPaginationState(t, GetQueryString(pageNum++))).Models.Count > 0)
 		{
-			Console.WriteLine($"Received: {res.Models.Count}"); // TODO - Remove
 			allResults.AddRange(res.Models);
 			DownloadStatusChanged?.Invoke(this, new()
 												{
@@ -61,9 +55,8 @@ internal class ImmediateBulkFetchService : IBulkFetchService
 	
 	private string GetQueryString(int pageNum)
 	{
-		QueryBuilder.AddPageNum(pageNum);
-		QueryBuilder.AddPageSize(MaxPageSize);
-		Console.WriteLine(QueryBuilder.Build()); // TODO - Remove
-		return QueryBuilder.Build();
+		_queryBuilder.AddPageNum(pageNum);
+		_queryBuilder.AddPageSize(MaxPageSize);
+		return _queryBuilder.Build();
 	}
 }

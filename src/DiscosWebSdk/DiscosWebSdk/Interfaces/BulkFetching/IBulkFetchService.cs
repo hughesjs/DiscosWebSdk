@@ -11,5 +11,5 @@ public interface IBulkFetchService<T> : IBulkFetchService  where T : DiscosModel
 public interface IBulkFetchService
 {
 	public EventHandler<DownloadStatus>? DownloadStatusChanged { get; set; }
-	public Task<List<DiscosModelBase>> GetAll();
+	public Task<List<DiscosModelBase>> GetAll(Type t);
 }
