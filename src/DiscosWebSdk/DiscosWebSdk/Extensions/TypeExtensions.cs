@@ -1,4 +1,5 @@
 using DiscosWebSdk.Models.ResponseModels;
+using DiscosWebSdk.Models.ResponseModels.Entities;
 using DiscosWebSdk.Models.ResponseModels.Orbits;
 
 namespace DiscosWebSdk.Extensions;
@@ -7,7 +8,7 @@ public static class TypeExtensions
 {
 	public static bool IsDiscosModel(this Type t, bool includeBase = false)
 	{
-		if (t == typeof(DiscosModelBase) || t == typeof(OrbitDetails)) return includeBase;
+		if (t == typeof(DiscosModelBase) || t == typeof(OrbitDetails) || t == typeof(Entity)) return includeBase;
 
 		if (t.IsAssignableTo(typeof(DiscosModelBase))) return true;
 
