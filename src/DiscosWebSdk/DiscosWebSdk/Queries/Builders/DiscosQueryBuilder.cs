@@ -11,7 +11,7 @@ using DiscosWebSdk.Queries.Filters.FilterTree;
 
 namespace DiscosWebSdk.Queries.Builders;
 
-internal class DiscosQueryBuilder<TObject> : DiscosQueryBuilder, IDiscosQueryBuilder<TObject>
+internal class DiscosQueryBuilder<TObject> : DiscosQueryBuilder, IDiscosQueryBuilder<TObject> where TObject : notnull
 {
 
 
@@ -61,19 +61,19 @@ internal class DiscosQueryBuilder<TObject> : DiscosQueryBuilder, IDiscosQueryBui
 		return this;
 	}
 
-	public new IDiscosQueryBuilder<TObject> AddPageSize(int numPages)
+	public override IDiscosQueryBuilder<TObject> AddPageSize(int numPages)
 	{
 		base.AddPageSize(numPages);
 		return this;
 	}
 
-	public new IDiscosQueryBuilder<TObject> AddPageNum(int pageNum)
+	public override IDiscosQueryBuilder<TObject> AddPageNum(int pageNum)
 	{
 		base.AddPageNum(pageNum);
 		return this;
 	}
 
-	public new IDiscosQueryBuilder<TObject> Reset()
+	public sealed override IDiscosQueryBuilder<TObject> Reset()
 	{
 		base.Reset();
 		return this;
@@ -84,39 +84,26 @@ internal class DiscosQueryBuilder<TObject> : DiscosQueryBuilder, IDiscosQueryBui
 	public override string Build()
 	{
 		bool firstDone = false;
-
-		void AddJoiningChar(StringBuilder builder)
-		{
-			if (firstDone)
-			{
-				builder.Append('&');
-			}
-			else
-			{
-				firstDone = true;
-				builder.Append('?');
-			}
-		}
-
+		
 		StringBuilder builder = new();
 		if (!FilterTree.IsEmpty)
 		{
-			AddJoiningChar(builder);
+			AddJoiningChar(builder, ref firstDone);
 			AddFilterString(builder);
 		}
 		if (Includes.Count > 0)
 		{
-			AddJoiningChar(builder);
+			AddJoiningChar(builder, ref firstDone);
 			AddIncludeString(builder);
 		}
 		if (NumPages is not null)
 		{
-			AddJoiningChar(builder);
+			AddJoiningChar(builder, ref firstDone);
 			AddNumPagesString(builder);
 		}
 		if (PageNum is not null)
 		{
-			AddJoiningChar(builder);
+			AddJoiningChar(builder, ref firstDone);
 			AddPageNumberString(builder);
 		}
 		return builder.ToString();
@@ -168,19 +155,19 @@ internal class DiscosQueryBuilder : IDiscosQueryBuilder
 	}
 	
 	
-	public IDiscosQueryBuilder AddPageSize(int numPages)
+	public virtual IDiscosQueryBuilder AddPageSize(int numPages)
 	{
 		NumPages = numPages;
 		return this;
 	}
 	
-	public IDiscosQueryBuilder AddPageNum(int pageNum)
+	public virtual IDiscosQueryBuilder AddPageNum(int pageNum)
 	{
 		PageNum = pageNum;
 		return this;
 	}
 
-	public IDiscosQueryBuilder Reset()
+	public virtual IDiscosQueryBuilder Reset()
 	{
 		FilterTree = new();
 		Includes   = new();
@@ -193,33 +180,33 @@ internal class DiscosQueryBuilder : IDiscosQueryBuilder
 	{
 		bool firstDone = false;
 
-		void AddJoiningChar(StringBuilder builder)
-		{
-			if (firstDone)
-			{
-				builder.Append('&');
-			}
-			else
-			{
-				firstDone = true;
-				builder.Append('?');
-			}
-		}
-
 		StringBuilder builder = new();
 		
 		if (NumPages is not null)
 		{
-			AddJoiningChar(builder);
+			AddJoiningChar(builder, ref firstDone);
 			AddNumPagesString(builder);
 		}
 		
 		if (PageNum is not null)
 		{
-			AddJoiningChar(builder);
+			AddJoiningChar(builder, ref firstDone);
 			AddPageNumberString(builder);
 		}
 
 		return builder.ToString();
+	}
+	
+	protected void AddJoiningChar(StringBuilder builder, ref bool firstDone)
+	{
+		if (firstDone)
+		{
+			builder.Append('&');
+		}
+		else
+		{
+			firstDone = true;
+			builder.Append('?');
+		}
 	}
 }
