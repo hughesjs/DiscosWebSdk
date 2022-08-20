@@ -13,6 +13,7 @@ using DiscosWebSdk.Queries.Builders;
 using DiscosWebSdk.Services.BulkFetching;
 using DiscosWebSdk.Tests.Misc;
 using DiscosWebSdk.Tests.TestDataGenerators;
+using Microsoft.Extensions.Logging.Abstractions;
 using Polly;
 using Polly.Extensions.Http;
 using Polly.Retry;
@@ -47,7 +48,7 @@ public class ImmediateBulkFetchServiceTests
 	public async Task CanGetAllOfEverything(Type objectType, string _)
 	{
 		int                       pagesFetched = 0;
-		ImmediateBulkFetchService service      = new(_discosClient, new DiscosQueryBuilder());
+		ImmediateBulkFetchService service      = new(_discosClient, new DiscosQueryBuilder(), NullLogger<ImmediateBulkFetchService>.Instance);
 		service.DownloadStatusChanged += (_, _) => pagesFetched++;
 		
 
