@@ -38,7 +38,7 @@ public class ImmediateBulkFetchServiceTests
 		innerClient.Timeout                             = TimeSpan.FromMinutes(20);
 		innerClient.BaseAddress                         = new(_apiBase);
 		innerClient.DefaultRequestHeaders.Authorization = new("bearer", Environment.GetEnvironmentVariable("DISCOS_API_KEY"));
-		_discosClient                                   = new DiscosClient(innerClient);
+		_discosClient                                   = new DiscosClient(innerClient, NullLogger<DiscosClient>.Instance);
 	}
 
 	
