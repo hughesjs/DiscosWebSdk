@@ -135,3 +135,4 @@ Please make sure to update tests as appropriate.
 If you use this SDK, we'd love to shout about it! Please add your project and a very short description to this list:
 
 - [DISCOS GROOVE (Data Analysis and Graphing)](https://github.com/hughesjs/DiscosGroove)
+- [DISCOS Extractor (Bulk Data Fetching)](https://github.com/hughesjs/DiscosExtractor)
