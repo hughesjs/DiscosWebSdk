@@ -1,3 +1,5 @@
+using DiscosWebSdk.Exceptions;
+using DiscosWebSdk.Extensions;
 using DiscosWebSdk.Interfaces.BulkFetching;
 using DiscosWebSdk.Interfaces.Clients;
 using DiscosWebSdk.Interfaces.Queries;
@@ -13,9 +15,9 @@ internal class ImmediateBulkFetchService<T>: ImmediateBulkFetchService, IBulkFet
 {
 	public ImmediateBulkFetchService(IDiscosClient discosClient, IDiscosQueryBuilder queryBuilder, ILogger<ImmediateBulkFetchService<T>> logger): base(discosClient, queryBuilder, logger) { }
 
-	public async Task<List<T>> GetAll()
+	public async Task<List<T>> GetAll(bool includeLinks = false)
 	{
-		List<DiscosModelBase> res = await base.GetAll(typeof(T));
+		List<DiscosModelBase> res = await base.GetAll(typeof(T), includeLinks);
 		return res.Cast<T>().ToList();
 	}
 }
@@ -39,13 +41,13 @@ internal class ImmediateBulkFetchService : IBulkFetchService
 		_queryBuilder = queryBuilder;
 	}
 
-	public async Task<List<DiscosModelBase>> GetAll(Type t)
+	public async Task<List<DiscosModelBase>> GetAll(Type t, bool includeLinks = false)
 	{
 		_logger.LogInformation("Beginning to fetch all {ObjectType} from DISCOSweb", t.Name);
 		List<DiscosModelBase>                 allResults = new();
 		int                                   pageNum    = 1;
 		ModelsWithPagination<DiscosModelBase> res;
-		while ((res = await _discosClient.GetMultipleWithPaginationState(t, GetQueryString(pageNum++))).Models.Count > 0)
+		while ((res = await _discosClient.GetMultipleWithPaginationState(t, GetQueryString(pageNum++, includeLinks, t))).Models.Count > 0)
 		{
 			allResults.AddRange(res.Models);
 			int totalDownloadedSoFar = (res.PaginationDetails.CurrentPage - 1) * res.PaginationDetails.PageSize;
@@ -60,8 +62,17 @@ internal class ImmediateBulkFetchService : IBulkFetchService
 		return allResults;
 	}
 	
-	private string GetQueryString(int pageNum)
+	private string GetQueryString(int pageNum, bool includeLinks, Type t)
 	{
+		if (includeLinks)
+		{
+			if (!t.IsDiscosModel())
+			{
+				throw new NotDiscosTypeException(t);
+			}
+			_queryBuilder.AddAllIncludes(t);
+		}
+		
 		_queryBuilder.AddPageNum(pageNum);
 		_queryBuilder.AddPageSize(MaxPageSize);
 		string queryString = _queryBuilder.Build();
