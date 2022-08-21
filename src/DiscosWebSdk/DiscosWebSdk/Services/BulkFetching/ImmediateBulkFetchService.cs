@@ -55,8 +55,8 @@ internal class ImmediateBulkFetchService : IBulkFetchService
 			_logger.LogDebug("Downloaded {Downloaded} of {Total} {ObjectType}", totalDownloadedSoFar, totalNumberToFetch, t.Name);
 			DownloadStatusChanged?.Invoke(this, new()
 												{
-													Downloaded = totalNumberToFetch,
-													Total      = totalDownloadedSoFar
+													Downloaded = totalDownloadedSoFar,
+													Total      = totalNumberToFetch
 												});
 		}
 		return allResults;
