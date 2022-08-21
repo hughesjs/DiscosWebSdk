@@ -13,15 +13,6 @@ namespace DiscosWebSdk.Queries.Builders;
 
 internal class DiscosQueryBuilder<TObject> : DiscosQueryBuilder, IDiscosQueryBuilder<TObject> where TObject : notnull
 {
-
-
-	public DiscosQueryBuilder()
-	{
-		FilterTree = new();
-		Includes   = new();
-		Reset();
-	}
-
 	public IDiscosQueryBuilder<TObject> AddFilter(FilterDefinition filterDefinition)
 	{
 		if (filterDefinition.GetType().GetGenericArguments().First() != typeof(TObject))
@@ -54,10 +45,7 @@ internal class DiscosQueryBuilder<TObject> : DiscosQueryBuilder, IDiscosQueryBui
 
 	public IDiscosQueryBuilder<TObject> AddAllIncludes()
 	{
-		IEnumerable<PropertyInfo> props = typeof(TObject).GetProperties()
-														 .Where(p => p.PropertyType.IsAssignableTo(typeof(DiscosModelBase)) ||
-																	 (p.PropertyType.GetGenericArguments().FirstOrDefault()?.IsAssignableTo(typeof(DiscosModelBase)) ?? false));
-		props.ToList().ForEach(p => AddInclude(p.Name));
+		base.AddAllIncludes(typeof(TObject));
 		return this;
 	}
 
@@ -144,6 +132,14 @@ internal class DiscosQueryBuilder : IDiscosQueryBuilder
 	protected int?         NumPages;
 	protected int?         PageNum;
 
+	public DiscosQueryBuilder()
+	{
+		FilterTree = new();
+		Includes   = new();
+		NumPages = null;
+		PageNum = null;
+	}
+
 	private void AddPageNumberString(StringBuilder builder)
 	{
 		builder.Append($"page[number]={PageNum}");
@@ -173,6 +169,22 @@ internal class DiscosQueryBuilder : IDiscosQueryBuilder
 		Includes   = new();
 		NumPages   = null;
 		PageNum    = null;
+		return this;
+	}
+	
+	public IDiscosQueryBuilder AddAllIncludes(Type t)
+	{
+		IEnumerable<PropertyInfo> props = t.GetProperties()
+			.Where(p => p.PropertyType.IsAssignableTo(typeof(DiscosModelBase)) ||
+			            (p.PropertyType.GetGenericArguments().FirstOrDefault()?.IsAssignableTo(typeof(DiscosModelBase)) ?? false));
+		props.ToList().ForEach(p => AddInclude(t, p.Name));
+		return this;
+	}
+	
+	public IDiscosQueryBuilder AddInclude(Type t, string fieldName)
+	{
+		t.EnsureFieldExists(fieldName);
+		Includes.Add(AttributeUtilities.GetJsonPropertyName(t, fieldName));
 		return this;
 	}
 
