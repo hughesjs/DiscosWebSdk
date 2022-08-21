@@ -12,6 +12,7 @@ using DiscosWebSdk.Models.ResponseModels;
 using DiscosWebSdk.Models.ResponseModels.Entities;
 using DiscosWebSdk.Tests.Misc;
 using DiscosWebSdk.Tests.TestDataGenerators;
+using Microsoft.Extensions.Logging.Abstractions;
 using Polly;
 using Polly.Extensions.Http;
 using Polly.Retry;
@@ -35,7 +36,7 @@ public class DiscosClientTests
 		
 		innerClient.BaseAddress                         = new(_apiBase);
 		innerClient.DefaultRequestHeaders.Authorization = new("bearer", Environment.GetEnvironmentVariable("DISCOS_API_KEY"));
-		_discosClient                                   = new DiscosClient(innerClient);
+		_discosClient                                   = new DiscosClient(innerClient, NullLogger<DiscosClient>.Instance);
 	}
 
 	[Theory]
