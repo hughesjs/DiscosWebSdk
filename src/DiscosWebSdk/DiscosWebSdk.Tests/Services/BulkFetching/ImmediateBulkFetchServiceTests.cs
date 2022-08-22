@@ -64,7 +64,7 @@ public class ImmediateBulkFetchServiceTests
 
 	
 	
-	[Theory()]
+	[Theory(Skip = "Skipped because this takes ages")]
 	[ClassData(typeof(DiscosModelTypesTestDataGenerator))]
 	public async Task CanGetAllOfEverything(Type objectType, string _)
 	{
@@ -91,7 +91,7 @@ public class ImmediateBulkFetchServiceTests
 								  InitialOrbitDetails => 453,
 								  DestinationOrbitDetails => 99,
 								  FragmentationEvent => 7,
-								  Country => 1,
+			//					  Country => 1,
 								  Organisation => 1,
 								  _ => 1
 							  };

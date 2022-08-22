@@ -67,14 +67,14 @@ public class DiscosClientTests
 		MethodInfo getMultiple              = unconstructedGetSingle.MakeGenericMethod(objectType);
 
 		IReadOnlyList<DiscosModelBase?>? result;
-		if (objectType == typeof(Country)) // No countries on first page of entities...
-		{
-			result = (IReadOnlyList<DiscosModelBase?>?)await getMultiple.InvokeAsync(_discosClient, "?filter=contains(name,'United')");
-		}
-		else 
-		{
+		// if (objectType == typeof(Country)) // No countries on first page of entities...
+		// {
+		// 	result = (IReadOnlyList<DiscosModelBase?>?)await getMultiple.InvokeAsync(_discosClient, "?filter=contains(name,'United')");
+		// }
+		// else 
+		// {
 			result = (IReadOnlyList<DiscosModelBase?>?)await getMultiple.InvokeAsync(_discosClient, string.Empty);
-		}
+		//}
 		result.ShouldNotBeNull();
 		result.Count.ShouldBeGreaterThan(1);
 		result.ShouldAllBe(r => r.GetType().IsAssignableTo(typeof(DiscosModelBase)));
@@ -89,14 +89,14 @@ public class DiscosClientTests
 		MethodInfo getMultiple              = unconstructedGetSingle.MakeGenericMethod(objectType);
 
 		ModelsWithPagination result;
-		if (objectType == typeof(Country)) // No countries on first page of entities...
-		{
-			result = (ModelsWithPagination)(await getMultiple.InvokeAsync(_discosClient, "?filter=contains(name,'United')"))!;
-		}
-		else 
-		{
+		// if (objectType == typeof(Country)) // No countries on first page of entities...
+		// {
+		// 	result = (ModelsWithPagination)(await getMultiple.InvokeAsync(_discosClient, "?filter=contains(name,'United')"))!;
+		// }
+		// else 
+		// {
 			result = (ModelsWithPagination)(await getMultiple.InvokeAsync(_discosClient, string.Empty))!;
-		}
+		//}
 		
 		result.Models.ShouldNotBeNull();
 		result.Models.Count.ShouldBeGreaterThan(1);
@@ -113,14 +113,14 @@ public class DiscosClientTests
 	public async Task CanGetMultipleOfEveryTypeWithoutQueryParamsNonGeneric(Type objectType, string _)
 	{
 		IReadOnlyList<DiscosModelBase?>? res; 
-		if (objectType == typeof(Country)) // No countries on first page of entities...
-		{
-			res    = await _discosClient.GetMultiple(objectType, "?filter=contains(name,'United')");
-		}
-		else 
-		{
+		// if (objectType == typeof(Country)) // No countries on first page of entities...
+		// {
+		// 	res    = await _discosClient.GetMultiple(objectType, "?filter=contains(name,'United')");
+		// }
+		// else 
+		// {
 			res = await _discosClient.GetMultiple(objectType);
-		}
+		//}
 		res.ShouldNotBeNull();
 		res.Count.ShouldBeGreaterThan(1);
 		res.ShouldAllBe(r => r.GetType().IsAssignableTo(typeof(DiscosModelBase)));
@@ -131,14 +131,14 @@ public class DiscosClientTests
 	public async Task CanGetMultipleOfEveryTypeWithPaginationWithoutQueryParamsNonGeneric(Type objectType, string _)
 	{
 		ModelsWithPagination res; 
-		if (objectType == typeof(Country)) // No countries on first page of entities...
-		{
-			res = await _discosClient.GetMultipleWithPaginationState(objectType, "?filter=contains(name,'United')");
-		}
-		else 
-		{
+		// if (objectType == typeof(Country)) // No countries on first page of entities...
+		// {
+		// 	res = await _discosClient.GetMultipleWithPaginationState(objectType, "?filter=contains(name,'United')");
+		// }
+		// else 
+		// {
 			res = await _discosClient.GetMultipleWithPaginationState(objectType);
-		}
+		//}
 		res.Models.ShouldNotBeNull();
 		res.Models.Count.ShouldBeGreaterThan(1);
 		res.Models.ShouldAllBe(r => r.GetType().IsAssignableTo(typeof(DiscosModelBase)));
