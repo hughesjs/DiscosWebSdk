@@ -64,6 +64,7 @@ internal class ImmediateBulkFetchService : IBulkFetchService
 	
 	private string GetQueryString(int pageNum, bool includeLinks, Type t)
 	{
+		_queryBuilder.Reset();
 		if (includeLinks)
 		{
 			if (!t.IsDiscosModel())
