@@ -32,10 +32,10 @@ namespace DiscosWebSdk.Tests.Services.BulkFetching;
 public class ImmediateBulkFetchServiceTests
 {
 	private readonly string        _apiBase = Environment.GetEnvironmentVariable("DISCOS_API_URL") ?? "https://discosweb.esoc.esa.int/api/";
-	private readonly IDiscosClient _discosClient;
 
 	private static readonly List<TimeSpan>                        RetrySpans  = new[] {1, 2, 5, 10, 30, 60, 60, 60, 60, 60, 60, 60, 60, 60}.Select(i => TimeSpan.FromSeconds(i)).ToList();
 	private static readonly AsyncRetryPolicy<HttpResponseMessage> RetryPolicy = HttpPolicyExtensions.HandleTransientHttpError().OrResult(res => res.StatusCode is HttpStatusCode.TooManyRequests).WaitAndRetryAsync(RetrySpans);
+	private readonly ImmediateBulkFetchService _service;
 
 	public ImmediateBulkFetchServiceTests()
 	{
@@ -44,21 +44,35 @@ public class ImmediateBulkFetchServiceTests
 		innerClient.Timeout                             = TimeSpan.FromMinutes(20);
 		innerClient.BaseAddress                         = new(_apiBase);
 		innerClient.DefaultRequestHeaders.Authorization = new("bearer", Environment.GetEnvironmentVariable("DISCOS_API_KEY"));
-		_discosClient                                   = new DiscosClient(innerClient, NullLogger<DiscosClient>.Instance);
+		IDiscosClient discosClient = new DiscosClient(innerClient, NullLogger<DiscosClient>.Instance);
+		_service = new(discosClient, new DiscosQueryBuilder(), NullLogger<ImmediateBulkFetchService>.Instance);
+	}
+
+	// Added because of a bug where the query builder wasn't being reset
+	[Fact]
+	public async Task CanFetchAllOfSomeSmallerTypesSequentially()
+	{
+		List<Type> types = new()
+			{ typeof(Propellant), typeof(LaunchVehicleFamily), typeof(LaunchSite), typeof(LaunchVehicleStage) };
+
+		foreach (Type t in types)
+		{
+			List<DiscosModelBase> res = await _service.GetAll(t);
+			res.Count.ShouldBeGreaterThan(10);
+		}
 	}
 
 	
 	
-	[Theory(Skip = "Takes forever to run on the real API due to rate limits.")]
+	[Theory()]
 	[ClassData(typeof(DiscosModelTypesTestDataGenerator))]
 	public async Task CanGetAllOfEverything(Type objectType, string _)
 	{
 		int                       pagesFetched = 0;
-		ImmediateBulkFetchService service      = new(_discosClient, new DiscosQueryBuilder(), NullLogger<ImmediateBulkFetchService>.Instance);
-		service.DownloadStatusChanged += (_, _) => pagesFetched++;
+		_service.DownloadStatusChanged += (_, _) => pagesFetched++;
 		
 
-		List<DiscosModelBase> res = await service.GetAll(objectType);
+		List<DiscosModelBase> res = await _service.GetAll(objectType, true);
 
 		// Accurate as of 2022-08-21, realistically, these should only increase
 		int pagesLowerBound = Activator.CreateInstance(objectType) switch
