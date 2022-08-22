@@ -1,3 +1,3 @@
 namespace DiscosWebSdk.Models.ResponseModels.Entities;
 
-public record Country : Entity { }
+//public record Country : Entity { }

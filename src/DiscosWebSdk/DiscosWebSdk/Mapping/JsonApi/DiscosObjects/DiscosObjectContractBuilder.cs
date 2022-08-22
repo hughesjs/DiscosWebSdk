@@ -22,8 +22,8 @@ internal static class DiscosObjectContractBuilder
 
 		return builder.With<DiscosObject>("object")
 					  .Id(nameof(DiscosObject.Id))
-					  .HasMany<Country>(AttributeUtilities.GetJsonPropertyName<DiscosObject>(nameof(DiscosObject.States)))
-					  .Template(countryLinkTemplate, objectIdFieldName, IdSelector)
+					  //.HasMany<Country>(AttributeUtilities.GetJsonPropertyName<DiscosObject>(nameof(DiscosObject.States)))
+					  //.Template(countryLinkTemplate, objectIdFieldName, IdSelector)
 					  .HasMany<DestinationOrbitDetails>(AttributeUtilities.GetJsonPropertyName<DiscosObject>(nameof(DiscosObject.DestinationOrbits)))
 					  .Template(destinationOrbitsLinkTemplate, objectIdFieldName, IdSelector)
 					  .HasMany<InitialOrbitDetails>(AttributeUtilities.GetJsonPropertyName<DiscosObject>(nameof(DiscosObject.InitialOrbits)))

@@ -18,7 +18,7 @@ internal static class DiscosObjectResolver
 	internal static IContractResolver CreateResolver() =>
 		new Builder()
 		   .WithDiscosObject()
-		   .WithCountry()
+		   //.WithCountry()
 		   .WithOrganisation()
 		   .WithFragmentationEvent()
 		   .WithLaunch()
