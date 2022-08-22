@@ -5,6 +5,6 @@ namespace DiscosWebSdk.Models.ResponseModels.Entities;
 public record Organisation : Entity
 {
 
-	// [JsonPropertyName("hostCountry")]
-	// public Country? HostCountry { get; init; }
+	[JsonPropertyName("hostCountry")]
+	public Country? HostCountry { get; init; }
 }

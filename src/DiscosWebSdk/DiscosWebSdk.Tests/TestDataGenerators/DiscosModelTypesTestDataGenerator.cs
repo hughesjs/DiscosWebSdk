@@ -20,7 +20,7 @@ public class    DiscosModelTypesTestDataGenerator : IEnumerable<object[]>
 													 {
 														 {typeof(DiscosObject), "1"},
 														 {typeof(DiscosObjectClass), "6a6527d6-efbb-5500-abe3-594ac23d04ed"},
-						//								 {typeof(Country), "258"},
+														 {typeof(Country), "258"},
 														 {typeof(Organisation), "1699"},
 														 {typeof(Entity), "1"},
 														 {typeof(FragmentationEvent), "86"},

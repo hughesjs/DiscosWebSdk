@@ -49,7 +49,7 @@ public abstract class JsonApiMapperTestBase
 														   {
 															   {typeof(DiscosObject), "objects"},
 															   {typeof(DiscosObjectClass), "object-classes"},
-															   //{typeof(Country), "entities"},
+															   {typeof(Country), "entities"},
 															   {typeof(Organisation), "entities"},
 															   {typeof(Entity), "entities"},
 															   {typeof(FragmentationEvent), "fragmentations"},

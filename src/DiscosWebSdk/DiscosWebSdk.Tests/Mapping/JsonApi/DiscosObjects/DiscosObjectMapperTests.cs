@@ -27,7 +27,7 @@ public class DiscosObjectMapperTests : JsonApiMapperTestBase
 												SatNo               = 48311,
 												ObjectClass         = ObjectClass.Payload,
 												VimpelId            = null,
-												//States              = null!,
+												States              = null!,
 												DestinationOrbits   = null!,
 												InitialOrbits       = null!,
 												Launch              = null!,
@@ -39,7 +39,7 @@ public class DiscosObjectMapperTests : JsonApiMapperTestBase
 	public override async Task CanGetSingleWithoutLinks()
 	{
 		DiscosObject discosResult = await FetchSingle<DiscosObject>(_object.Id);
-		discosResult = discosResult with {/*States = null!,*/ DestinationOrbits = null!, InitialOrbits = null!, Launch = null!, Operators = null!, Reentry = null!};
+		discosResult = discosResult with {States = null!, DestinationOrbits = null!, InitialOrbits = null!, Launch = null!, Operators = null!, Reentry = null!};
 		discosResult.ShouldBeEquivalentTo(_object);
 	}
 
@@ -49,7 +49,7 @@ public class DiscosObjectMapperTests : JsonApiMapperTestBase
 		string[]     includes     = {"states", "destinationOrbits", "initialOrbits", "launch", "operators", "reentry"};
 		string       queryString  = $"?include={string.Join(',', includes)}";
 		DiscosObject discosResult = await FetchSingle<DiscosObject>(_object.Id, queryString);
-		//discosResult.States.First().Name.ShouldBe("United States");
+		discosResult.States.First().Name.ShouldBe("United States");
 		discosResult.Operators.First().Name.ShouldBe("SpaceX Seattle");
 		discosResult.InitialOrbits.First().Epoch.ShouldBe(new DateTime(2021,     04, 29));
 		discosResult.DestinationOrbits.First().Epoch.ShouldBe(new DateTime(2021, 05, 09));

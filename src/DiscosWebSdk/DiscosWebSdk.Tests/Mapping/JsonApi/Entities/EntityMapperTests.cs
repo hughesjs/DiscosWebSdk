@@ -19,52 +19,52 @@ public class EntityMapperTests : JsonApiMapperTestBase
 		entities.Select(e => e.Name).ShouldContain("United States");
 	}
 
-	public override Task CanGetSingleWithoutLinks() => Task.CompletedTask;  //await new CountryMapperTests().CanGetSingleWithoutLinks();
+	public override async Task CanGetSingleWithoutLinks() => await new CountryMapperTests().CanGetSingleWithoutLinks();
 
 	public override async Task CanGetSingleWithLinks() => await new OrganisationMapperTests().CanGetSingleWithLinks();
 
 	public override async Task CanGetMultiple() => await CanFetchMixtureOfCountriesAndOrganisations();
 
 
-	// public class CountryMapperTests : EntityMapperTests
-	// {
-	// 	private readonly Country _uk = new()
-	// 								   {
-	// 									   Id            = "258",
-	// 									   Name          = "United Kingdom",
-	// 									   Launches      = null!,
-	// 									   LaunchSites   = null!,
-	// 									   LaunchSystems = null!,
-	// 									   Objects       = null!
-	// 								   };
-	//
-	// 	[Fact]
-	// 	public override async Task CanGetSingleWithoutLinks()
-	// 	{
-	// 		Country country = await FetchSingle<Country>(_uk.Id);
-	// 		country = country with {Launches = null!, LaunchSites = null!, LaunchSystems = null!, Objects = null!};
-	// 		country.ShouldBeEquivalentTo(_uk);
-	// 	}
-	//
-	// 	[Fact]
-	// 	public override async Task CanGetSingleWithLinks()
-	// 	{
-	// 		string[] includes    = {"launches", "launchSites", "launchSystems", "objects"};
-	// 		string   queryString = $"?include={string.Join(',', includes)}";
-	// 		Country  country     = await FetchSingle<Country>(_uk.Id, queryString);
-	// 		country.LaunchSites.Count.ShouldBe(1);
-	// 		// Testing these because of awful workaround
-	// 		country.LaunchSites.First().LatitudeDegs.ShouldBe(-31.100000);
-	// 		country.LaunchSites.First().LongitudeDegs.ShouldBe(136.600000);
-	// 	}
-	//
-	// 	[Fact]
-	// 	public override async Task CanGetMultiple()
-	// 	{
-	// 		IReadOnlyList<Country> countries = await FetchMultiple<Country>("?filter=contains(name,'Republic')");
-	// 		countries.Count.ShouldBeGreaterThan(1);
-	// 	}
-	// }
+	public class CountryMapperTests : EntityMapperTests
+	{
+		private readonly Country _uk = new()
+									   {
+										   Id            = "258",
+										   Name          = "United Kingdom",
+										   Launches      = null!,
+										   LaunchSites   = null!,
+										   LaunchSystems = null!,
+										   Objects       = null!
+									   };
+
+		[Fact]
+		public override async Task CanGetSingleWithoutLinks()
+		{
+			Country country = await FetchSingle<Country>(_uk.Id);
+			country = country with {Launches = null!, LaunchSites = null!, LaunchSystems = null!, Objects = null!};
+			country.ShouldBeEquivalentTo(_uk);
+		}
+
+		[Fact]
+		public override async Task CanGetSingleWithLinks()
+		{
+			string[] includes    = {"launches", "launchSites", "launchSystems", "objects"};
+			string   queryString = $"?include={string.Join(',', includes)}";
+			Country  country     = await FetchSingle<Country>(_uk.Id, queryString);
+			country.LaunchSites.Count.ShouldBe(1);
+			// Testing these because of awful workaround
+			country.LaunchSites.First().LatitudeDegs.ShouldBe(-31.100000);
+			country.LaunchSites.First().LongitudeDegs.ShouldBe(136.600000);
+		}
+
+		[Fact]
+		public override async Task CanGetMultiple()
+		{
+			IReadOnlyList<Country> countries = await FetchMultiple<Country>("?filter=contains(name,'Republic')");
+			countries.Count.ShouldBeGreaterThan(1);
+		}
+	}
 
 
 	public class OrganisationMapperTests : EntityMapperTests
@@ -73,7 +73,7 @@ public class EntityMapperTests : JsonApiMapperTestBase
 												{
 													Id            = "738",
 													Name          = "SpaceX",
-				//									HostCountry   = null!,
+													HostCountry   = null!,
 													Launches      = null!,
 													LaunchSites   = null!,
 													LaunchSystems = null!,
@@ -84,7 +84,7 @@ public class EntityMapperTests : JsonApiMapperTestBase
 		public override async Task CanGetSingleWithoutLinks()
 		{
 			Organisation country = await FetchSingle<Organisation>(_spaceX.Id);
-			country = country with {Launches = null!, LaunchSites = null!, LaunchSystems = null!, Objects = null!, /*HostCountry = null!*/};
+			country = country with {Launches = null!, LaunchSites = null!, LaunchSystems = null!, Objects = null!, HostCountry = null!};
 			country.ShouldBeEquivalentTo(_spaceX);
 		}
 
