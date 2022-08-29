@@ -54,7 +54,7 @@ public record DiscosObject : DiscosModelBase
 	public Reentry Reentry { get; init; }
 
 	[JsonPropertyName("states")]
-	public IReadOnlyList<Country> States { get; init; }
+	public IReadOnlyList<Entity> States { get; init; } // Workaround for ESA bug: https://github.com/hughesjs/DiscosWebSdk/issues/96
 
 	[JsonPropertyName("destinationOrbits")]
 	public IReadOnlyList<DestinationOrbitDetails> DestinationOrbits { get; init; }

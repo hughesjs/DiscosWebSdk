@@ -28,7 +28,7 @@ internal static class DiscosObjectContractBuilder
 					  .Template(destinationOrbitsLinkTemplate, objectIdFieldName, IdSelector)
 					  .HasMany<InitialOrbitDetails>(AttributeUtilities.GetJsonPropertyName<DiscosObject>(nameof(DiscosObject.InitialOrbits)))
 					  .Template(initialOrbitsLinkTemplate, objectIdFieldName, IdSelector)
-					  .HasMany<Organisation>(AttributeUtilities.GetJsonPropertyName<DiscosObject>(nameof(DiscosObject.Operators)))
+					  .HasMany<Entity>(AttributeUtilities.GetJsonPropertyName<DiscosObject>(nameof(DiscosObject.Operators)))
 					  .Template(operatorsLinkTemplate, objectIdFieldName, IdSelector)
 					  .BelongsTo<Launch>(AttributeUtilities.GetJsonPropertyName<DiscosObject>(nameof(DiscosObject.Launch)))
 					  .Template(launchLinkTemplate, objectIdFieldName, IdSelector)
