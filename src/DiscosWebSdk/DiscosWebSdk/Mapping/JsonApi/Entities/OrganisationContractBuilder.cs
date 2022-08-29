@@ -10,7 +10,7 @@ internal static class OrganisationContractBuilder
 {
 	internal static DelegatingContractBuilder<Organisation> WithOrganisation(this IBuilder builder)
 	{
-		const string organisationIdFieldName  = nameof(Country.Id);
+		const string organisationIdFieldName  = nameof(Organisation.Id);
 		const string launchLinkTemplate       = $"/api/entities/{organisationIdFieldName}/launches";
 		const string objectLinkTemplate       = $"/api/entities/{organisationIdFieldName}/objects";
 		const string launchSystemLinkTemplate = $"/api/entities/{organisationIdFieldName}/launch-systems";
