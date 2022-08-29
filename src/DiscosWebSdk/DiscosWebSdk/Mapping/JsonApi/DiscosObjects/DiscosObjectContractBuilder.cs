@@ -15,7 +15,7 @@ internal static class DiscosObjectContractBuilder
 		const string countryLinkTemplate           = $"/api/objects/{objectIdFieldName}/states";
 		const string destinationOrbitsLinkTemplate = $"/api/objects/{objectIdFieldName}/relationships/destination-orbits";
 		const string initialOrbitsLinkTemplate     = $"/api/objects/{objectIdFieldName}/relationships/initial-orbits";
-		const string operatorsLinkTemplate         = $"/api/objects/{objectIdFieldName}/relationships/initial-orbits";
+		const string operatorsLinkTemplate         = $"/api/objects/{objectIdFieldName}/relationships/operators";
 		const string launchLinkTemplate            = $"/api/objects/{objectIdFieldName}/relationships/launch";
 
 		object IdSelector(DiscosObject r) => r.Id;
