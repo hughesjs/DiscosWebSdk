@@ -63,7 +63,7 @@ public record DiscosObject : DiscosModelBase
 	public IReadOnlyList<InitialOrbitDetails> InitialOrbits { get; init; }
 
 	[JsonPropertyName("operators")]
-	public IReadOnlyList<Organisation> Operators { get; init; }
+	public IReadOnlyList<Entity> Operators { get; init; }
 
 	[JsonPropertyName("launch")]
 	public Launch Launch { get; init; }
