@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 7.0.x
     - name: Test against real API
@@ -30,7 +30,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3 # Need the full commit history for conventional commit
     - name: Setup .NET
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 7.0.x
     - name: Bump version and push tag
@@ -71,7 +71,7 @@ jobs:
       with:
         name: PackedSymbols
     - name: Setup .NET
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 7.0.x
     - name: Push Package to GitHub
@@ -91,7 +91,7 @@ jobs:
       with:
         name: PackedSymbols
     - name: Setup .NET
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 7.0.x
     - name: Push Package to Nuget
