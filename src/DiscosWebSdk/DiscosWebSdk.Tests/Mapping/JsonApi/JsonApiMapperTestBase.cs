@@ -31,8 +31,12 @@ public abstract class JsonApiMapperTestBase
 	private readonly        string                                _apiBase = Environment.GetEnvironmentVariable("DISCOS_API_URL") ?? "https://discosweb.esoc.esa.int/api/";
 	private readonly        HttpClient                            _client;
 	private static readonly List<TimeSpan>                        RetrySpans  = new[] {1, 2, 5, 10, 30, 60, 60, 60, 60, 60, 60, 60, 60, 60}.Select(i => TimeSpan.FromSeconds(i)).ToList();
-	private static readonly AsyncRetryPolicy<HttpResponseMessage> RetryPolicy = HttpPolicyExtensions.HandleTransientHttpError().OrResult(res => res.StatusCode is HttpStatusCode.TooManyRequests).WaitAndRetryAsync(RetrySpans);
-
+	private static readonly AsyncRetryPolicy<HttpResponseMessage> RetryPolicy = HttpPolicyExtensions
+																			   .HandleTransientHttpError()
+																			   .OrResult(res => res.StatusCode is HttpStatusCode.TooManyRequests)
+																			   .WaitAndRetryAsync(RetrySpans,
+																								  (result, span, i, _) => { Console.WriteLine($"Will retry in {span.TotalSeconds}s due to {result.Result.ReasonPhrase}. Retry count: {i}"); }
+																								 );
 
 	protected JsonApiMapperTestBase()
 	{

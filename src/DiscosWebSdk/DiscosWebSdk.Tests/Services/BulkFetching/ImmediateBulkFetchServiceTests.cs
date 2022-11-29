@@ -28,13 +28,17 @@ using Xunit;
 
 namespace DiscosWebSdk.Tests.Services.BulkFetching;
 
-
 public class ImmediateBulkFetchServiceTests
 {
-	private readonly string        _apiBase = Environment.GetEnvironmentVariable("DISCOS_API_URL") ?? "https://discosweb.esoc.esa.int/api/";
+	private readonly string _apiBase = Environment.GetEnvironmentVariable("DISCOS_API_URL") ?? "https://discosweb.esoc.esa.int/api/";
 
-	private static readonly List<TimeSpan>                        RetrySpans  = new[] {1, 2, 5, 10, 30, 60, 60, 60, 60, 60, 60, 60, 60, 60}.Select(i => TimeSpan.FromSeconds(i)).ToList();
-	private static readonly AsyncRetryPolicy<HttpResponseMessage> RetryPolicy = HttpPolicyExtensions.HandleTransientHttpError().OrResult(res => res.StatusCode is HttpStatusCode.TooManyRequests).WaitAndRetryAsync(RetrySpans);
+	private static readonly List<TimeSpan> RetrySpans = new[] {1, 2, 5, 10, 30, 60, 60, 60, 60, 60, 60, 60, 60, 60}.Select(i => TimeSpan.FromSeconds(i)).ToList();
+	private static readonly AsyncRetryPolicy<HttpResponseMessage> RetryPolicy = HttpPolicyExtensions
+																			   .HandleTransientHttpError()
+																			   .OrResult(res => res.StatusCode is HttpStatusCode.TooManyRequests)
+																			   .WaitAndRetryAsync(RetrySpans,
+																								  (result, span, i, _) => { Console.WriteLine($"Will retry in {span.TotalSeconds}s due to {result.Result.ReasonPhrase}. Retry count: {i}"); }
+																								 );
 	private readonly ImmediateBulkFetchService _service;
 
 	public ImmediateBulkFetchServiceTests()
@@ -53,7 +57,7 @@ public class ImmediateBulkFetchServiceTests
 	public async Task CanFetchAllOfSomeSmallerTypesSequentially()
 	{
 		List<Type> types = new()
-			{ typeof(Propellant), typeof(LaunchVehicleFamily), typeof(LaunchSite), typeof(LaunchVehicleStage) };
+						   {typeof(Propellant), typeof(LaunchVehicleFamily), typeof(LaunchSite), typeof(LaunchVehicleStage)};
 
 		foreach (Type t in types)
 		{
@@ -62,42 +66,41 @@ public class ImmediateBulkFetchServiceTests
 		}
 	}
 
-	
-	
+
 	[Theory(Skip = "Skipping because this takes forever")]
 	[ClassData(typeof(DiscosModelTypesTestDataGenerator))]
 	public async Task CanGetAllOfEverything(Type objectType, string _)
 	{
-		int                       pagesFetched = 0;
+		int pagesFetched = 0;
 		_service.DownloadStatusChanged += (_, _) => pagesFetched++;
-		
+
 
 		List<DiscosModelBase> res = await _service.GetAll(objectType, true);
 
 		// Accurate as of 2022-08-21, realistically, these should only increase
 		int pagesLowerBound = Activator.CreateInstance(objectType) switch
 							  {
-								  DiscosObject => 600,
-								  LaunchSystem => 1,
-								  Launch => 63,
-								  LaunchSite => 1,
-								  DiscosObjectClass => 1,
-								  LaunchVehicleFamily => 2,
-								  LaunchVehicleStage => 7,
-								  LaunchVehicleEngine => 9,
-								  LaunchVehicle => 4,
-								  Propellant => 1,
-								  Reentry => 276,
-								  InitialOrbitDetails => 453,
+								  DiscosObject            => 600,
+								  LaunchSystem            => 1,
+								  Launch                  => 63,
+								  LaunchSite              => 1,
+								  DiscosObjectClass       => 1,
+								  LaunchVehicleFamily     => 2,
+								  LaunchVehicleStage      => 7,
+								  LaunchVehicleEngine     => 9,
+								  LaunchVehicle           => 4,
+								  Propellant              => 1,
+								  Reentry                 => 276,
+								  InitialOrbitDetails     => 453,
 								  DestinationOrbitDetails => 99,
-								  FragmentationEvent => 7,
-								  Country => 1,
-								  Organisation => 1,
-								  _ => 1
+								  FragmentationEvent      => 7,
+								  Country                 => 1,
+								  Organisation            => 1,
+								  _                       => 1
 							  };
 
 		res.Count.ShouldBeGreaterThan(pagesLowerBound);
-		pagesFetched.ShouldBe((res.Count - 1)/ 100 + 1);
+		pagesFetched.ShouldBe((res.Count - 1)/100 + 1);
 	}
-	
+
 }
