@@ -51,7 +51,7 @@ public record DiscosObject : DiscosModelBase
 	public ObjectClass? ObjectClass { get; init; }
 
 	[JsonPropertyName("reentry")]
-	public Reentry Reentry { get; init; }
+	public Reentry? Reentry { get; init; }
 
 	[JsonPropertyName("states")]
 	public IReadOnlyList<Entity> States { get; init; } // Workaround for ESA bug: https://github.com/hughesjs/DiscosWebSdk/issues/96
