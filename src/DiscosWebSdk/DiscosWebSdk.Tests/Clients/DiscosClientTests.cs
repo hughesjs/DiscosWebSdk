@@ -27,8 +27,12 @@ public class DiscosClientTests
 	private readonly IDiscosClient _discosClient;
 
 	private static readonly List<TimeSpan>                        RetrySpans  = new[] {1, 2, 5, 10, 30, 60, 60, 60, 60, 60, 60, 60, 60, 60}.Select(i => TimeSpan.FromSeconds(i)).ToList();
-	private static readonly AsyncRetryPolicy<HttpResponseMessage> RetryPolicy = HttpPolicyExtensions.HandleTransientHttpError().OrResult(res => res.StatusCode is HttpStatusCode.TooManyRequests).WaitAndRetryAsync(RetrySpans);
-
+	private static readonly AsyncRetryPolicy<HttpResponseMessage> RetryPolicy = HttpPolicyExtensions
+																			   .HandleTransientHttpError()
+																			   .OrResult(res => res.StatusCode is HttpStatusCode.TooManyRequests)
+																			   .WaitAndRetryAsync(RetrySpans,
+																								  (result, span, i, _) => { Console.WriteLine($"Will retry in {span.TotalSeconds}s due to {result.Result.ReasonPhrase}. Retry count: {i}"); }
+																								 );
 	public DiscosClientTests()
 	{
 		HttpClient innerClient = new(new PollyRetryHandler(RetryPolicy, new HttpClientHandler()));
