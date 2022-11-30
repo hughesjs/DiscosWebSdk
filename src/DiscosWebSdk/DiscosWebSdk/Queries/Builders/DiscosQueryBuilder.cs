@@ -6,6 +6,7 @@ using DiscosWebSdk.Extensions;
 using DiscosWebSdk.Interfaces.Queries;
 using DiscosWebSdk.Misc;
 using DiscosWebSdk.Models.ResponseModels;
+using DiscosWebSdk.Models.ResponseModels.Entities;
 using DiscosWebSdk.Queries.Filters;
 using DiscosWebSdk.Queries.Filters.FilterTree;
 
@@ -60,10 +61,19 @@ internal class DiscosQueryBuilder : IDiscosQueryBuilder
 	
 	public virtual IDiscosQueryBuilder AddAllIncludes(Type t)
 	{
-		IEnumerable<PropertyInfo> props = t.GetProperties()
+		List<PropertyInfo> props = t.GetProperties()
 			.Where(p => p.PropertyType.IsAssignableTo(typeof(DiscosModelBase)) ||
-			            (p.PropertyType.GetGenericArguments().FirstOrDefault()?.IsAssignableTo(typeof(DiscosModelBase)) ?? false));
+			            (p.PropertyType.GetGenericArguments().FirstOrDefault()?.IsAssignableTo(typeof(DiscosModelBase)) ?? false)).ToList();
+		
+		// ESA DOS Protection Workaround
+		if (t.IsAssignableTo(typeof(Entity)))
+		{
+			props.Remove(t.GetProperty(nameof(Entity.Launches))!);
+			props.Remove(t.GetProperty(nameof(Entity.Objects))!);
+		}
+		
 		props.ToList().ForEach(p => AddInclude(t, p.Name));
+
 		return this;
 	}
 	

@@ -5,6 +5,7 @@ using DiscosWebSdk.Enums;
 using DiscosWebSdk.Exceptions.Queries.Filters.FilterTree;
 using DiscosWebSdk.Interfaces.Queries;
 using DiscosWebSdk.Models.ResponseModels.DiscosObjects;
+using DiscosWebSdk.Models.ResponseModels.Entities;
 using DiscosWebSdk.Models.ResponseModels.Propellants;
 using DiscosWebSdk.Queries.Builders;
 using DiscosWebSdk.Queries.Filters;
@@ -65,6 +66,22 @@ public class DiscosQueryBuilderTests
 			_builder.AddInclude(nameof(DiscosObject.Reentry));
 			_builder.Build().ShouldBe("?include=reentry");
 		}
+
+		[Theory]
+		[InlineData(typeof(Entity))]
+		[InlineData(typeof(Country))]
+		[InlineData(typeof(Organisation))]
+		public void ExcludesLaunchesAndObjectsFromAddingAllIncludesOnEntities(Type entityType)
+		{
+			Type               queryBuilderType = typeof(DiscosQueryBuilder<>).MakeGenericType(entityType);
+			DiscosQueryBuilder builder          = Activator.CreateInstance(queryBuilderType) as DiscosQueryBuilder ?? throw new("Can't construct query builder");
+			builder.AddAllIncludes(entityType);
+			
+			string query = builder.Build();
+			query.ShouldNotContain("launches");
+			query.ShouldNotContain("objects");
+		}
+		
 
 		[Fact]
 		public void ThrowsIfIncludeFieldDoesntExist()
