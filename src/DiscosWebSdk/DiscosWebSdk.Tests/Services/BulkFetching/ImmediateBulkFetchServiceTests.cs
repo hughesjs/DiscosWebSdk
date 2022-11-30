@@ -17,6 +17,7 @@ using DiscosWebSdk.Models.ResponseModels.Propellants;
 using DiscosWebSdk.Models.ResponseModels.Reentries;
 using DiscosWebSdk.Queries.Builders;
 using DiscosWebSdk.Services.BulkFetching;
+using DiscosWebSdk.Services.Queries;
 using DiscosWebSdk.Tests.Misc;
 using DiscosWebSdk.Tests.TestDataGenerators;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -48,8 +49,11 @@ public class ImmediateBulkFetchServiceTests
 		innerClient.Timeout                             = TimeSpan.FromMinutes(20);
 		innerClient.BaseAddress                         = new(_apiBase);
 		innerClient.DefaultRequestHeaders.Authorization = new("bearer", Environment.GetEnvironmentVariable("DISCOS_API_KEY"));
-		IDiscosClient discosClient = new DiscosClient(innerClient, NullLogger<DiscosClient>.Instance);
-		_service = new(discosClient, new DiscosQueryBuilder(), NullLogger<ImmediateBulkFetchService>.Instance);
+		if (NullLogger<DiscosClient>.Instance != null)
+		{
+			IDiscosClient discosClient = new DiscosClient(innerClient, NullLogger<DiscosClient>.Instance, new QueryErrataVerificationService());
+			_service = new(discosClient, new DiscosQueryBuilder(), NullLogger<ImmediateBulkFetchService>.Instance);
+		}
 	}
 
 	// Added because of a bug where the query builder wasn't being reset

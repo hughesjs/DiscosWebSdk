@@ -6,10 +6,12 @@ using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using DiscosWebSdk.Clients;
+using DiscosWebSdk.Exceptions;
 using DiscosWebSdk.Extensions;
 using DiscosWebSdk.Interfaces.Clients;
 using DiscosWebSdk.Models.ResponseModels;
 using DiscosWebSdk.Models.ResponseModels.Entities;
+using DiscosWebSdk.Services.Queries;
 using DiscosWebSdk.Tests.Misc;
 using DiscosWebSdk.Tests.TestDataGenerators;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -40,7 +42,7 @@ public class DiscosClientTests
 		
 		innerClient.BaseAddress                         = new(_apiBase);
 		innerClient.DefaultRequestHeaders.Authorization = new("bearer", Environment.GetEnvironmentVariable("DISCOS_API_KEY"));
-		_discosClient                                   = new DiscosClient(innerClient, NullLogger<DiscosClient>.Instance);
+		_discosClient                                   = new DiscosClient(innerClient, NullLogger<DiscosClient>.Instance, new QueryErrataVerificationService());
 	}
 
 	[Theory]
@@ -150,6 +152,17 @@ public class DiscosClientTests
 		res.PaginationDetails.CurrentPage.ShouldBe(1);
 		res.PaginationDetails.PageSize.ShouldBeGreaterThan(1);
 		res.PaginationDetails.TotalPages.ShouldBeGreaterThan(0);
+	}
+	
+	[Theory]
+	[InlineData("launches")]
+	[InlineData("objects")]
+	[InlineData("launches,objects")]
+	public async Task ThrowsIfEntitiesIncludeLaunchesOrObjects(params string[] includes)
+	{
+		string   queryString = $"?include={string.Join(',', includes)}";
+			
+		await Should.ThrowAsync<EsaDosProtectionException>(async () => await _discosClient.GetSingle<Country>("1", queryString));
 	}
 
 }
