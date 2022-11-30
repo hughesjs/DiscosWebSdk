@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DiscosWebSdk.Exceptions;
 using DiscosWebSdk.Models.ResponseModels.Entities;
 using Shouldly;
 using Xunit;
@@ -49,7 +50,7 @@ public class EntityMapperTests : JsonApiMapperTestBase
 		[Fact]
 		public override async Task CanGetSingleWithLinks()
 		{
-			string[] includes    = {"launches", "launchSites", "launchSystems", "objects"};
+			string[] includes    = {"launchSites", "launchSystems"};
 			string   queryString = $"?include={string.Join(',', includes)}";
 			Country  country     = await FetchSingle<Country>(_uk.Id, queryString);
 			country.LaunchSites.Count.ShouldBe(1);
@@ -91,12 +92,11 @@ public class EntityMapperTests : JsonApiMapperTestBase
 		[Fact]
 		public override async Task CanGetSingleWithLinks()
 		{
-			string[]     includes    = {"launches", "launchSites", "launchSystems", "objects", "hostCountry"};
+			string[]     includes    = {"launchSites", "launchSystems", "hostCountry"};
 			string       queryString = $"?include={string.Join(',', includes)}";
 			Organisation org         = await FetchSingle<Organisation>(_spaceX.Id, queryString);
 			org.LaunchSites.Count.ShouldBe(0);
-			org.Launches.Count.ShouldBeGreaterThan(130); //135 as of 2022-05-28
-			org.Objects.Count.ShouldBeGreaterThan(150);  //159 as of 2022-05-28
+			org.HostCountry.Name.ShouldBe("United States");
 		}
 
 		[Fact]

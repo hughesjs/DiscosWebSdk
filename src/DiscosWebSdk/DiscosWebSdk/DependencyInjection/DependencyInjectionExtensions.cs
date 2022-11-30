@@ -7,6 +7,7 @@ using DiscosWebSdk.Interfaces.Queries;
 using DiscosWebSdk.Options;
 using DiscosWebSdk.Queries.Builders;
 using DiscosWebSdk.Services.BulkFetching;
+using DiscosWebSdk.Services.Queries;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,6 +42,8 @@ public static class DependencyInjectionExtensions
 
 		services.AddTransient<IDiscosQueryBuilder, DiscosQueryBuilder>();
 		services.AddTransient<IBulkFetchService, ImmediateBulkFetchService>();
+
+		services.AddTransient<IQueryVerificationService, QueryErrataVerificationService>();
 
 		if (usePolly)
 		{

@@ -15,6 +15,7 @@ using DiscosWebSdk.Models.ResponseModels.LaunchVehicles;
 using DiscosWebSdk.Models.ResponseModels.Orbits;
 using DiscosWebSdk.Models.ResponseModels.Propellants;
 using DiscosWebSdk.Models.ResponseModels.Reentries;
+using DiscosWebSdk.Services.Queries;
 using DiscosWebSdk.Tests.Misc;
 using Hypermedia.JsonApi.Client;
 using JetBrains.Annotations;
