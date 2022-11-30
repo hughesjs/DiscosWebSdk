@@ -5,7 +5,7 @@
 [![Nuget](https://img.shields.io/nuget/dt/DiscosWebSdk?style=for-the-badge)](https://nuget.org/packages/DiscosWebSdk/)
 ![FTB](https://raw.githubusercontent.com/hughesjs/custom-badges/master/made-in/made-in-scotland.svg)
 
-Please note, this SDK is still in very active development, features may be added and removed, although I will try and keep on top of usiung proper semantic versioning.
+⚠ Please note, this SDK is still in very active development, features may be added and removed, although I will try and keep on top of usiung proper semantic versioning. ⚠
 
 # DISCOSweb SDK
 
