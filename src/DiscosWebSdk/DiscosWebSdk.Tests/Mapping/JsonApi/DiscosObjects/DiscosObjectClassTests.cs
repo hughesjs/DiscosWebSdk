@@ -23,7 +23,8 @@ public class DiscosObjectClassTests : JsonApiMapperTestBase
 	{
 		IReadOnlyList<DiscosObjectClass> ocs = await FetchMultiple<DiscosObjectClass>();
 		ocs.Count.ShouldBeGreaterThan(1);
-		ocs.First().Name.ShouldBe("Unknown");
-		ocs.Last().Name.ShouldBe("Other Mission Related Object");
+
+		ocs.SingleOrDefault(ocs => ocs.Name == "Unknown").ShouldNotBeNull();
+		ocs.SingleOrDefault(ocs => ocs.Name == "Payload").ShouldNotBeNull();
 	}
 }
