@@ -15,13 +15,12 @@ using DiscosWebSdk.Interfaces.Clients;
 using DiscosWebSdk.Interfaces.Queries;
 using DiscosWebSdk.Models.Misc;
 using DiscosWebSdk.Models.ResponseModels;
-using DiscosWebSdk.Services.Queries;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 
 namespace DiscosWebSdk.Clients;
 
-public class DiscosClient : IDiscosClient
+internal class DiscosClient : IDiscosClient
 {
 	private const string SingleFetchTemplate   = "{0}/{1}{2}";
 	private const string MultipleFetchTemplate = "{0}{1}";
