@@ -15,13 +15,12 @@ using DiscosWebSdk.Interfaces.Clients;
 using DiscosWebSdk.Interfaces.Queries;
 using DiscosWebSdk.Models.Misc;
 using DiscosWebSdk.Models.ResponseModels;
-using DiscosWebSdk.Services.Queries;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 
 namespace DiscosWebSdk.Clients;
 
-public class DiscosClient : IDiscosClient
+internal class DiscosClient : IDiscosClient
 {
 	private const string SingleFetchTemplate   = "{0}/{1}{2}";
 	private const string MultipleFetchTemplate = "{0}{1}";
@@ -90,7 +89,8 @@ public class DiscosClient : IDiscosClient
 		_queryVerificationService.CheckQuery<T>(queryString);
 		_logger.LogInformation("Getting single {Type} with id {Id} and query string {QueryString}", typeof(T).Name, id, queryString);
 		string              endpoint    = _endpoints[typeof(T)];
-		HttpResponseMessage res         = await _client.GetAsync(GetSingleFetchUrl(endpoint, id, queryString));
+		string              fetchUrl    = GetSingleFetchUrl(endpoint, id, queryString);
+		HttpResponseMessage res         = await _client.GetAsync(fetchUrl);
 		T                   discosModel = await res.Content.ReadAsJsonApiAsync<T>(DiscosObjectResolver.CreateResolver());
 		_logger.LogInformation("Successfully fetched object with id {Id}", id);
 		return discosModel;

@@ -13,18 +13,18 @@ public class DiscosObjectMapperTests : JsonApiMapperTestBase
 {
 	private readonly DiscosObject _object = new()
 											{
-												Id                  = "67013",
-												Name                = "Starlink 2534",
-												CosparId            = "2021-036AM",
-												Shape               = "Box + 1 Pan",
-												CrossSectionAverage = 13.5615,
-												CrossSectionMaximum = 23.657,
-												CrossSectionMinimum = 0.2311,
-												Mass                = 260f,
+												Id                  = "40367",
+												Name                = "Dragon CRS-5",
+												CosparId            = "2015-001A",
+												Shape               = "Trunc Cone + Cyl + 2 Pan",
+												CrossSectionAverage = 33.4694417460128,
+												CrossSectionMaximum = 60.2525145841952,
+												CrossSectionMinimum = 10.7521008569111,
+												Mass                = 9688f,
 												Length              = 3.7f,
-												Depth               = 8.86f,
-												Height              = 0.1f,
-												SatNo               = 48311,
+												Depth               = 16.5f,
+												Height              = 5.3f,
+												SatNo               = 40370,
 												ObjectClass         = ObjectClass.Payload,
 												VimpelId            = null,
 												States              = null!,
@@ -50,10 +50,11 @@ public class DiscosObjectMapperTests : JsonApiMapperTestBase
 		string       queryString  = $"?include={string.Join(',', includes)}";
 		DiscosObject discosResult = await FetchSingle<DiscosObject>(_object.Id, queryString);
 		discosResult.States.First().Name.ShouldBe("United States");
-		discosResult.Operators.First().Name.ShouldBe("SpaceX Seattle");
-		discosResult.InitialOrbits.First().Epoch.ShouldBe(new DateTime(2021,     04, 29));
-		discosResult.DestinationOrbits.First().Epoch.ShouldBe(new DateTime(2021, 05, 09));
-		discosResult.Launch.CosparLaunchNo.ShouldBe("2021-036");
+		discosResult.Operators.First().Name.ShouldBe("SpaceX");
+		discosResult.InitialOrbits.First().Epoch.ShouldBe(new(2015,     01, 10));
+		discosResult.DestinationOrbits.ShouldBeEmpty();
+		discosResult.Launch!.CosparLaunchNo.ShouldBe("2015-001");
+		discosResult.Reentry!.Epoch.ShouldBe(new(2015, 02, 11));
 	}
 
 	[Fact]
