@@ -10,6 +10,7 @@ using DiscosWebSdk.Exceptions;
 using DiscosWebSdk.Extensions;
 using DiscosWebSdk.Interfaces.Clients;
 using DiscosWebSdk.Models.ResponseModels;
+using DiscosWebSdk.Models.ResponseModels.DiscosObjects;
 using DiscosWebSdk.Models.ResponseModels.Entities;
 using DiscosWebSdk.Services.Queries;
 using DiscosWebSdk.Tests.Misc;
@@ -164,5 +165,4 @@ public class DiscosClientTests
 			
 		await Should.ThrowAsync<EsaDosProtectionException>(async () => await _discosClient.GetSingle<Country>("1", queryString));
 	}
-
 }
