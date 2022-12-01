@@ -66,5 +66,5 @@ public record DiscosObject : DiscosModelBase
 	public IReadOnlyList<Entity> Operators { get; init; }
 
 	[JsonPropertyName("launch")]
-	public Launch Launch { get; init; }
+	public Launch? Launch { get; init; }
 }
