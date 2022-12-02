@@ -1,4 +1,4 @@
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/hughesjs/DiscosWebSdk/.NET?style=for-the-badge)](https://github.com/hughesjs/DiscosWebSdk/actions)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/hughesjs/DiscosWebSdk/.NET%20Continuous%20Deployment?style=for-the-badge)](https://github.com/hughesjs/DiscosWebSdk/actions)
 ![GitHub top language](https://img.shields.io/github/languages/top/hughesjs/DiscosWebSdk?style=for-the-badge)
 [![GitHub](https://img.shields.io/github/license/hughesjs/DiscosWebSdk?style=for-the-badge)](LICENSE)
 [![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/DiscosWebSdk?style=for-the-badge)](https://nuget.org/packages/DiscosWebSdk/)
