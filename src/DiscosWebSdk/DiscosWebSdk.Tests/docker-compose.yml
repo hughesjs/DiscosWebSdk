@@ -6,7 +6,7 @@ services:
     ports:
       - 3000:3000
         
-        # Uncomment below if you want to run tests within the compose stack
+#   # Uncomment below if you want to run tests within the compose stack
 
 #    networks: 
 #      - internal-net

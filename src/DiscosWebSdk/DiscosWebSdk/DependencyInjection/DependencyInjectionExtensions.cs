@@ -17,18 +17,21 @@ namespace DiscosWebSdk.DependencyInjection;
 
 public static class DependencyInjectionExtensions
 {
-	private static readonly List<TimeSpan> DefaultRetrySpans = new[] {1, 2, 5, 10, 30, 60, 60, 60, 60, 60, 60, 60}.Select(i => TimeSpan.FromSeconds(i)).ToList();
-	
-	public static void AddDiscosServices(this IServiceCollection services, IConfiguration configuration, bool usePolly = false, bool logToConsole = false, IEnumerable<TimeSpan>? retrySpans = null) => services.RegisterEverything(configuration, usePolly, logToConsole, retrySpans);
-	
-	[UsedImplicitly]
-	public static void AddDiscosServices(this IServiceCollection services, string apiUrl, string apiKey, bool usePolly = false, bool logToConsole = false, IEnumerable<TimeSpan>? retrySpans = null) => services.RegisterEverything(BuildConfiguration(apiUrl, apiKey), usePolly, logToConsole, retrySpans);
+	private static readonly List<TimeSpan> DefaultRetrySpans = new[] { 1, 2, 5, 10, 30, 60, 60, 60, 60, 60, 60, 60 }.Select(i => TimeSpan.FromSeconds(i)).ToList();
+
+	public static IServiceCollection AddDiscosServices(this IServiceCollection services, IConfiguration configuration, bool usePolly = false, bool logToConsole = false,
+		IEnumerable<TimeSpan>? retrySpans = null) => services.RegisterEverything(configuration, usePolly, logToConsole, retrySpans);
 
 	[UsedImplicitly]
-	private static IServiceCollection RegisterEverything(this IServiceCollection services, IConfiguration configuration, bool usePolly = false, bool logToConsole = false, IEnumerable<TimeSpan>? retrySpans = null)
+	public static IServiceCollection AddDiscosServices(this IServiceCollection services, string apiUrl, string apiKey, bool usePolly = false, bool logToConsole = false,
+		IEnumerable<TimeSpan>? retrySpans = null) => services.RegisterEverything(BuildConfiguration(apiUrl, apiKey), usePolly, logToConsole, retrySpans);
+
+	[UsedImplicitly]
+	private static IServiceCollection RegisterEverything(this IServiceCollection services, IConfiguration configuration, bool usePolly = false, bool logToConsole = false,
+		IEnumerable<TimeSpan>? retrySpans = null)
 	{
 		IConfigurationSection configSection = configuration.GetSection(nameof(DiscosOptions));
-		DiscosOptions         opt           = configSection.Get<DiscosOptions>();
+		DiscosOptions opt = configSection.Get<DiscosOptions>() ?? throw new InvalidDiscosConfigurationException("DISCOS configuration not found");
 
 		if (opt.DiscosApiKey is null || opt.DiscosApiUrl is null)
 		{
@@ -38,7 +41,7 @@ public static class DependencyInjectionExtensions
 		services.Configure<DiscosOptions>(configSection);
 
 		services.AddTransient(typeof(IDiscosQueryBuilder<>), typeof(DiscosQueryBuilder<>));
-		services.AddTransient(typeof(IBulkFetchService<>),   typeof(ImmediateBulkFetchService<>));
+		services.AddTransient(typeof(IBulkFetchService<>), typeof(ImmediateBulkFetchService<>));
 
 		services.AddTransient<IDiscosQueryBuilder, DiscosQueryBuilder>();
 		services.AddTransient<IBulkFetchService, ImmediateBulkFetchService>();
@@ -49,28 +52,29 @@ public static class DependencyInjectionExtensions
 		{
 			IEnumerable<TimeSpan> spans = retrySpans ?? DefaultRetrySpans;
 			services.AddHttpClient<IDiscosClient, DiscosClient>(c =>
-																{
-																	c.BaseAddress                         = new(opt.DiscosApiUrl);
-																	c.DefaultRequestHeaders.Authorization = new("bearer", opt.DiscosApiKey);
-																	c.Timeout = TimeSpan.FromSeconds(spans.Sum(s => s.TotalSeconds));
-																}).AddTransientHttpErrorPolicy(c => 
-																								   c.OrResult(res => res.StatusCode is HttpStatusCode.TooManyRequests)
-																									.WaitAndRetryAsync(spans, (result, span, i, _) =>
-																															  {
-																																  if (logToConsole) //TODO - Replace with proper ILogger support
-																																  {
-																																	  Console.WriteLine($"Will retry in {span.TotalSeconds}s due to {result.Result.ReasonPhrase}. Retry count: {i}");
-																																  }
-																															  }));
+			{
+				c.BaseAddress = new(opt.DiscosApiUrl);
+				c.DefaultRequestHeaders.Authorization = new("bearer", opt.DiscosApiKey);
+				c.Timeout = TimeSpan.FromSeconds(spans.Sum(s => s.TotalSeconds));
+			}).AddTransientHttpErrorPolicy(c =>
+				c.OrResult(res => res.StatusCode is HttpStatusCode.TooManyRequests)
+					.WaitAndRetryAsync(spans, (result, span, i, _) =>
+					{
+						if (logToConsole) //TODO - Replace with proper ILogger support
+						{
+							Console.WriteLine($"Will retry in {span.TotalSeconds}s due to {result.Result.ReasonPhrase}. Retry count: {i}");
+						}
+					}));
 		}
 		else
 		{
 			services.AddHttpClient<IDiscosClient, DiscosClient>(c =>
-																{
-																	c.BaseAddress                         = new(opt.DiscosApiUrl);
-																	c.DefaultRequestHeaders.Authorization = new("bearer", opt.DiscosApiKey);
-																});
+			{
+				c.BaseAddress = new(opt.DiscosApiUrl);
+				c.DefaultRequestHeaders.Authorization = new("bearer", opt.DiscosApiKey);
+			});
 		}
+
 		return services;
 	}
 
@@ -82,11 +86,11 @@ public static class DependencyInjectionExtensions
 		}
 
 		IConfigurationBuilder builder = new ConfigurationBuilder()
-		   .AddInMemoryCollection(new Dictionary<string, string>
-								  {
-									  { "DiscosOptions:DiscosApiKey", apiKey},
-									  { "DiscosOptions:DiscosApiUrl", apiUrl}
-								  });
+			.AddInMemoryCollection(new Dictionary<string, string>
+			{
+				{ "DiscosOptions:DiscosApiKey", apiKey },
+				{ "DiscosOptions:DiscosApiUrl", apiUrl }
+			});
 
 		return builder.Build();
 	}
