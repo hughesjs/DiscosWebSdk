@@ -1,8 +1,8 @@
 using AutoFixture;
 using AutoFixture.Kernel;
-using DiscosWebSdk.Fixtures.AutoFixture.PropertySpecifications;
+using DiscosWebSdk.Tests.Fixtures.AutoFixture.PropertySpecifications;
 
-namespace DiscosWebSdk.Fixtures.AutoFixture.Customizations;
+namespace DiscosWebSdk.Tests.Fixtures.AutoFixture.Customizations;
 
 public class DiscosModelFixtureCustomizationNoLinks: ICustomization
 {
