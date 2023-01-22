@@ -27,7 +27,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoFixture" Version="4.17.0" />
         <PackageReference Include="EnumExtensions.System.Text.Json" Version="1.1.0" />
         <PackageReference Include="Hughesjs.Hypermedia.Core" Version="3.1.2" />
         <PackageReference Include="Hughesjs.Hypermedia.JsonApi.Client" Version="3.1.2" />
