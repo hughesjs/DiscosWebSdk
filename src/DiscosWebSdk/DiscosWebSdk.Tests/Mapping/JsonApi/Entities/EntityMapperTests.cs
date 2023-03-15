@@ -53,7 +53,7 @@ public class EntityMapperTests : JsonApiMapperTestBase
 			string[] includes    = {"launchSites", "launchSystems"};
 			string   queryString = $"?include={string.Join(',', includes)}";
 			Country  country     = await FetchSingle<Country>(_uk.Id, queryString);
-			country.LaunchSites.Count.ShouldBe(1);
+			country.LaunchSites.Count.ShouldBe(2);
 			// Testing these because of awful workaround
 			country.LaunchSites.First().LatitudeDegs.ShouldBe(-31.100000);
 			country.LaunchSites.First().LongitudeDegs.ShouldBe(136.600000);
@@ -63,7 +63,7 @@ public class EntityMapperTests : JsonApiMapperTestBase
 		public override async Task CanGetMultiple()
 		{
 			IReadOnlyList<Country> countries = await FetchMultiple<Country>("?filter=contains(name,'Republic')");
-			countries.Count.ShouldBeGreaterThan(1);
+			countries.Count.ShouldBeGreaterThan(2);
 		}
 	}
 
