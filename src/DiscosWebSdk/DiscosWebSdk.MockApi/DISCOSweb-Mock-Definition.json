@@ -1,6 +1,6 @@
 {
   "uuid": "0e2590ad-e0be-4844-9881-313d0a4bd28f",
-  "lastMigration": 24,
+  "lastMigration": 27,
   "name": "DISCOSweb API",
   "endpointPrefix": "api",
   "latency": 0,
@@ -109,7 +109,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "89d4840a-c907-43a5-9ce4-b5a2e3fe2c39",
@@ -246,7 +247,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "f181ebaa-5e6f-4104-87c3-b7fd51c98960",
@@ -350,7 +352,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "a939a4bd-45a2-4741-b11d-273b14963f70",
@@ -494,7 +497,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "9de90814-b9f3-4915-9a3b-09a61f445363",
@@ -598,7 +602,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "d7328914-7945-4ba3-bc3a-0d37d186dac9",
@@ -742,7 +747,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "f90ec324-bbd3-4afd-85c2-46bab4b1c228",
@@ -846,7 +852,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "4bd10904-47b0-4527-b73b-bdc42b018a8e",
@@ -990,7 +997,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "43658a11-fb3e-4ab3-8e4a-f208526f0890",
@@ -1094,7 +1102,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "5c604e6a-63c0-4c7f-914d-7113c71dc4c2",
@@ -1206,7 +1215,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "9d4100ef-acbc-414f-b255-51da0386e9a6",
@@ -1310,7 +1320,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "a803c13b-48a3-4565-a0f4-ac86437c00aa",
@@ -1414,7 +1425,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "01d0d00c-0690-4483-ab9b-ad8037e383e7",
@@ -1518,7 +1530,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "fc2baf2f-b093-4154-b4f2-71409d745a29",
@@ -1622,7 +1635,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "4d55d42c-e94c-4627-8224-d0b4f79b2b87",
@@ -1766,7 +1780,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "d52fb7c8-a0d4-44cc-819a-d9ddf830bf9d",
@@ -1910,7 +1925,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "abcb7c28-46c8-4744-a619-08cec7cc3fb9",
@@ -2054,7 +2070,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "d1bcf41a-e933-43f5-99e5-0c077497fbbe",
@@ -2198,7 +2215,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "bf89bf72-2687-49d1-80c2-d0450d39d60d",
@@ -2302,7 +2320,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "9ff419a1-f904-437b-9032-5c4a62dde1f0",
@@ -2446,7 +2465,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "06b1aed1-9908-40b5-9977-c8a78e232d51",
@@ -2550,7 +2570,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "bcc4de16-5c1c-4ca5-877a-581db72969d9",
@@ -2694,7 +2715,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "29af5ade-6119-4939-884d-fdcdf3399caf",
@@ -2798,7 +2820,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "7a646c57-76c8-4ef3-8609-c282c1c46e02",
@@ -2942,7 +2965,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "c4dd548f-ee37-4fae-8cd9-917616ada914",
@@ -3046,7 +3070,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "0da9cb20-0384-49e1-ad20-0d14d7f9841f",
@@ -3190,7 +3215,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "d2ac89f2-b4fc-4dd5-8849-4df9e53fd548",
@@ -3294,7 +3320,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "c360a15c-b56d-4066-9903-a239204c5ae3",
@@ -3398,7 +3425,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "bad91fd0-9157-4a1c-a7d6-7595424819e6",
@@ -3502,7 +3530,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "a8df2d9d-c266-4236-8fb8-c5073d1ea150",
@@ -3646,7 +3675,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "0023734c-6ed4-45af-b89c-e7d428610ba2",
@@ -3800,7 +3830,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     },
     {
       "uuid": "cb5083e4-c14a-406c-9192-763147955573",
@@ -3842,7 +3873,7 @@
         },
         {
           "uuid": "587e1a6c-619b-450b-8d09-dc7e108436b8",
-          "body": "{\n    \"data\": {\n        \"type\": \"country\",\n        \"relationships\": {\n            \"launchSystems\": {\n                \"links\": {\n                    \"self\": \"/api/entities/258/relationships/launch-systems\",\n                    \"related\": \"/api/entities/258/launch-systems\"\n                },\n                \"data\": [\n                    {\n                        \"type\": \"launchSystem\",\n                        \"id\": \"33\"\n                    }\n                ]\n            },\n            \"objects\": {\n                \"links\": {\n                    \"self\": \"/api/entities/258/relationships/objects\",\n                    \"related\": \"/api/entities/258/objects\"\n                }\n            },\n            \"launchSites\": {\n                \"links\": {\n                    \"self\": \"/api/entities/258/relationships/launch-sites\",\n                    \"related\": \"/api/entities/258/launch-sites\"\n                },\n                \"data\": [\n                    {\n                        \"type\": \"launchSite\",\n                        \"id\": \"24\"\n                    }\n                ]\n            },\n            \"launches\": {\n                \"links\": {\n                    \"self\": \"/api/entities/258/relationships/launches\",\n                    \"related\": \"/api/entities/258/launches\"\n                }\n            }\n        },\n        \"id\": \"258\",\n        \"attributes\": {\n            \"name\": \"United Kingdom\"\n        },\n        \"links\": {\n            \"self\": \"/api/entities/258\"\n        }\n    },\n    \"links\": {\n        \"self\": \"/api/entities/258?include=launchSites,launchSystems\"\n    },\n    \"included\": [\n        {\n            \"type\": \"launchSystem\",\n            \"id\": \"33\",\n            \"relationships\": {\n                \"entities\": {\n                    \"links\": {\n                        \"self\": \"/api/launch-systems/33/relationships/entities\",\n                        \"related\": \"/api/launch-systems/33/entities\"\n                    }\n                },\n                \"families\": {\n                    \"links\": {\n                        \"self\": \"/api/launch-systems/33/relationships/families\",\n                        \"related\": \"/api/launch-systems/33/families\"\n                    }\n                }\n            },\n            \"attributes\": {\n                \"name\": \"Black Arrow\"\n            },\n            \"links\": {\n                \"self\": \"/api/launch-systems/33\"\n            }\n        },\n        {\n            \"type\": \"launchSite\",\n            \"attributes\": {\n                \"constraints\": [\n                    \"Continuous\"\n                ],\n                \"latitude\": \"-31.100000\",\n                \"pads\": [\n                    \"LA5B\",\n                    \"LA6A\",\n                    \"LA8\"\n                ],\n                \"altitude\": 0.0,\n                \"azimuths\": [\n                    {\n                        \"upperInc\": false,\n                        \"lower\": 346.0,\n                        \"empty\": false,\n                        \"upper\": 360.0,\n                        \"lowerInc\": true,\n                        \"display\": \"[346,360)\"\n                    },\n                    {\n                        \"upperInc\": true,\n                        \"lower\": 0.0,\n                        \"empty\": false,\n                        \"upper\": 5.0,\n                        \"lowerInc\": true,\n                        \"display\": \"[0,5]\"\n                    },\n                    {\n                        \"upperInc\": true,\n                        \"lower\": 33.0,\n                        \"empty\": false,\n                        \"upper\": 55.0,\n                        \"lowerInc\": true,\n                        \"display\": \"[33,55]\"\n                    }\n                ],\n                \"longitude\": \"136.600000\",\n                \"name\": \"Woomera Rocket Range\"\n            },\n            \"id\": \"24\",\n            \"relationships\": {\n                \"launches\": {\n                    \"links\": {\n                        \"self\": \"/api/launch-sites/24/relationships/launches\",\n                        \"related\": \"/api/launch-sites/24/launches\"\n                    }\n                },\n                \"operators\": {\n                    \"links\": {\n                        \"self\": \"/api/launch-sites/24/relationships/operators\",\n                        \"related\": \"/api/launch-sites/24/operators\"\n                    }\n                }\n            },\n            \"links\": {\n                \"self\": \"/api/launch-sites/24\"\n            }\n        }\n    ]\n}",
+          "body": "{\n    \"data\": {\n        \"type\": \"country\",\n        \"id\": \"258\",\n        \"relationships\": {\n            \"objects\": {\n                \"links\": {\n                    \"self\": \"/api/entities/258/relationships/objects\",\n                    \"related\": \"/api/entities/258/objects\"\n                }\n            },\n            \"launches\": {\n                \"links\": {\n                    \"self\": \"/api/entities/258/relationships/launches\",\n                    \"related\": \"/api/entities/258/launches\"\n                }\n            },\n            \"launchSites\": {\n                \"links\": {\n                    \"self\": \"/api/entities/258/relationships/launch-sites\",\n                    \"related\": \"/api/entities/258/launch-sites\"\n                },\n                \"data\": [\n                    {\n                        \"type\": \"launchSite\",\n                        \"id\": \"24\"\n                    },\n                    {\n                        \"type\": \"launchSite\",\n                        \"id\": \"675\"\n                    }\n                ]\n            },\n            \"launchSystems\": {\n                \"links\": {\n                    \"self\": \"/api/entities/258/relationships/launch-systems\",\n                    \"related\": \"/api/entities/258/launch-systems\"\n                },\n                \"data\": [\n                    {\n                        \"type\": \"launchSystem\",\n                        \"id\": \"33\"\n                    }\n                ]\n            }\n        },\n        \"attributes\": {\n            \"name\": \"United Kingdom\"\n        },\n        \"links\": {\n            \"self\": \"/api/entities/258\"\n        }\n    },\n    \"links\": {\n        \"self\": \"/api/entities/258?include=launchSites,launchSystems\"\n    },\n    \"included\": [\n        {\n            \"type\": \"launchSite\",\n            \"id\": \"24\",\n            \"relationships\": {\n                \"operators\": {\n                    \"links\": {\n                        \"self\": \"/api/launch-sites/24/relationships/operators\",\n                        \"related\": \"/api/launch-sites/24/operators\"\n                    }\n                },\n                \"launches\": {\n                    \"links\": {\n                        \"self\": \"/api/launch-sites/24/relationships/launches\",\n                        \"related\": \"/api/launch-sites/24/launches\"\n                    }\n                }\n            },\n            \"attributes\": {\n                \"pads\": [\n                    \"LA5B\",\n                    \"LA6A\",\n                    \"LA8\"\n                ],\n                \"azimuths\": [\n                    {\n                        \"empty\": false,\n                        \"display\": \"[346,360)\",\n                        \"lowerInc\": true,\n                        \"upperInc\": false,\n                        \"upper\": 360.0,\n                        \"lower\": 346.0\n                    },\n                    {\n                        \"empty\": false,\n                        \"display\": \"[0,5]\",\n                        \"lowerInc\": true,\n                        \"upperInc\": true,\n                        \"upper\": 5.0,\n                        \"lower\": 0.0\n                    },\n                    {\n                        \"empty\": false,\n                        \"display\": \"[33,55]\",\n                        \"lowerInc\": true,\n                        \"upperInc\": true,\n                        \"upper\": 55.0,\n                        \"lower\": 33.0\n                    }\n                ],\n                \"altitude\": 0.0,\n                \"longitude\": \"136.600000\",\n                \"name\": \"Woomera Rocket Range\",\n                \"constraints\": [\n                    \"Continuous\"\n                ],\n                \"latitude\": \"-31.100000\"\n            },\n            \"links\": {\n                \"self\": \"/api/launch-sites/24\"\n            }\n        },\n        {\n            \"type\": \"launchSite\",\n            \"id\": \"675\",\n            \"relationships\": {\n                \"operators\": {\n                    \"links\": {\n                        \"self\": \"/api/launch-sites/675/relationships/operators\",\n                        \"related\": \"/api/launch-sites/675/operators\"\n                    }\n                },\n                \"launches\": {\n                    \"links\": {\n                        \"self\": \"/api/launch-sites/675/relationships/launches\",\n                        \"related\": \"/api/launch-sites/675/launches\"\n                    }\n                }\n            },\n            \"attributes\": {\n                \"pads\": null,\n                \"azimuths\": null,\n                \"altitude\": 119.0,\n                \"longitude\": \"50.444862\",\n                \"name\": \"Newquay, Spaceport Cornwall\",\n                \"constraints\": null,\n                \"latitude\": \"-4.986156\"\n            },\n            \"links\": {\n                \"self\": \"/api/launch-sites/675\"\n            }\n        },\n        {\n            \"type\": \"launchSystem\",\n            \"relationships\": {\n                \"families\": {\n                    \"links\": {\n                        \"self\": \"/api/launch-systems/33/relationships/families\",\n                        \"related\": \"/api/launch-systems/33/families\"\n                    }\n                },\n                \"entities\": {\n                    \"links\": {\n                        \"self\": \"/api/launch-systems/33/relationships/entities\",\n                        \"related\": \"/api/launch-systems/33/entities\"\n                    }\n                }\n            },\n            \"attributes\": {\n                \"name\": \"Black Arrow\"\n            },\n            \"id\": \"33\",\n            \"links\": {\n                \"self\": \"/api/launch-systems/33\"\n            }\n        }\n    ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "UK With Links",
@@ -3874,7 +3905,7 @@
         },
         {
           "uuid": "a185ead5-ee0c-4d3c-898b-2f48ffce45da",
-          "body": "{\n    \"data\": {\n        \"type\": \"country\",\n        \"id\": \"258\",\n        \"relationships\": {\n            \"launches\": {\n                \"links\": {\n                    \"self\": \"/api/entities/258/relationships/launches\",\n                    \"related\": \"/api/entities/258/launches\"\n                }\n            },\n            \"objects\": {\n                \"links\": {\n                    \"self\": \"/api/entities/258/relationships/objects\",\n                    \"related\": \"/api/entities/258/objects\"\n                }\n            },\n            \"launchSystems\": {\n                \"links\": {\n                    \"self\": \"/api/entities/258/relationships/launch-systems\",\n                    \"related\": \"/api/entities/258/launch-systems\"\n                }\n            },\n            \"launchSites\": {\n                \"links\": {\n                    \"self\": \"/api/entities/258/relationships/launch-sites\",\n                    \"related\": \"/api/entities/258/launch-sites\"\n                }\n            }\n        },\n        \"attributes\": {\n            \"name\": \"United Kingdom\"\n        },\n        \"links\": {\n            \"self\": \"/api/entities/258\"\n        }\n    },\n    \"links\": {\n        \"self\": \"/api/entities/258\"\n    }\n}",
+          "body": "{\n    \"data\": {\n        \"type\": \"country\",\n        \"id\": \"258\",\n        \"relationships\": {\n            \"objects\": {\n                \"links\": {\n                    \"self\": \"/api/entities/258/relationships/objects\",\n                    \"related\": \"/api/entities/258/objects\"\n                }\n            },\n            \"launches\": {\n                \"links\": {\n                    \"self\": \"/api/entities/258/relationships/launches\",\n                    \"related\": \"/api/entities/258/launches\"\n                }\n            },\n            \"launchSites\": {\n                \"links\": {\n                    \"self\": \"/api/entities/258/relationships/launch-sites\",\n                    \"related\": \"/api/entities/258/launch-sites\"\n                }\n            },\n            \"launchSystems\": {\n                \"links\": {\n                    \"self\": \"/api/entities/258/relationships/launch-systems\",\n                    \"related\": \"/api/entities/258/launch-systems\"\n                }\n            }\n        },\n        \"attributes\": {\n            \"name\": \"United Kingdom\"\n        },\n        \"links\": {\n            \"self\": \"/api/entities/258\"\n        }\n    },\n    \"links\": {\n        \"self\": \"/api/entities/258\"\n    }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "UK",
@@ -3993,7 +4024,8 @@
         }
       ],
       "enabled": true,
-      "responseMode": null
+      "responseMode": null,
+      "type": "http"
     }
   ],
   "proxyMode": false,
@@ -4022,5 +4054,136 @@
       "value": ""
     }
   ],
-  "data": []
+  "data": [],
+  "folders": [],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "374c2bc7-9af6-4e02-8425-19de5ce9cc82"
+    },
+    {
+      "type": "route",
+      "uuid": "89d4840a-c907-43a5-9ce4-b5a2e3fe2c39"
+    },
+    {
+      "type": "route",
+      "uuid": "f181ebaa-5e6f-4104-87c3-b7fd51c98960"
+    },
+    {
+      "type": "route",
+      "uuid": "a939a4bd-45a2-4741-b11d-273b14963f70"
+    },
+    {
+      "type": "route",
+      "uuid": "9de90814-b9f3-4915-9a3b-09a61f445363"
+    },
+    {
+      "type": "route",
+      "uuid": "d7328914-7945-4ba3-bc3a-0d37d186dac9"
+    },
+    {
+      "type": "route",
+      "uuid": "f90ec324-bbd3-4afd-85c2-46bab4b1c228"
+    },
+    {
+      "type": "route",
+      "uuid": "4bd10904-47b0-4527-b73b-bdc42b018a8e"
+    },
+    {
+      "type": "route",
+      "uuid": "43658a11-fb3e-4ab3-8e4a-f208526f0890"
+    },
+    {
+      "type": "route",
+      "uuid": "5c604e6a-63c0-4c7f-914d-7113c71dc4c2"
+    },
+    {
+      "type": "route",
+      "uuid": "9d4100ef-acbc-414f-b255-51da0386e9a6"
+    },
+    {
+      "type": "route",
+      "uuid": "a803c13b-48a3-4565-a0f4-ac86437c00aa"
+    },
+    {
+      "type": "route",
+      "uuid": "01d0d00c-0690-4483-ab9b-ad8037e383e7"
+    },
+    {
+      "type": "route",
+      "uuid": "fc2baf2f-b093-4154-b4f2-71409d745a29"
+    },
+    {
+      "type": "route",
+      "uuid": "4d55d42c-e94c-4627-8224-d0b4f79b2b87"
+    },
+    {
+      "type": "route",
+      "uuid": "d52fb7c8-a0d4-44cc-819a-d9ddf830bf9d"
+    },
+    {
+      "type": "route",
+      "uuid": "abcb7c28-46c8-4744-a619-08cec7cc3fb9"
+    },
+    {
+      "type": "route",
+      "uuid": "d1bcf41a-e933-43f5-99e5-0c077497fbbe"
+    },
+    {
+      "type": "route",
+      "uuid": "bf89bf72-2687-49d1-80c2-d0450d39d60d"
+    },
+    {
+      "type": "route",
+      "uuid": "9ff419a1-f904-437b-9032-5c4a62dde1f0"
+    },
+    {
+      "type": "route",
+      "uuid": "06b1aed1-9908-40b5-9977-c8a78e232d51"
+    },
+    {
+      "type": "route",
+      "uuid": "bcc4de16-5c1c-4ca5-877a-581db72969d9"
+    },
+    {
+      "type": "route",
+      "uuid": "29af5ade-6119-4939-884d-fdcdf3399caf"
+    },
+    {
+      "type": "route",
+      "uuid": "7a646c57-76c8-4ef3-8609-c282c1c46e02"
+    },
+    {
+      "type": "route",
+      "uuid": "c4dd548f-ee37-4fae-8cd9-917616ada914"
+    },
+    {
+      "type": "route",
+      "uuid": "0da9cb20-0384-49e1-ad20-0d14d7f9841f"
+    },
+    {
+      "type": "route",
+      "uuid": "d2ac89f2-b4fc-4dd5-8849-4df9e53fd548"
+    },
+    {
+      "type": "route",
+      "uuid": "c360a15c-b56d-4066-9903-a239204c5ae3"
+    },
+    {
+      "type": "route",
+      "uuid": "bad91fd0-9157-4a1c-a7d6-7595424819e6"
+    },
+    {
+      "type": "route",
+      "uuid": "a8df2d9d-c266-4236-8fb8-c5073d1ea150"
+    },
+    {
+      "type": "route",
+      "uuid": "0023734c-6ed4-45af-b89c-e7d428610ba2"
+    },
+    {
+      "type": "route",
+      "uuid": "cb5083e4-c14a-406c-9192-763147955573"
+    }
+  ]
 }
