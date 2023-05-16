@@ -17,7 +17,7 @@
         </PackageReference>
         <PackageReference Include="JetBrains.Annotations" Version="2022.3.1" />
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.00" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
         <PackageReference Include="Hughesjs.Hypermedia.Core" Version="3.1.2" />
         <PackageReference Include="Hughesjs.Hypermedia.JsonApi.Client" Version="3.1.2" />
         <PackageReference Include="NSubstitute" Version="5.0.0" />
