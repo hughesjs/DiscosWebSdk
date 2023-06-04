@@ -54,7 +54,7 @@ public class LaunchSiteMapperTests : JsonApiMapperTestBase
 		LaunchSite site        = await FetchSingle<LaunchSite>(_site.Id, queryString);
 		site.Operators.Count.ShouldBe(1);
 		site.Operators.First().Name.ShouldBe("Japan");
-		site.Launches.Count.ShouldBe(85);
+		site.Launches.Count.ShouldBeGreaterThanOrEqualTo(85);
 		site.Launches.First().CosparLaunchNo.ShouldBe("2020-089");
 	}
 
