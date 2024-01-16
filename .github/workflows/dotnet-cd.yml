@@ -15,9 +15,9 @@ jobs:
       DISCOS_API_KEY: ${{ secrets.DISCOS_API_KEY }}
       DISCOS_API_URL: https://discosweb.esoc.esa.int/api/
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 7.0.x
     - name: Test against real API
@@ -28,9 +28,9 @@ jobs:
     name: Create a Package Release
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3 # Need the full commit history for conventional commit
+    - uses: actions/checkout@v4 # Need the full commit history for conventional commit
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 7.0.x
     - name: Bump version and push tag
@@ -47,12 +47,12 @@ jobs:
     - name: Create Nuget Package
       run: dotnet build -c Release ./src/DiscosWebSdk/DiscosWebSdk/DiscosWebSdk.csproj && dotnet pack -c Release -p:PackageVersion=${{ steps.tag_version.outputs.new_version }} -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg -o . ./src/DiscosWebSdk/DiscosWebSdk/DiscosWebSdk.csproj
     - name: Upload Package for Publishing
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: PackedLib
         path: ./*.nupkg
     - name: Upload Symbols for Publishing
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: PackedSymbols
         path: ./*.snupkg
@@ -63,15 +63,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Download built project  
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: PackedLib
     - name: Download packed Symbols
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: PackedSymbols
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 7.0.x
     - name: Push Package to GitHub
@@ -83,15 +83,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Download built project  
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: PackedLib
     - name: Download packed Symbols
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: PackedSymbols
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 7.0.x
     - name: Push Package to Nuget
