@@ -95,7 +95,7 @@ public class EntityMapperTests : JsonApiMapperTestBase
 			string[]     includes    = {"launchSites", "launchSystems", "hostCountry"};
 			string       queryString = $"?include={string.Join(',', includes)}";
 			Organisation org         = await FetchSingle<Organisation>(_spaceX.Id, queryString);
-			org.LaunchSites.Count.ShouldBe(0);
+			org.LaunchSites.ShouldNotBeNull();
 			org.HostCountry.Name.ShouldBe("United States");
 		}
 

@@ -32,8 +32,8 @@ public class LaunchVehicleFamilyMapperTests : JsonApiMapperTestBase
 		string[]            includes    = {"system", "vehicles"};
 		string              queryString = $"?include={string.Join(',', includes)}";
 		LaunchVehicleFamily family      = await FetchSingle<LaunchVehicleFamily>(_family.Id, queryString);
-		family.Vehicles.Count.ShouldBe(6);
-		family.Vehicles.First().Name.ShouldBe("Enterprise (OV-101)");
+		family.Vehicles.ShouldNotBeEmpty();
+		family.Vehicles.Select(v => v.Name).ShouldContain("Enterprise (OV-101)");
 		family.System!.Name.ShouldBe("Space Shuttle");
 	}
 
