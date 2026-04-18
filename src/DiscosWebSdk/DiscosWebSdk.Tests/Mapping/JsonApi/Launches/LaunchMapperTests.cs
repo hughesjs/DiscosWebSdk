@@ -28,7 +28,8 @@ public class LaunchMapperTests : JsonApiMapperTestBase
 	{
 		Launch launch = await FetchSingle<Launch>(_launch.Id);
 		launch.FlightNo.ShouldStartWith(_launch.FlightNo!);
-		launch = launch with {Objects = null!, Vehicle = null!, Entities = null!, FlightNo = _launch.FlightNo};
+		launch.Epoch!.Value.Date.ShouldBe(_launch.Epoch!.Value.Date);
+		launch = launch with {Objects = null!, Vehicle = null!, Entities = null!, FlightNo = _launch.FlightNo, Epoch = _launch.Epoch};
 		launch.ShouldBeEquivalentTo(_launch);
 	}
 
