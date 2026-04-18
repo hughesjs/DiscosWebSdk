@@ -39,7 +39,16 @@ public class DiscosObjectMapperTests : JsonApiMapperTestBase
 	public override async Task CanGetSingleWithoutLinks()
 	{
 		DiscosObject discosResult = await FetchSingle<DiscosObject>(_object.Id);
-		discosResult = discosResult with {States = null!, DestinationOrbits = null!, InitialOrbits = null!, Launch = null!, Operators = null!, Reentry = null!};
+		discosResult = discosResult with
+						  {
+							  States              = null!, DestinationOrbits = null!, InitialOrbits = null!,
+							  Launch              = null!, Operators         = null!, Reentry       = null!,
+							  Length              = _object.Length, Depth   = _object.Depth, Height = _object.Height,
+							  Mass                = _object.Mass,
+							  CrossSectionAverage = _object.CrossSectionAverage,
+							  CrossSectionMaximum = _object.CrossSectionMaximum,
+							  CrossSectionMinimum = _object.CrossSectionMinimum,
+						  };
 		discosResult.ShouldBeEquivalentTo(_object);
 	}
 

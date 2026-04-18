@@ -27,7 +27,8 @@ public class LaunchMapperTests : JsonApiMapperTestBase
 	public override async Task CanGetSingleWithoutLinks()
 	{
 		Launch launch = await FetchSingle<Launch>(_launch.Id);
-		launch = launch with {Objects = null!, Vehicle = null!, Entities = null!};
+		launch.FlightNo.ShouldStartWith(_launch.FlightNo!);
+		launch = launch with {Objects = null!, Vehicle = null!, Entities = null!, FlightNo = _launch.FlightNo};
 		launch.ShouldBeEquivalentTo(_launch);
 	}
 
