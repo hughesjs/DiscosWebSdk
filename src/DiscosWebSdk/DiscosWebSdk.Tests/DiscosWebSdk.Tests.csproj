@@ -12,7 +12,7 @@
     <ItemGroup>
         <PackageReference Include="AutoFixture" Version="4.18.1" />
         <PackageReference Include="Faker.Net" Version="2.0.163" />
-        <PackageReference Include="GitHubActionsTestLogger" Version="3.0.3">
+        <PackageReference Include="GitHubActionsTestLogger" Version="3.0.4">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
